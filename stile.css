@@ -7,30 +7,49 @@ and open the template in the editor.
     Created on : 21-mag-2014, 11.34.14
     Author     : Francesco
 */
-body{
-    text-align: center;
-}
-.container{
-    width: 800px;
-    margin: auto;
+
+div{
+    margin-top:0px;
+    margin-bottom: 0px;
 }
 .header{
     background: yellow;
     height: 100px;
     
 }
+.selected{
+    float: left;
+    width: 0px;
 
+}
+.selectors{
+    float:right;
+}
+.selector{
+
+    border:solid;
+    border-color: red;
+    width: 15px;
+}
+.select{
+    text-align: center;
+    float:right;
+}
+h2{
+    text-align: center;
+}
 .sideMenu{
     background:orange;
-    width:250px;
     height:500px;
     float:left;
 }
 
-.main{
+.content{
+    overflow: hidden;
+    height:500px;    
     background: red;
-    width:550px;
-    height:500px;
-    float:right;
+}
+.preview{
+    border:solid blue;
     
 }

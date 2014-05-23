@@ -10,6 +10,8 @@ and open the template in the editor.
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="stile.css" rel="stylesheet" type="text/css">
+        <script src="jquery-1.11.1.min.js"></script>
+        <script src="scripts.js"></script>
     </head>
     
     <body> 
@@ -18,10 +20,25 @@ and open the template in the editor.
                 <h1>BiforaDOCs</h1>
             </div>
             <div class="sideMenu">
-                ddd
+                <div class="select">
+                    <div class="selected">
+                    </div>
+                    <div class=selectors>
+                        <div class="selector" id="categories" onclick="showCategories();">
+                            <p>C<br>A<br>T<br>E<br>G<br>O<br>R<br>I<br>E<br>S<br></p>
+                        </div>
+
+                        <div class="selector" id="login" onclick="showLogin();">
+                            <p>L<br>O<br>G<br>I<br>N<br></p>
+                        </div>
+                        <div class="selector" id="hide" onclick="hide();">
+                            <p>H<br>I<br>D<br>E<br></p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="main">
-                
+            <div class="content">
+              
             </div>
         </div>
     </body>
