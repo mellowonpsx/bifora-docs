@@ -1,55 +1,71 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 21-mag-2014, 11.34.14
-    Author     : Francesco
-*/
-
-div{
-    margin-top:0px;
-    margin-bottom: 0px;
+#login{
+    text-align: center;
+    border: solid black;
+    
+    width: 50px;
+    height: 20px;
+    z-index: 10;
+    
+    float: right;
+    position: relative;
+    right: 0px;
+    bottom: -64px; 
 }
-.header{
-    background: yellow;
+    #login:hover{
+    background: black;
+    border: solid white;
+    color: white;
+    }
+    
+#loginDiv{
+    background:#E0E0E0;
+    
+    width:300px;
     height: 100px;
+    z-index: 9;
+    
+    position: absolute;
+    right: 8px;
+    top: 98px;
+}
+
+#header{
+    background-color: #999999;
+    
+    height: 90px;
+}
+
+#categoriesWrapper{
+    background-color: #cccccc;
+    
+    height: 500px;
+    
+    float: left;
+}
+
+#categories{
+    border:solid red;
+    text-align: center;
+    
+    width: 15px;
+    
+    float:right;
+    position:absolute;
+    position:relative;
+    right:0px;
+}
+#categoriesDiv{
+    
+    width:300px;
     
 }
-.selected{
-    float: left;
-    width: 0px;
 
-}
-.selectors{
-    float:right;
-}
-.selector{
-
-    border:solid;
-    border-color: red;
-    width: 15px;
-}
-.select{
-    text-align: center;
-    float:right;
-}
-h2{
-    text-align: center;
-}
-.sideMenu{
-    background:orange;
-    height:500px;
-    float:left;
-}
-
-.content{
-    overflow: hidden;
+#content{
+    overflow: auto;
     height:500px;    
     background: red;
+    z-index: 1;
 }
 .preview{
     border:solid blue;
-    
 }
