@@ -1,6 +1,6 @@
 <?php
 /**
- * Tag
+ * User
  *
  * @author mellowonpsx
  */
@@ -12,8 +12,7 @@ class Tag
 {
     public static function existTagById($tagId)
     {
-        // db is declared in utils 
-        global $db;
+        $db = new DB();
         $query = "SELECT COUNT(*) AS elementNumber FROM Tag WHERE id = $tagId";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
@@ -28,9 +27,8 @@ class Tag
     //exact name
     public static function existTagByName($tagName)
     {
-        // db is declared in utils 
-        global $db;
         $tagName = trim(strtolower($tagName));
+        $db = new DB();
         $query = "SELECT COUNT(*) AS elementNumber FROM Tag WHERE name = '$tagName'";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
@@ -46,9 +44,8 @@ class Tag
     public static function insertTag($tagName)
     {
         if(Tag::existTagByName($tagName)) return 1; //already exist -> not inserted
-        // db is declared in utils 
-        global $db;
         $tagName = trim(strtolower($tagName));
+        $db = new DB();
         $query = "INSERT INTO Tag(id, name) VALUES (NULL, '$tagName')";
         if($db->query($query, TRUE))
         {
@@ -60,8 +57,7 @@ class Tag
     //
     public static function eraseTag($tagId)
     {
-        // db is declared in utils 
-        global $db;
+        $db = new DB();
         $query = "SELECT COUNT(*) AS elementNumber FROM Tagged WHERE idTag = $tagId";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
@@ -97,8 +93,7 @@ class Tag
     //list all tag or tag that has part of string in name
     public static function getTagList($searchKey = NULL)
     {
-        // db is declared in utils 
-        global $db;
+        $db = new DB();
         if($searchKey != NULL)
         {
             $searchKey = trim(strtolower($searchKey));
@@ -106,10 +101,7 @@ class Tag
             $searchKey = trim($searchKey, "%");
             $query = "SELECT * FROM Tag WHERE name LIKE '%$searchKey%'";
         }
-        else
-        {
-            $query = "SELECT * FROM Tag";
-        }
+        else $query = "SELECT * FROM Tag";
         $result = $db->query($query);
         $result_array = array();
         while($row = mysqli_fetch_assoc($result))

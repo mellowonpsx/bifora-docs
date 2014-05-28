@@ -6,6 +6,7 @@
  */
 require_once "utils.php";
 
+// remember: the phylosophy behind this project expect to have already control and excaped variables
 class DB
 {
     private $db;

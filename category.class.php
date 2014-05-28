@@ -10,22 +10,11 @@ require_once "utils.php";
 // the phylosophy behind this project expect to have already control and excaped variables
 class Category
 {
-    public static function insertCategory($categoryName)
-    {
-        if(existCategoryById($categoryId)) return 1; //not inserted
-        $categoryName = trim(strtolower($categoryName));
-        $db = new DB();
-        $query = "INSERT INTO Category(id, name) VALUES (NULL, '$categoryName')";
-        if($db->query($query, TRUE))
-        {
-            return 0; //inserted
-        }
-        return 1; //not inserted
-    }
     
     public static function existCategoryById($categoryId)
     {
-        $db = new DB();
+        // db is declared in utils $db = new DB();
+        global $db;
         $query = "SELECT COUNT(*) AS elementNumber FROM Category WHERE id = $categoryId";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
@@ -40,8 +29,9 @@ class Category
     //exact name
     public static function existCategoryByName($categoryName)
     {
+        // db is declared in utils $db = new DB();
+        global $db;
         $categoryName = trim(strtolower($categoryName));
-        $db = new DB();
         $query = "SELECT COUNT(*) AS elementNumber FROM Category WHERE name = '$categoryName'";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
@@ -53,11 +43,26 @@ class Category
         return 0; //not exist
     }
     
+        public static function insertCategory($categoryName)
+    {
+        if(Category::existCategoryByName($categoryName)) return 1; //already exist -> not inserted
+        // db is declared in utils $db = new DB();
+        global $db;
+        $categoryName = trim(strtolower($categoryName));
+        $query = "INSERT INTO Category(id, name) VALUES (NULL, '$categoryName')";
+        if($db->query($query, TRUE))
+        {
+            return 0; //inserted
+        }
+        return 1; //not inserted
+    }
+    
     public static function updateCategory($categoryId, $categoryUpdatedName)
     {
-        if(!existCategoryById($categoryId)) return 1; //not updated
+        if(!Category::existCategoryById($categoryId)) return 1; //not exist -> not updated
+        // db is declared in utils $db = new DB();
+        global $db;
         $categoryUpdatedName = trim(strtolower($categoryUpdatedName));
-        $db = new DB();
         $query = "UPDATE Category SET name = '$categoryUpdatedName' WHERE id = $categoryId";
         if($db->query($query, TRUE))
         {
@@ -68,7 +73,9 @@ class Category
     
     public static function eraseCategory($categoryId)
     {
-        $db = new DB();
+        // db is declared in utils $db = new DB();
+        global $db;
+        if(!Category::existCategoryById($categoryId)) return 1; //not exist -> not erased
         $query = "SELECT COUNT(*) AS elementNumber FROM Categorized WHERE idCategory = $categoryId";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
@@ -104,7 +111,8 @@ class Category
     //list all category or category that has part of string in name
     public static function getCategoryList($searchKey = NULL)
     {
-        $db = new DB();
+        // db is declared in utils 
+        global $db;
         if($searchKey != NULL)
         {
             $searchKey = trim(strtolower($searchKey));
