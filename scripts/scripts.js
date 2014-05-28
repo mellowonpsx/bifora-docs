@@ -1,71 +1,63 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-var sSelected='h';
+
 $( document ).ready(function() {
     main();
 });
-function showCategories(){
-    if(sSelected!=='c'){
-        $('.selected').empty();
+/*------------------------------------------------------------------------------
+ * ------------LOGIN------------------------------------------------------------
+ ------------------------------------------------------------------------------*/
 
-        $('.selected').width("300px");
-        sSelected='c';
-    }
-}
-    function addCategory(name){
-        r='<div width=285 onmouseover="focusIN(this);" onmouseout="focusOUT(this);" onclick="clickCategory(this);" class="category">';
-        r+=name;
-        r+="</div>";
-        return r;
-    }
-    function focusIN(obj){
-            obj.style.background='black';
-            obj.style.color='white';
-    }
-    function focusOUT(obj){
-            obj.style.background='#cccccc';
-            obj.style.color='black';
-    }
-    function clickCategory(obj){
-        if(obj.style.border==='solid black')
-            obj.style.border="none";
-        else if(obj.style.border==="none")
-            obj.style.border="solid black";
-        
-    }
+var user="aaaa";
+var salted_md5=111;
+
 function initLogin(){
     $('#loginWrapper').hover(
         function () {
-            //mostra sottomenu
             $('#loginDiv').stop(true, true).delay(50).slideDown(100);
- 
         }, 
         function () {
-            //nascondi sottomenu
             $('#loginDiv').stop(true, true).slideUp(200);        
         }
     );
     $('#loginDiv').stop(true, true).slideUp(0);    
-
 }
-function initCategories(){
-    $('#categoriesWrapper').hover(
-        function () {
-            //mostra sottomenu
-            $('#categoriesDiv').stop(true, true).delay(50).slideDown(100);
-        }, 
-        function () {
-            //nascondi sottomenu
-            $('#categoriesDiv').stop(true, true).slideUp(200);        
-        }
-    );
-    $('#categoriesDiv').stop(true, true).slideUp(0);
+function loggati(){
+    user=$('#user').val();
+    pass=$('#pass').val();
+    
+}
+function md5pass(pass,salt){
+    return CryptoJS.MD5(pass||salt);
+}
+
+/*------------------------------------------------------------------------------
+ * ------------CATEGORIES-------------------------------------------------------
+ ------------------------------------------------------------------------------*/
+var shown=true;
+
+function showHideCategories(){
+    if(shown){
+        $('#categoriesDiv').stop(true,true).slideUp(0);
+        shown=false;
+    }else{
+        $('#categoriesDiv').stop(true,true).slideDown(0);
+        updateCategories();
+        shown=true;
+    }
+}
+
+function addCategory(name){
+    r='<div width=285 class="category">';
+    r+=name;
+    r+="</div>";
+    return r;
+}
+
+function updateCategories(){
+    $('#categoriesDiv').empty();
     $('#categoriesDiv').append(addCategory("aaa"));
     $('#categoriesDiv').append(addCategory("bbb"));
 }
+
 function showStuff(){
     $('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
     $('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
@@ -82,8 +74,7 @@ function showStuff(){
         return r;
     }
 function main(){
-    showCategories();
     showStuff();
     initLogin();
-    initCategories();
+    updateCategories();
     }

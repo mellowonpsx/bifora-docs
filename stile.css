@@ -20,10 +20,10 @@
 #loginDiv{
     background:#E0E0E0;
     
-    width:300px;
-    height: 100px;
     z-index: 9;
+    padding: 10px;
     
+    text-align: right;
     position: absolute;
     right: 8px;
     top: 98px;
@@ -46,6 +46,7 @@
 #categories{
     border:solid red;
     text-align: center;
+    background-color: lightgray;
     
     width: 15px;
     
@@ -54,12 +55,20 @@
     position:relative;
     right:0px;
 }
+    #categories:hover{
+        background-color: gray;
+    }
 #categoriesDiv{
-    
-    width:300px;
+    width: 260px;
     
 }
-
+.category{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.category:hover{
+    background-color: gray; 
+}
 #content{
     overflow: auto;
     height:500px;    
