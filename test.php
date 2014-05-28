@@ -32,3 +32,8 @@ require_once "utils.php";
 //$config declared in utils
 //echo $config->getParamByName("numeroRighe"); //null show nothing
 //echo $config->getParamByName("numRighe");
+//work
+//$user = new User("seiun","cane");
+//echo $user->isLogged();
+//$user = new User("admin","admin");
+//echo $user->isLogged();

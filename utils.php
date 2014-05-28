@@ -10,6 +10,11 @@ function __autoload($classname)
     require_once($filename);
 }
 
+function escape($variables)
+{
+    return $variables;
+}
+
 // prepare configuration
 $config = new Config();
 // open database connection -> utils is require_once!!
