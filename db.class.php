@@ -25,7 +25,7 @@ class DB
     
     public function __destruct()
     {
-        $this->close();
+        $this->close(); //die is in close() function
     }
     
     public function close()
@@ -33,11 +33,13 @@ class DB
 	$this->db->close() or die($this->db->error);
     }
 
-    public function query($query)
+    public function query($query, $returnFailure = false)
     {
+        if($returnFailure)
+        {
+            return mysqli_query($this->db, $query);
+        }
 	$result = mysqli_query($this->db, $query) or die($this->db->error);
 	return $result;
     }
 }
-
-?>

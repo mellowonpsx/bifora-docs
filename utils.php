@@ -16,6 +16,3 @@ function __autoload($classname)
     $filename =  strtolower("$classname.class.php");
     require_once($filename);
 }
-
-?>
-A problem with php server.
