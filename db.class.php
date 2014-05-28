@@ -1,14 +1,6 @@
 <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 /**
- * Description of db
+ * DB
  *
  * @author mellowonpsx
  */
@@ -33,11 +25,12 @@ class DB
 	$this->db->close() or die($this->db->error);
     }
 
-    public function query($query, $returnFailure = false)
+    public function query($query, $returnFailure = FALSE)
     {
         if($returnFailure)
         {
-            return mysqli_query($this->db, $query);
+            $result = mysqli_query($this->db, $query);
+            return $result;
         }
 	$result = mysqli_query($this->db, $query) or die($this->db->error);
 	return $result;

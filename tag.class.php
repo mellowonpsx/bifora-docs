@@ -1,6 +1,6 @@
 <?php
 /**
- * Category
+ * Tag
  *
  * @author mellowonpsx
  */
@@ -8,14 +8,15 @@
 require_once "utils.php";
 
 // the phylosophy behind this project expect to have already control and excaped variables
-class Category
+class Tag
 {
-    public static function insertCategory($categoryName)
+    //insert new tag
+    public static function insertTag($tagName)
     {
-        if(existCategoryById($categoryId)) return 1; //not inserted
-        $categoryName = trim(strtolower($categoryName));
+        if(existTagById($tagName)) return 1; //not inserted
+        $tagName = trim(strtolower($tagName));
         $db = new DB();
-        $query = "INSERT INTO Category(id, name) VALUES (NULL, '$categoryName')";
+        $query = "INSERT INTO Tag(id, name) VALUES (NULL, '$tagName')";
         if($db->query($query, TRUE))
         {
             return 0; //inserted
@@ -23,10 +24,10 @@ class Category
         return 1; //not inserted
     }
     
-    public static function existCategoryById($categoryId)
+    public static function existTagById($tagId)
     {
         $db = new DB();
-        $query = "SELECT COUNT(*) AS elementNumber FROM Category WHERE id = $categoryId";
+        $query = "SELECT COUNT(*) AS elementNumber FROM Tag WHERE id = $tagId";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
         $elementNumber = $row["elementNumber"];
@@ -38,11 +39,11 @@ class Category
     }
     
     //exact name
-    public static function existCategoryByName($categoryName)
+    public static function existTagByName($tagName)
     {
-        $categoryName = trim(strtolower($categoryName));
+        $tagName = trim(strtolower($tagName));
         $db = new DB();
-        $query = "SELECT COUNT(*) AS elementNumber FROM Category WHERE name = '$categoryName'";
+        $query = "SELECT COUNT(*) AS elementNumber FROM Tag WHERE name = '$tagName'";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
         $elementNumber = $row["elementNumber"];
@@ -53,23 +54,11 @@ class Category
         return 0; //not exist
     }
     
-    public static function updateCategory($categoryId, $categoryUpdatedName)
-    {
-        if(!existCategoryById($categoryId)) return 1; //not updated
-        $categoryUpdatedName = trim(strtolower($categoryUpdatedName));
-        $db = new DB();
-        $query = "UPDATE Category SET name = '$categoryUpdatedName' WHERE id = $categoryId";
-        if($db->query($query, TRUE))
-        {
-            return 0; //updated
-        }
-        return 1; //not updated
-    }
-    
-    public static function eraseCategory($categoryId)
+    //
+    public static function eraseTag($tagId)
     {
         $db = new DB();
-        $query = "SELECT COUNT(*) AS elementNumber FROM Categorized WHERE idCategory = $categoryId";
+        $query = "SELECT COUNT(*) AS elementNumber FROM Tagged WHERE idTag = $tagId";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
         $elementNumber = $row["elementNumber"];
@@ -78,9 +67,9 @@ class Category
             return 1;
         }
         //lock
-        $query = "LOCK TABLES Category WRITE, Categorized WRITE, Category as CategoryReadLock READ, Categorized CategorizedReadLock READ";
+        $query = "LOCK TABLES Tag WRITE, Tagged WRITE, Tag as TagReadLock READ, Tagged TaggedReadLock READ";
         //check again with table locked
-        $query = "SELECT COUNT(*) AS elementNumber FROM Categorized WHERE idCategory = $categoryId";
+        $query = "SELECT COUNT(*) AS elementNumber FROM Tagged WHERE idTag = $tagId";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
         $elementNumber = $row["elementNumber"];
@@ -88,7 +77,7 @@ class Category
         {
             return 1;
         }
-        $query = "DELETE FROM Category WHERE id = $categoryId";
+        $query = "DELETE FROM Tag WHERE id = $tagId";
         $result = $db->query($query, TRUE);
         //unlock
         $query = "UNLOCK TABLES";
@@ -101,8 +90,8 @@ class Category
         return 0; 
     }
     
-    //list all category or category that has part of string in name
-    public static function getCategoryList($searchKey = NULL)
+    //list all tag or tag that has part of string in name
+    public static function getTagList($searchKey = NULL)
     {
         $db = new DB();
         if($searchKey != NULL)
@@ -110,9 +99,9 @@ class Category
             $searchKey = trim(strtolower($searchKey));
             $searchKey = wordwrap($searchKey, 1, "%");
             $searchKey = trim($searchKey, "%");
-            $query = "SELECT * FROM Category WHERE name LIKE '%$searchKey%'";
+            $query = "SELECT * FROM Tag WHERE name LIKE '%$searchKey%'";
         }
-        else $query = "SELECT * FROM Category";
+        else $query = "SELECT * FROM Tag";
         $result = $db->query($query);
         $result_array = array();
         while($row = mysqli_fetch_assoc($result))
@@ -121,4 +110,6 @@ class Category
         }
         return $result_array;
     }
+    
+    
 }

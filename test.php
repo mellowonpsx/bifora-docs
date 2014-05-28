@@ -20,3 +20,9 @@ require_once "utils.php";
 //work
 //echo Category::updateCategory(11, "cane");
 //echo Category::updateCategory(13, "cane");
+//work
+echo Tag::insertTag("primo");
+//work
+//var_dump(Tag::getTagList());
+//var_dump(Tag::getTagList("ri"));
+//var_dump(Tag::getTagList("pim"));
