@@ -35,5 +35,27 @@ require_once "utils.php";
 //work
 //$user = new User("seiun","cane");
 //echo $user->isLogged();
-//$user = new User("admin","admin");
+// work
+//$sessionId = session_id(); 
+//if(empty($sessionId)) session_start() or die("Could not start session"); 
+//if(isset($_SESSION["user"]))
+//{
+//    $user = $_SESSION["user"];
+//    echo "sessione recuperata";
+//}
+//else
+//{
+//    $user = new User("admin","admin");
+//    $_SESSION["user"] = $user;
+//    echo "nuovo utente creato";
+//}
+//session_write_close();
+//work
+//$user = getSessionUser();
+//if(!$user->isLogged())
+//{
+//    echo "eseguo login";
+//    $user = new \User("admin","admin");
+//    setSessionUser($user);
+//}
 //echo $user->isLogged();

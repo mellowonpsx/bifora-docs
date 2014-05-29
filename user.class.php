@@ -23,8 +23,13 @@ class User
     private $mail;
     private $type;
     
-    public function __construct($username, $password)
+    public function __construct($username = NULL, $password = NULL)
     {
+        if(!isset($username) || !isset($password))
+        {
+            $this->status = BD_USER_NOT_LOGGED;
+            return;
+        }
         global $db;
         $query = "SELECT * FROM User WHERE username = '$username' AND password = MD5(CONCAT('$password',salt))";
         $result = $db->query($query);
@@ -46,7 +51,10 @@ class User
     
     public function isLogged()
     {
-        if($this->status === BD_USER_LOGGED) return 1;
+        if ($this->status === BD_USER_LOGGED)
+        {
+            return 1;
+        }
         return 0;
     }
     
