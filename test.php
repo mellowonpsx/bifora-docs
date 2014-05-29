@@ -51,11 +51,11 @@ require_once "utils.php";
 //}
 //session_write_close();
 //work
-//$user = getSessionUser();
-//if(!$user->isLogged())
-//{
-//    echo "eseguo login";
-//    $user = new \User("admin","admin");
-//    setSessionUser($user);
-//}
-//echo $user->isLogged();
+$user = getSessionUser();
+if(!$user->isLogged())
+{
+    echo "eseguo login";
+    $user = new \User("admin","admin");
+    setSessionUser($user);
+}
+echo "benvenuto ".$user->getUsername();

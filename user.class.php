@@ -11,12 +11,13 @@ define("BD_USER_NOT_LOGGED", "BD_USER_NOT_LOGGED");
 define("BD_USER_LOGGED", "BD_USER_LOGGED");
 define("BD_USER_TYPE_ADMIN", "ADMIN");
 define("BD_USER_TYPE_USER", "USER");
+define("BD_USER_DATA_NOT_SET", "DATA_NOT_SET");
 
 // remember: the phylosophy behind this project expect to have already control and excaped variables
 class User
 {
     private $status;
-    private $uid;
+    private $id;
     private $username;
     private $name;
     private $surname;
@@ -39,7 +40,7 @@ class User
             $this->status = BD_USER_NOT_LOGGED;
             return;
         }
-        $this->uid = $row["id"];
+        $this->id = $row["id"];
         $this->username = $row["username"];
         $this->name = $row["name"];
         $this->surname = $row["surname"];
@@ -58,107 +59,33 @@ class User
         return 0;
     }
     
-    /*
-    public static function existTagById($tagId)
+    public function getUsername()
     {
-        $db = new DB();
-        $query = "SELECT COUNT(*) AS elementNumber FROM Tag WHERE id = $tagId";
-        $result = $db->query($query);
-        $row = mysqli_fetch_assoc($result);
-        $elementNumber = $row["elementNumber"];
-        if($elementNumber > 0)
-        {
-            return 1; //exist
-        }
-        return 0; //not exist
+        return $this->username;
     }
     
-    //exact name
-    public static function existTagByName($tagName)
+    public function getUserId()
     {
-        $tagName = trim(strtolower($tagName));
-        $db = new DB();
-        $query = "SELECT COUNT(*) AS elementNumber FROM Tag WHERE name = '$tagName'";
-        $result = $db->query($query);
-        $row = mysqli_fetch_assoc($result);
-        $elementNumber = $row["elementNumber"];
-        if($elementNumber > 0)
-        {
-            return 1; //exist
-        }
-        return 0; //not exist
+        return $this->id;
     }
     
-    //insert new tag
-    public static function insertTag($tagName)
+    public function getName()
     {
-        if(Tag::existTagByName($tagName)) return 1; //already exist -> not inserted
-        $tagName = trim(strtolower($tagName));
-        $db = new DB();
-        $query = "INSERT INTO Tag(id, name) VALUES (NULL, '$tagName')";
-        if($db->query($query, TRUE))
-        {
-            return 0; //inserted
-        }
-        return 1; //not inserted
+        return $this->name;
     }
     
-    //
-    public static function eraseTag($tagId)
+    public function getSurname()
     {
-        $db = new DB();
-        $query = "SELECT COUNT(*) AS elementNumber FROM Tagged WHERE idTag = $tagId";
-        $result = $db->query($query);
-        $row = mysqli_fetch_assoc($result);
-        $elementNumber = $row["elementNumber"];
-        if($elementNumber > 0)
-        {
-            return 1;
-        }
-        //lock
-        $query = "LOCK TABLES Tag WRITE, Tagged WRITE, Tag as TagReadLock READ, Tagged TaggedReadLock READ";
-        //check again with table locked
-        $query = "SELECT COUNT(*) AS elementNumber FROM Tagged WHERE idTag = $tagId";
-        $result = $db->query($query);
-        $row = mysqli_fetch_assoc($result);
-        $elementNumber = $row["elementNumber"];
-        if($elementNumber > 0)
-        {
-            return 1;
-        }
-        $query = "DELETE FROM Tag WHERE id = $tagId";
-        $result = $db->query($query, TRUE);
-        //unlock
-        $query = "UNLOCK TABLES";
-        $db->query($query);
-        //result contain delete query result
-        if(!$result)
-        {
-            return 1;
-        }
-        return 0; 
+        return $this->surname;
     }
     
-    //list all tag or tag that has part of string in name
-    public static function getTagList($searchKey = NULL)
+    public function getMail()
     {
-        $db = new DB();
-        if($searchKey != NULL)
-        {
-            $searchKey = trim(strtolower($searchKey));
-            $searchKey = wordwrap($searchKey, 1, "%");
-            $searchKey = trim($searchKey, "%");
-            $query = "SELECT * FROM Tag WHERE name LIKE '%$searchKey%'";
-        }
-        else $query = "SELECT * FROM Tag";
-        $result = $db->query($query);
-        $result_array = array();
-        while($row = mysqli_fetch_assoc($result))
-        {
-            $result_array[$row["id"]] = $row["name"];
-        }
-        return $result_array;
+        return $this->mail;
     }
-    */
     
+    public function getType()
+    {
+        return $this->type;
+    }
 }

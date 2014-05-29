@@ -43,6 +43,17 @@ function setSessionUser($user)
     $_SESSION["user"] = $user;
 }
 
+function removeSession()
+{
+    $sessionId = session_id(); 
+    if(empty($sessionId))
+    {
+        session_start() or die("Could not start session");
+    }
+    $_SESSION["user"] = NULL;
+    session_destroy();
+}
+
 // prepare configuration
 $config = new Config();
 // open database connection -> utils is require_once!!
