@@ -20,9 +20,9 @@ class Tag
         $elementNumber = $row["elementNumber"];
         if($elementNumber > 0)
         {
-            return 1; //exist
+            return true; //exist
         }
-        return 0; //not exist
+        return false; //not exist
     }
     
     //exact name
@@ -37,9 +37,9 @@ class Tag
         $elementNumber = $row["elementNumber"];
         if($elementNumber > 0)
         {
-            return 1; //exist
+            return true; //exist
         }
-        return 0; //not exist
+        return false; //not exist
     }
     
     //insert new tag
@@ -47,8 +47,8 @@ class Tag
     {
         if(Tag::existTagByName($tagName))
         {
-            return 1;
-        } //already exist -> not inserted
+            return 1; //already exist -> not inserted
+        }
         // db is declared in utils 
         global $db;
         $tagName = trim(strtolower($tagName));
@@ -71,7 +71,7 @@ class Tag
         $elementNumber = $row["elementNumber"];
         if($elementNumber > 0)
         {
-            return 1;
+            return 1; //not erased
         }
         //lock
         $query = "LOCK TABLES Tag WRITE, Tagged WRITE, Tag as TagReadLock READ, Tagged TaggedReadLock READ";
@@ -82,7 +82,7 @@ class Tag
         $elementNumber = $row["elementNumber"];
         if($elementNumber > 0)
         {
-            return 1;
+            return 1; //not erased
         }
         $query = "DELETE FROM Tag WHERE id = $tagId";
         $result = $db->query($query, TRUE);
@@ -92,9 +92,9 @@ class Tag
         //result contain delete query result
         if(!$result)
         {
-            return 1;
+            return 1; // not erased
         }
-        return 0; 
+        return 0; //erased
     }
     
     //list all tag or tag that has part of string in name

@@ -58,9 +58,9 @@ class User
     {
         if ($this->status === BD_USER_LOGGED)
         {
-            return 1;
+            return true;
         }
-        return 0;
+        return false;
     }
     
     public function getUsername()

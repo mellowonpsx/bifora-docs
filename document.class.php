@@ -80,6 +80,20 @@ class Document
         }
     }
     
+    public static function existDocument($idDocument)
+    {                
+        global $db;
+        $query = "SELECT COUNT(*) AS elementNumber FROM Document WHERE id = '$idDocument'";
+        $result = $db->query($query);
+        $row = mysqli_fetch_assoc($result);
+        $elementNumber = $row["elementNumber"];
+        if($elementNumber > 0)
+        {
+            return true; //exist
+        }
+        return false; //not exist
+    }
+    
     public function updateDBValue()
     {
         if(!isset($this->id))

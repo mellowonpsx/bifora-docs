@@ -64,4 +64,7 @@ require_once "utils.php";
 //echo $document->getDate("Y-m-d H:i:s");
 //$document->setMultipleValues("la casa nel fosco", "casa.txt", "txt", "breve racconto di 150 pagine", BD_DOCUMENT_TYPE_DOCUMENT, false, NULL);
 // different method to define document type
-//$document->setMultipleValues("la casa nel fosco", "casa.txt", "txt", "breve racconto di 150 pagine", Document::listDocumentType()[2], false, NULL);
+//$document->setMultipleValues("la casa nel fosco", "casa.txt", "txt", "breve racconto di 150 pagine", Document::listDocumentType()[2], false, NULL)
+//work
+//echo Categorized::insertCategoryzed(1, 1);
+

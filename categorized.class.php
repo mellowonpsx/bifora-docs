@@ -1,6 +1,6 @@
 <?php
 /**
- * Category
+ * Categorized
  *
  * @author mellowonpsx
  */
@@ -8,23 +8,83 @@
 require_once "utils.php";
 
 // the phylosophy behind this project expect to have already control and excaped variables
-class Category
+class Categorized
 {
-    // get an array with one id=>name
-    public static function getCategoryById($categoryId)
-    {
+    public static function existBind($idCategory, $idDocument)
+    {                
         global $db;
-        $query = "SELECT * FROM Category WHERE id = '$categoryId'";
+        $query = "SELECT COUNT(*) AS elementNumber FROM Categorized WHERE idCategory = '$idCategory' AND idDocument = '$idDocument'";
         $result = $db->query($query);
-        $result_array = array();
-        while($row = mysqli_fetch_assoc($result))
+        $row = mysqli_fetch_assoc($result);
+        $elementNumber = $row["elementNumber"];
+        if($elementNumber > 0)
         {
-            $result_array[$row["id"]] = $row["name"];
+            return true; //exist
         }
-        return $result_array;
+        return false; //not exist
     }
     
-    public static function existCategoryById($categoryId)
+    public static function insertCategoryzed($idCategory, $idDocument)
+    {
+        global $db;
+        if(Categorized::existBind($idCategory, $idDocument) || !Category::existCategoryById($idCategory) || !Document::existDocument($idDocument))
+        {
+            return 1; // (already exist, or not exist category, or not exist document) -> not inserted
+        }
+        $query = "INSERT INTO Categorized(id, idCategory, idDocument) VALUES (NULL, '$idCategory', '$idDocument')";
+        if($db->query($query, TRUE))
+        {
+            return 0; //inserted
+        }
+        return 1; //not inserted
+    }
+    
+    public static function eraseBind($idCategory, $idDocument, bool $eraseLast = false)
+    {
+        global $db;
+        if(!Categorized::existBind($idCategory, $idDocument))
+        {
+            return 1; //bind not exist => no erase
+        }
+        if(Categorized::getBindNumber($idDocument)<1 && !$eraseLast)
+        {
+            return 1; //can't erase last bind for a document (a document must be categorized)
+        }
+        //lock
+        $query = "LOCK TABLES Categorized WRITE, Categorized CategorizedReadLock READ";
+        $db->query($query);
+        //check again with table locked
+        if(Categorized::getBindNumber($idDocument)<1 && !$eraseLast)
+        {
+            //unlock if fail 
+            $query = "UNLOCK TABLES";
+            $db->query($query);
+            return 1; //can't erase last bind for a document (a document must be categorized)
+        }
+        $query = "DELETE FROM Categorized  WHERE idCategory = '$idCategory' AND idDocument = '$idDocument'";
+        $result = $db->query($query, TRUE);
+        //unlock
+        $query = "UNLOCK TABLES";
+        $db->query($query);
+        //result contain delete query result
+        if(!$result)
+        {
+            return 1; //not erased
+        }
+        return 0; //erased
+    }
+    
+    public static function getBindNumber($idDocument)
+    {
+        global $db;
+        $query = "SELECT COUNT(*) AS elementNumber FROM Categorized WHERE idDocument = '$idDocument'";
+        $result = $db->query($query);
+        $row = mysqli_fetch_assoc($result);
+        $elementNumber = $row["elementNumber"];
+        return $elementNumber;
+    }
+    
+    /*public static function existCategoryById($categoryId)
     {
         // db is declared in utils $db = new DB();
         global $db;
@@ -34,9 +94,9 @@ class Category
         $elementNumber = $row["elementNumber"];
         if($elementNumber > 0)
         {
-            return true; //exist
+            return 1; //exist
         }
-        return false; //not exist
+        return 0; //not exist
     }
     
     //exact name
@@ -51,17 +111,17 @@ class Category
         $elementNumber = $row["elementNumber"];
         if($elementNumber > 0)
         {
-            return true; //exist
+            return 1; //exist
         }
-        return false; //not exist
+        return 0; //not exist
     }
     
     public static function insertCategory($categoryName)
     {
         if(Category::existCategoryByName($categoryName))
         {
-            return 1; //already exist -> not inserted
-        }
+            return 1;
+        } //already exist -> not inserted
         // db is declared in utils $db = new DB();
         global $db;
         $categoryName = trim(strtolower($categoryName));
@@ -77,8 +137,8 @@ class Category
     {
         if(!Category::existCategoryById($categoryId)) 
         {
-            return 1; //not exist -> not updated
-        }
+            return 1;
+        } //not exist -> not updated
         // db is declared in utils $db = new DB();
         global $db;
         $categoryUpdatedName = trim(strtolower($categoryUpdatedName));
@@ -96,19 +156,18 @@ class Category
         global $db;
         if (!Category::existCategoryById($categoryId))
         {
-            return 1; //not exist -> not erased
-        }
+            return 1;
+        } //not exist -> not erased
         $query = "SELECT COUNT(*) AS elementNumber FROM Categorized WHERE idCategory = $categoryId";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
         $elementNumber = $row["elementNumber"];
         if($elementNumber > 0)
         {
-            return 1; //not eresable (has bind)
+            return 1;
         }
         //lock
         $query = "LOCK TABLES Category WRITE, Categorized WRITE, Category as CategoryReadLock READ, Categorized CategorizedReadLock READ";
-        $db->query($query);
         //check again with table locked
         $query = "SELECT COUNT(*) AS elementNumber FROM Categorized WHERE idCategory = $categoryId";
         $result = $db->query($query);
@@ -116,10 +175,7 @@ class Category
         $elementNumber = $row["elementNumber"];
         if($elementNumber > 0)
         {
-            //unlock if fail 
-            $query = "UNLOCK TABLES";
-            $db->query($query);
-            return 1; //not eresable (has bind)
+            return 1;
         }
         $query = "DELETE FROM Category WHERE id = $categoryId";
         $result = $db->query($query, TRUE);
@@ -129,9 +185,9 @@ class Category
         //result contain delete query result
         if(!$result)
         {
-            return 1; //not erased
+            return 1;
         }
-        return 0; //erased
+        return 0; 
     }
     
     //list all category or category that has part of string in name
@@ -156,5 +212,5 @@ class Category
             $result_array[$row["id"]] = $row["name"];
         }
         return $result_array;
-    }
+    }*/
 }
