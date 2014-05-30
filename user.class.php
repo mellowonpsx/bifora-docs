@@ -7,11 +7,14 @@
 
 require_once "utils.php";
 
+//status
 define("BD_USER_NOT_LOGGED", "BD_USER_NOT_LOGGED");
 define("BD_USER_LOGGED", "BD_USER_LOGGED");
+define("BD_USER_DATA_NOT_SET", "DATA_NOT_SET");
+
+//user type
 define("BD_USER_TYPE_ADMIN", "ADMIN");
 define("BD_USER_TYPE_USER", "USER");
-define("BD_USER_DATA_NOT_SET", "DATA_NOT_SET");
 
 // remember: the phylosophy behind this project expect to have already control and excaped variables
 class User
@@ -34,6 +37,7 @@ class User
         global $db;
         $query = "SELECT * FROM User WHERE username = '$username' AND password = MD5(CONCAT('$password',salt))";
         $result = $db->query($query);
+        // max one row cause username is unique
         $row = mysqli_fetch_assoc($result);
         if(!$row)
         {

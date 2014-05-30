@@ -51,11 +51,17 @@ require_once "utils.php";
 //}
 //session_write_close();
 //work
-$user = getSessionUser();
-if(!$user->isLogged())
-{
-    echo "eseguo login";
-    $user = new \User("admin","admin");
-    setSessionUser($user);
-}
-echo "benvenuto ".$user->getUsername();
+//$user = getSessionUser();
+//if(!$user->isLogged())
+//{
+//    echo "eseguo login";
+//    $user = new \User("admin","admin");
+//    setSessionUser($user);
+//}
+//echo "benvenuto ".$user->getUsername();
+//work
+//$document = new Document(3);
+//echo $document->getDate("Y-m-d H:i:s");
+//$document->setMultipleValues("la casa nel fosco", "casa.txt", "txt", "breve racconto di 150 pagine", BD_DOCUMENT_TYPE_DOCUMENT, false, NULL);
+// different method to define document type
+//$document->setMultipleValues("la casa nel fosco", "casa.txt", "txt", "breve racconto di 150 pagine", Document::listDocumentType()[2], false, NULL);

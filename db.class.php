@@ -36,4 +36,9 @@ class DB
 	$result = mysqli_query($this->db, $query) or die($this->db->error);
 	return $result;
     }
+    
+    public function lastId()
+    {
+        return mysqli_insert_id($this->db);
+    }
 }

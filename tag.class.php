@@ -45,7 +45,10 @@ class Tag
     //insert new tag
     public static function insertTag($tagName)
     {
-        if(Tag::existTagByName($tagName)) return 1; //already exist -> not inserted
+        if(Tag::existTagByName($tagName))
+        {
+            return 1;
+        } //already exist -> not inserted
         // db is declared in utils 
         global $db;
         $tagName = trim(strtolower($tagName));
@@ -118,6 +121,4 @@ class Tag
         }
         return $result_array;
     }
-    
-    
 }

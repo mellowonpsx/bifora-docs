@@ -43,9 +43,12 @@ class Category
         return 0; //not exist
     }
     
-        public static function insertCategory($categoryName)
+    public static function insertCategory($categoryName)
     {
-        if(Category::existCategoryByName($categoryName)) return 1; //already exist -> not inserted
+        if(Category::existCategoryByName($categoryName))
+        {
+            return 1;
+        } //already exist -> not inserted
         // db is declared in utils $db = new DB();
         global $db;
         $categoryName = trim(strtolower($categoryName));
@@ -59,7 +62,10 @@ class Category
     
     public static function updateCategory($categoryId, $categoryUpdatedName)
     {
-        if(!Category::existCategoryById($categoryId)) return 1; //not exist -> not updated
+        if(!Category::existCategoryById($categoryId)) 
+        {
+            return 1;
+        } //not exist -> not updated
         // db is declared in utils $db = new DB();
         global $db;
         $categoryUpdatedName = trim(strtolower($categoryUpdatedName));
@@ -70,12 +76,15 @@ class Category
         }
         return 1; //not updated
     }
-    
+
     public static function eraseCategory($categoryId)
     {
         // db is declared in utils $db = new DB();
         global $db;
-        if(!Category::existCategoryById($categoryId)) return 1; //not exist -> not erased
+        if (!Category::existCategoryById($categoryId))
+        {
+            return 1;
+        } //not exist -> not erased
         $query = "SELECT COUNT(*) AS elementNumber FROM Categorized WHERE idCategory = $categoryId";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
@@ -113,14 +122,16 @@ class Category
     {
         // db is declared in utils 
         global $db;
-        if($searchKey != NULL)
-        {
+        if ($searchKey != NULL) {
             $searchKey = trim(strtolower($searchKey));
             $searchKey = wordwrap($searchKey, 1, "%");
             $searchKey = trim($searchKey, "%");
             $query = "SELECT * FROM Category WHERE name LIKE '%$searchKey%'";
         }
-        else $query = "SELECT * FROM Category";
+        else
+        {
+            $query = "SELECT * FROM Category";
+        }
         $result = $db->query($query);
         $result_array = array();
         while($row = mysqli_fetch_assoc($result))
