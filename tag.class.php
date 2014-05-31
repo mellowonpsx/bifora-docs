@@ -53,7 +53,7 @@ class Tag
         global $db;
         $tagName = trim(strtolower($tagName));
         $query = "INSERT INTO Tag(id, name) VALUES (NULL, '$tagName')";
-        if($db->query($query, TRUE))
+        if($db->query($query))
         {
             return 0; //inserted
         }
@@ -64,33 +64,23 @@ class Tag
     public static function eraseTag($tagId)
     {
         global $db;
-        if(!Tag::existTagById($tagId))
+        //single query check if there is row in Categoryzed, otherwise remove element
+        //single query do not need lock (YEAH!!!)
+        //improve performance
+        if (!Tagged::existCategoryById($tagId))
         {
             return 1; //not exist -> not erased
         }
-        if(Tagged::getBindNumberByTag($idTag) > 0)
+        //improve performance
+        if(Tagged::getBindNumberByCategory($tagId) > 0)
         {
             return 1; //not eresable (has bind)
         }
-        //lock
-        $query = "LOCK TABLES Tag WRITE, Tagged WRITE, Tag as TagReadLock READ, Tagged as TaggedReadLock READ";
+        $query = "DELETE FROM Tag WHERE id= '$tagId' AND '0' IN (SELECT COUNT(*) FROM Tagged WHERE idTag = '$tagId')";
         $db->query($query);
-        //check again with table locked
-        if(Tagged::getBindNumberByTag($idTag) > 0)
+        if(!$db->affectedRows())
         {
-            $query = "UNLOCK TABLES";
-            $db->query($query);
-            return 1; //not eresable (has bind)
-        }
-        $query = "DELETE FROM Tag WHERE id = $tagId";
-        $result = $db->query($query, TRUE);
-        //unlock
-        $query = "UNLOCK TABLES";
-        $db->query($query);
-        //result contain delete query result
-        if(!$result)
-        {
-            return 1; // not erased
+            return 1; //not erased
         }
         return 0; //erased
     }

@@ -11,16 +11,18 @@ require_once "utils.php";
 //var_dump(Category::getCategoryList("p"));
 //var_dump(Category::getCategoryList("prov"));
 //work 
-//echo Category::eraseCategory(11);
+//echo Category::eraseCategory(35);
+//echo Category::eraseCategory(36);
 //work 
 //echo Category::insertCategory("provagliodiseo");
+//echo Category::insertCategory("provagliodiseo2");
 //work
-//echo Category::existCategoryByName("prova");
-//echo Category::existCategoryByName("prov");
-//echo Category::existCategoryById(1);
-//echo Category::existCategoryByName(33);
+//echo Category::existCategoryByName("provagliodiseo2");
+//if(Category::existCategoryByName("prov") === false) echo "non esiste!";
+//echo Category::existCategoryById(38);
+//if(Category::existCategoryById(1) === false) echo "non esiste!";
 //work
-//echo Category::updateCategory(11, "cane");
+//echo Category::updateCategory(38, "cane");
 //echo Category::updateCategory(13, "cane");
 //work
 //echo Tag::insertTag("terzo");
@@ -30,8 +32,8 @@ require_once "utils.php";
 //var_dump(Tag::getTagList("pim"));
 // work 
 //$config declared in utils
-//echo $config->getParamByName("numeroRighe"); //null show nothing
-//echo $config->getParamByName("numRighe");
+//echo $config->getParam("numeroRighe"); //null show nothing
+//echo $config->getParam("numRighe");
 //work
 //$user = new User("seiun","cane");
 //echo $user->isLogged();
@@ -66,17 +68,21 @@ require_once "utils.php";
 // different method to define document type
 //$document->setMultipleValues("la casa nel fosco", "casa.txt", "txt", "breve racconto di 150 pagine", Document::listDocumentType()[2], false, NULL)
 //work
-//echo Categorized::insertCategoryzed(1, 1);
-//echo Categorized::insertCategoryzed(2, 1);
+//echo Categorized::insertCategorized(35, 1);
+//echo Categorized::insertCategorized(35, 2);
 //echo Categorized::getBindNumber(1);
 //echo Categorized::eraseBind(2, 1);
-//echo Categorized::getBindNumber(1);
+//echo Categorized::getBindNumber(2);
 //echo Categorized::eraseBind(1, 1);
 //echo Categorized::getBindNumber(1);
-//echo Categorized::eraseBind(1, 1, true);
-//echo Categorized::getBindNumber(1);
+//echo Categorized::eraseBind(35, 1);
+//echo Categorized::eraseBind(35, 2);
+//echo Categorized::eraseBind(37, 2, true);
+//echo Category::eraseCategory(35);
+//echo Category::eraseCategory(37);
 //work all
-Tag::insertTag("prova26");
+/////////////////////////////// da ritestare 
+/*Tag::insertTag("prova26");
 echo Tagged::insertTagged(23, 1); //0 0
 echo Tagged::insertTagged(23, 2); //0 1
 //echo Tagged::insertTagged(25, 1); //0 1 non esiste più 25
@@ -87,11 +93,11 @@ echo Tagged::getBindNumberByTag(23); //2 2
 //echo Tagged::getBindNumberByTag(25); //1 0
 echo Tagged::getBindNumberByTag(26); //1
 echo Tagged::eraseBind(23, 1); //0 0
-//echo Tagged::eraseBind(25, 1); //0 1 //non esiste 25
+echo Tagged::eraseBind(25, 1); //0 1 //non esiste 25
 echo Tagged::eraseBind(26, 1); //0
 echo Tagged::getBindNumber(1); //0 0
 echo Tagged::getBindNumber(2); //1 1
 echo Tagged::getBindNumberByTag(23); //1 1
 echo Tagged::getBindNumberByTag(25); //0 0
-echo Tagged::getBindNumberByTag(26); //0 
+echo Tagged::getBindNumberByTag(26); //0 */
 

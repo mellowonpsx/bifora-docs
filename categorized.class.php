@@ -24,7 +24,7 @@ class Categorized
         return false; //not exist
     }
     
-    public static function insertCategoryzed($idCategory, $idDocument)
+    public static function insertCategorized($idCategory, $idDocument)
     {
         global $db;
         if(Categorized::existBind($idCategory, $idDocument) || !Category::existCategoryById($idCategory) || !Document::existDocument($idDocument))
@@ -32,7 +32,7 @@ class Categorized
             return 1; // (already exist, or not exist category, or not exist document) -> not inserted
         }
         $query = "INSERT INTO Categorized(id, idCategory, idDocument) VALUES (NULL, '$idCategory', '$idDocument')";
-        if($db->query($query, TRUE))
+        if($db->query($query))
         {
             return 0; //inserted
         }
@@ -42,32 +42,28 @@ class Categorized
     public static function eraseBind($idCategory, $idDocument, $eraseLast = false)
     {
         global $db;
+        //improve performance
         if(!Categorized::existBind($idCategory, $idDocument))
         {
             return 1; //bind not exist => no erase
         }
+        //improve performance
         if(Categorized::getBindNumber($idDocument)<2 && !$eraseLast)
         {
             return 1; //can't erase last bind for a document (a document must be categorized)
         }
-        //lock
-        $query = "LOCK TABLES Categorized WRITE, Categorized as CategorizedReadLock READ";
-        $db->query($query);
-        //check again with table locked
-        if(Categorized::getBindNumber($idDocument)<2 && !$eraseLast)
+        //select witch query perform
+        if(!$eraseLast)
         {
-            //unlock if fail 
-            $query = "UNLOCK TABLES";
-            $db->query($query);
-            return 1; //can't erase last bind for a document (a document must be categorized)
+            $query = "DELETE FROM Categorized WHERE idCategory = '$idCategory' AND idDocument = '$idDocument' AND '1' < (SELECT COUNT(*) FROM (SELECT * FROM Categorized WHERE idDocument = '$idDocument') as tempTable)";
         }
-        $query = "DELETE FROM Categorized  WHERE idCategory = '$idCategory' AND idDocument = '$idDocument'";
-        $result = $db->query($query, TRUE);
-        //unlock
-        $query = "UNLOCK TABLES";
+        else
+        {
+            $query = "DELETE FROM Categorized  WHERE idCategory = '$idCategory' AND idDocument = '$idDocument'";
+        }
         $db->query($query);
-        //result contain delete query result
-        if(!$result)
+        $numErase = $db->affectedRows();
+        if(!$numErase)
         {
             return 1; //not erased
         }

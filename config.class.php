@@ -30,7 +30,7 @@ class Config
         $this->paramArray = $result_array;
     }
     
-    public function getParamByName($paramName)
+    public function getParam($paramName)
     {
         if(isset($this->paramArray[$paramName])) return $this->paramArray[$paramName];
         return NULL;

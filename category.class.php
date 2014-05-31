@@ -28,7 +28,7 @@ class Category
     {
         // db is declared in utils $db = new DB();
         global $db;
-        $query = "SELECT COUNT(*) AS elementNumber FROM Category WHERE id = $categoryId";
+        $query = "SELECT COUNT(*) AS elementNumber FROM Category WHERE id = '$categoryId'";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
         $elementNumber = $row["elementNumber"];
@@ -66,7 +66,7 @@ class Category
         global $db;
         $categoryName = trim(strtolower($categoryName));
         $query = "INSERT INTO Category(id, name) VALUES (NULL, '$categoryName')";
-        if($db->query($query, TRUE))
+        if($db->query($query))
         {
             return 0; //inserted
         }
@@ -82,8 +82,8 @@ class Category
         // db is declared in utils $db = new DB();
         global $db;
         $categoryUpdatedName = trim(strtolower($categoryUpdatedName));
-        $query = "UPDATE Category SET name = '$categoryUpdatedName' WHERE id = $categoryId";
-        if($db->query($query, TRUE))
+        $query = "UPDATE Category SET name = '$categoryUpdatedName' WHERE id = '$categoryId'";
+        if($db->query($query))
         {
             return 0; //updated
         }
@@ -92,34 +92,21 @@ class Category
 
     public static function eraseCategory($categoryId)
     {
-        // db is declared in utils $db = new DB();
         global $db;
+        //improve performance
         if (!Category::existCategoryById($categoryId))
         {
             return 1; //not exist -> not erased
         }
+        //improve performance
         if(Categorized::getBindNumberByCategory($categoryId) > 0)
         {
             return 1; //not eresable (has bind)
         }
-        //lock
-        $query = "LOCK TABLES Category WRITE, Categorized WRITE, Category as CategoryReadLock READ, Categorized as CategorizedReadLock READ";
+        //single query => no lock needed
+        $query = "DELETE FROM Category WHERE id= '$categoryId' AND '0' IN (SELECT COUNT(*) FROM Categorized WHERE idCategory = '$categoryId')";
         $db->query($query);
-        //check again with table locked
-        if(Categorized::getBindNumberByCategory($categoryId) > 0)
-        {
-            //unlock if fail 
-            $query = "UNLOCK TABLES";
-            $db->query($query);
-            return 1; //not eresable (has bind)
-        }
-        $query = "DELETE FROM Category WHERE id = $categoryId";
-        $result = $db->query($query, TRUE);
-        //unlock
-        $query = "UNLOCK TABLES";
-        $db->query($query);
-        //result contain delete query result
-        if(!$result)
+        if(!$db->affectedRows())
         {
             return 1; //not erased
         }

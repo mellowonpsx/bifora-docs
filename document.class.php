@@ -42,7 +42,7 @@ class Document
             $this->status = BD_DOCUMENT_EMPTY;
             global $db;
             $query = "INSERT INTO Document(id, title, filename, extension, description, type, date, isPrivate, ownerId) VALUES (NULL, NULL, NULL, NULL, NULL, NULL, CURRENT_TIMESTAMP, '0', NULL)";
-            if(!$db->query($query, true))
+            if(!$db->query($query))
             {
                 return; //not inserted, why?
             }
@@ -112,7 +112,7 @@ class Document
                . "extension = '$this->extension', description = '$this->description', type = '$this->type', "
                . "isPrivate = '$this->isPrivate', ownerId = '$this->ownerId' WHERE id = $this->id";
             
-        if($db->query($query, TRUE))
+        if($db->query($query))
         {
             return 0; //value updated
         }

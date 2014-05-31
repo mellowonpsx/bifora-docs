@@ -26,15 +26,14 @@ class DB
 	$this->db->close() or die($this->db->error);
     }
 
-    public function query($query, $returnFailure = FALSE)
+    public function query($query)
     {
-        if($returnFailure)
-        {
-            $result = mysqli_query($this->db, $query);
-            return $result;
-        }
-	$result = mysqli_query($this->db, $query) or die($this->db->error);
-	return $result;
+        return $this->db->query($query); //moved die away, i want to handle query errors
+    }
+    
+    public function affectedRows()
+    {
+        return $this->db->affected_rows;
     }
     
     public function lastId()
