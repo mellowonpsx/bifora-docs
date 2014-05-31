@@ -63,11 +63,7 @@ function showStuff(){
     $('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
 }
     function addPreview(title,description,type,tags,private){
-        r="<div class=preview>";
-        r+="<h3>"+title+"</h3>";
-        r+="<br><i>"+description;
-        r+="</i><br>Type:"+type;
-        r+="<br>Tags:";
+        r="<div class='preview'><h3>"+title+"</h3><br><i>"+description+"</i><br>Type:"+type+"<br>Tags:";
         for(i=0;i<tags.length;i++)
             r+=tags[i]+"; ";
         r+="<br>";
