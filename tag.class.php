@@ -63,26 +63,24 @@ class Tag
     //
     public static function eraseTag($tagId)
     {
-        // db is declared in utils 
         global $db;
-        $query = "SELECT COUNT(*) AS elementNumber FROM Tagged WHERE idTag = $tagId";
-        $result = $db->query($query);
-        $row = mysqli_fetch_assoc($result);
-        $elementNumber = $row["elementNumber"];
-        if($elementNumber > 0)
+        if(!Tag::existTagById($tagId))
         {
-            return 1; //not erased
+            return 1; //not exist -> not erased
+        }
+        if(Tagged::getBindNumberByTag($idTag) > 0)
+        {
+            return 1; //not eresable (has bind)
         }
         //lock
-        $query = "LOCK TABLES Tag WRITE, Tagged WRITE, Tag as TagReadLock READ, Tagged TaggedReadLock READ";
+        $query = "LOCK TABLES Tag WRITE, Tagged WRITE, Tag as TagReadLock READ, Tagged as TaggedReadLock READ";
+        $db->query($query);
         //check again with table locked
-        $query = "SELECT COUNT(*) AS elementNumber FROM Tagged WHERE idTag = $tagId";
-        $result = $db->query($query);
-        $row = mysqli_fetch_assoc($result);
-        $elementNumber = $row["elementNumber"];
-        if($elementNumber > 0)
+        if(Tagged::getBindNumberByTag($idTag) > 0)
         {
-            return 1; //not erased
+            $query = "UNLOCK TABLES";
+            $db->query($query);
+            return 1; //not eresable (has bind)
         }
         $query = "DELETE FROM Tag WHERE id = $tagId";
         $result = $db->query($query, TRUE);

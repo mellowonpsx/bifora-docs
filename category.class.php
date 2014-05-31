@@ -98,23 +98,15 @@ class Category
         {
             return 1; //not exist -> not erased
         }
-        $query = "SELECT COUNT(*) AS elementNumber FROM Categorized WHERE idCategory = $categoryId";
-        $result = $db->query($query);
-        $row = mysqli_fetch_assoc($result);
-        $elementNumber = $row["elementNumber"];
-        if($elementNumber > 0)
+        if(Categorized::getBindNumberByCategory($categoryId) > 0)
         {
             return 1; //not eresable (has bind)
         }
         //lock
-        $query = "LOCK TABLES Category WRITE, Categorized WRITE, Category as CategoryReadLock READ, Categorized CategorizedReadLock READ";
+        $query = "LOCK TABLES Category WRITE, Categorized WRITE, Category as CategoryReadLock READ, Categorized as CategorizedReadLock READ";
         $db->query($query);
         //check again with table locked
-        $query = "SELECT COUNT(*) AS elementNumber FROM Categorized WHERE idCategory = $categoryId";
-        $result = $db->query($query);
-        $row = mysqli_fetch_assoc($result);
-        $elementNumber = $row["elementNumber"];
-        if($elementNumber > 0)
+        if(Categorized::getBindNumberByCategory($categoryId) > 0)
         {
             //unlock if fail 
             $query = "UNLOCK TABLES";
