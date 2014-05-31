@@ -1,13 +1,6 @@
 <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of utils
+ * utils
  *
  * @author mellowonpsx
  */
@@ -17,5 +10,51 @@ function __autoload($classname)
     require_once($filename);
 }
 
-?>
-A problem with php server.
+function escape($variables)
+{
+    return $variables;
+}
+
+function getSessionUser()
+{
+    $sessionId = session_id(); 
+    if(empty($sessionId))
+    {
+        session_start() or die("Could not start session");
+    }
+    if(isset($_SESSION["user"]))
+    {
+        $user = $_SESSION["user"];
+    }
+    else
+    {
+        $user = new User();
+    }
+    return $user;
+}
+
+function setSessionUser($user)
+{
+    $sessionId = session_id(); 
+    if(empty($sessionId))
+    {
+        session_start() or die("Could not start session");
+    }
+    $_SESSION["user"] = $user;
+}
+
+function removeSession()
+{
+    $sessionId = session_id(); 
+    if(empty($sessionId))
+    {
+        session_start() or die("Could not start session");
+    }
+    $_SESSION["user"] = NULL;
+    session_destroy();
+}
+
+// prepare configuration
+$config = new Config();
+// open database connection -> utils is require_once!!
+$db = new DB();
