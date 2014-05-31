@@ -34,14 +34,13 @@ function loginFalse(){
 }
 function login(){
     if($('#user').val()===''||$('#pass').val()===''){
-        alert();
         return;
         
     }  
 
     user=$('#user').val();
     pass=$('#pass').val(); 
-    alert(user+pass);
+ 
     stayLogged();
     loginTrue();
 }

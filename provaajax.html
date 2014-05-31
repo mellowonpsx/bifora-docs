@@ -26,6 +26,7 @@ and open the template in the editor.
             <script>
                 $(document).ready(function() {
                     $('form').submit(function(event) { //Trigger on form submit
+                        alert();
                         $('#name + .throw_error').empty(); //Clear the messages first
                         $('#success').empty();
 
@@ -44,7 +45,8 @@ and open the template in the editor.
                                             if (!data.success) { //If fails
                                                 if (data.errors.name) { //Returned if any error from process.php
                                                     $('.throw_error').fadeIn(1000).html(data.errors.name); //Throw relevant error
-                                                }
+                                                    alert();
+            }
                                             } else {
                                                     $('.throw_error').fadeIn(1000).html("data:" + data.category); //If successful, than throw a success message
                                                 }
