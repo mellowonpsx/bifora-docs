@@ -1,5 +1,5 @@
 var shown=true;
-var categories;
+var categories=new Array();
 var categoriesSelected=new Array();
 
 function showHideCategories(){
