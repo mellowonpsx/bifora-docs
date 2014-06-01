@@ -1,4 +1,6 @@
 var shown=true;
+var categories;
+var categoriesSelected=new Array();
 
 function showHideCategories(){
     if(shown){
@@ -6,13 +8,12 @@ function showHideCategories(){
         shown=false;
     }else{
         $('#categoriesDiv').stop(true,true).slideDown(0);
-        updateCategories();
         shown=true;
     }
 }
 
-function addCategory(name){
-    r='<div width=285 class="category">';
+function addCategory(name,id){
+    r='<div width=285 onclick="selectCategories(this);"class="category" id="'+id+'">';
     r+=name;
     r+="</div>";
     return r;
@@ -20,18 +21,26 @@ function addCategory(name){
 
 function updateCategories(){
     $('#categoriesDiv').empty();
-      $.ajax({
-        url  : 'category.class.php?type=list', 
-        success :  function(output){
-                    arr=$.parseJSON(output);
-                    alert(arr[1]);
-                    for(i=0;i<arr.size();i++)
-                        $('#categoriesDiv').addCategory(arr[i]);
-        }
-
+    $.ajax({
+    url  : 'category.class.php?type=list', 
+    success : function(output){
+                categories=$.parseJSON(output);
+                for(var k in categories){
+                    $('#categoriesDiv').append(addCategory(categories[k],k));
+                    categoriesSelected[k]=false;
+                }
+    }
 });
+    
 }
-
+function selectCategories(obj){
+    categoriesSelected[obj.id]=!categoriesSelected[obj.id];
+    if(categoriesSelected[obj.id])
+        $('#'+obj.id).css( "color", "white" );
+    else
+        $('#'+obj.id).css( "color", "black" );
+    
+}
 function showStuff(){
     $('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
     $('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
@@ -48,5 +57,6 @@ function main(){
     initLogin();
     updateCategories();
     }
+
 
 
