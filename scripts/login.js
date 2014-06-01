@@ -1,5 +1,4 @@
-var user="";
-var pass="";
+var usr;
 
 function initLogin(){
     $('#loginWrapper').hover(
@@ -19,44 +18,54 @@ function initLogin(){
 }
 function loginTrue(){
     $('#login').empty();
-    $('#login').append(getCookie('user'));
+    $('#login').append(usr.user);
     $('#loginDiv').empty();
-    $('#loginDiv').append("Logged as: "+getCookie('user')+"<br>");
+    $('#loginDiv').append(usr.name+" "+usr.surname+"<br>"+usr.mail+"<br>");
     $('#loginDiv').append("<button id='logout' onclick='logout()'>Logout</button>");
 }
 function loginFalse(){
     $('#login').empty();
     $('#login').append('Login');
     $('#loginDiv').empty();
-    $('#loginDiv').append("Username:   <input type='text' size=20 id='user'><br>");
-    $('#loginDiv').append("Password:   <input type='password' size=20 id='pass'><br>");
+    $('#loginDiv').append("<form name='form1>");
+    $('#loginDiv').append("Username:   <input type='text' size=20 id='user' name='user'><br>");
+    $('#loginDiv').append("Password:   <input type='password' size=20 id='pass' name='pass' ><br>");
     $('#loginDiv').append('<button id="loggati" onclick="login();">Login</button>');
+    $('#loginDiv').append("</form>");
 }
 function login(){
     if($('#user').val()===''||$('#pass').val()===''){
         return;
         
     }  
+  $.ajax({
+        url  : 'user.class.php'+'?user='+$('#user').val()+'&pass='+$('#pass').val(), 
+        success :  function(output){login_succes(output);}
 
-    user=$('#user').val();
-    pass=$('#pass').val(); 
- 
-    stayLogged();
-    loginTrue();
+});
+}
+
+function login_succes(output){
+    usr=$.parseJSON(output);
+    if(usr.status==="BD_USER_LOGGED"){
+        stayLogged();
+        loginTrue();
+    }else{
+        alert('Invalid username or password');
+    }
+        
+
 }
 function logout(){
-        setCookie('user',user,-1);
-        setCookie('pass',pass,-1);
+        setCookie('user',"",-1);
+        setCookie('pass',"",-1);
         loginFalse();
     
 }
 function stayLogged(){
 
-    setCookie('user',user,365);
-    setCookie('pass',pass,365);
-}
-function md5pass(pass,salt){
-    return CryptoJS.MD5(pass||salt);
+    setCookie('user',$('#user').val(),365);
+    setCookie('pass',$('#pass').val(),365);
 }
 
 function setCookie(cname, cvalue, exdays) {

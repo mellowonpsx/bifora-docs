@@ -92,4 +92,20 @@ class User
     {
         return $this->type;
     }
+    public function json(){
+
+        $r="{";
+        $r.='"id": "'.$this->id;
+        $r.='","status":"'.$this->status;
+        $r.='","user": "'.$this->username;
+        $r.='","name": "'.$this->name;
+        $r.='","surname": "'.$this->surname;
+        $r.='","mail": "'.$this->mail;
+        $r.='","type": "'.$this->type;
+        $r.='"}';
+        return $r;
+    }
 }
+parse_str($_SERVER['QUERY_STRING'],$query);
+$obj= new User($query['user'],$query['pass']);
+echo $obj->json();

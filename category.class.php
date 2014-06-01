@@ -150,3 +150,8 @@ class Category
         return $result_array;
     }
 }
+parse_str($_SERVER['QUERY_STRING'],$query);
+$c=new Category();
+if($query['type']=='list'){
+    echo json_encode($c::getCategoryList());
+}
