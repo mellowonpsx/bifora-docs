@@ -101,3 +101,24 @@ echo Tagged::getBindNumberByTag(23); //1 1
 echo Tagged::getBindNumberByTag(25); //0 0
 echo Tagged::getBindNumberByTag(26); //0 */
 
+//$result = Document::getDocumentList(0, 1000, Category::getCategoryList(), true, NULL, NULL);
+$result = Document::getDocumentList(0, 1000, Category::getCategoryList(), true, NULL, NULL);
+
+echo json_encode($result, JSON_UNESCAPED_UNICODE);
+ echo json_last_error_msg();
+
+var_dump($result);
+/*
+echo "<br />";
+echo "<br />";
+echo "<br />";
+
+$result = Document::getDocumentList(0, 1000, Category::getCategoryList(), false, NULL, 2013);
+var_dump($result);
+
+echo "<br />";
+echo "<br />";
+echo "<br />";
+
+$result = Document::getDocumentList(0, 1000, Category::getCategoryList(), false, 0, 2013);
+var_dump($result);*/

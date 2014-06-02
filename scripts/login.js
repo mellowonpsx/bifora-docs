@@ -35,11 +35,15 @@ function loginFalse(){
 }
 function login(){
     if($('#user').val()===''||$('#pass').val()===''){
-        return;
-        
-    }  
+        return; //alert (?)
+   
+    }
+    
   $.ajax({
-        url  : 'user.class.php'+'?user='+$('#user').val()+'&pass='+$('#pass').val(), 
+        type: "POST",
+        //url  : 'login.php'+'?user='+$('#user').val()+'&pass='+$('#pass').val(), 
+        url  : 'login.php', 
+        data: { username: $('#user').val(), password: $('#pass').val()},
         success :  function(output){login_succes(output);}
 
 });
@@ -50,13 +54,29 @@ function login_succes(output){
     if(usr.status==="BD_USER_LOGGED"){
         stayLogged();
         loginTrue();
+        showStuff(); //aggiunto per ricaricare dopo login!
     }else{
-        alert('Invalid username or password');
+        alert('Invalid username or password'); //trasformare l'alert in un messaggio in rosso nel form di login
     }
         
 
 }
+
 function logout(){
+    $.ajax({
+        url  : 'logout.php', 
+        success :  function(output){logout_succes(output);}
+    });
+}
+
+function logout_succes(output)
+{
+        //alert(output);
+        usr=$.parseJSON(output);
+        if(usr.status!=="BD_USER_UNLOGGED")
+        {
+            alert('something bad happend!!'); //trasformare l'alert in un messaggio in rosso nel form di login
+        }
         setCookie('user',"",-1);
         setCookie('pass',"",-1);
         loginFalse();

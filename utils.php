@@ -10,11 +10,6 @@ function __autoload($classname)
     require_once($filename);
 }
 
-function escape($variables)
-{
-    return $variables;
-}
-
 function getSessionUser()
 {
     $sessionId = session_id(); 
@@ -28,7 +23,7 @@ function getSessionUser()
     }
     else
     {
-        $user = new User();
+        $user = NULL;
     }
     return $user;
 }

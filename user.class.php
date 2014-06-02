@@ -10,6 +10,7 @@ require_once "utils.php";
 //status
 define("BD_USER_NOT_LOGGED", "BD_USER_NOT_LOGGED");
 define("BD_USER_LOGGED", "BD_USER_LOGGED");
+define("BD_USER_UNLOGGED", "BD_USER_UNLOGGED");
 define("BD_USER_DATA_NOT_SET", "DATA_NOT_SET");
 
 //user type
@@ -92,20 +93,25 @@ class User
     {
         return $this->type;
     }
-    public function json(){
-
-        $r="{";
-        $r.='"id": "'.$this->id;
-        $r.='","status":"'.$this->status;
-        $r.='","user": "'.$this->username;
-        $r.='","name": "'.$this->name;
-        $r.='","surname": "'.$this->surname;
-        $r.='","mail": "'.$this->mail;
-        $r.='","type": "'.$this->type;
-        $r.='"}';
-        return $r;
+    public function toJson()
+    {
+        $json_array = array();
+        $json_array["status"] = $this->status;
+        if($this->isLogged())
+        {
+            $json_array["id"] = $this->id;
+            $json_array["user"] = $this->username;
+            $json_array["name"] = $this->name;
+            $json_array["surname"] = $this->surname;
+            $json_array["mail"] = $this->mail;
+            $json_array["type"] = $this->type;
+        }
+        $json_string  = json_encode($json_array);
+        return $json_string;
+    }
+    
+    public function logoutStatus()
+    {
+        return BD_USER_UNLOGGED;
     }
 }
-parse_str($_SERVER['QUERY_STRING'],$query);
-$obj= new User($query['user'],$query['pass']);
-echo $obj->json();
