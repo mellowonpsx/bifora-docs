@@ -14,6 +14,7 @@ class DB
     public function __construct()
     {
         $this->db = new mysqli(Config::$db_host, Config::$db_user, Config::$db_password, Config::$db_name) or die($this->db->error);
+        $this->db->set_charset("utf8"); // serve per json perché senno con la presenza di caratteri accentati esplode!
     }
     
     public function __destruct()
@@ -39,5 +40,10 @@ class DB
     public function lastId()
     {
         return mysqli_insert_id($this->db);
+    }
+    
+    public function escape($string)
+    {
+        return $this->db->real_escape_string($string);
     }
 }

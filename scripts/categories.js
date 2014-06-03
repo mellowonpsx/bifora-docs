@@ -22,11 +22,11 @@ function addCategory(name,id){
 function updateCategories(){
     $('#categoriesDiv').empty();
     $.ajax({
-    url  : 'category.class.php?type=list', 
+    url  : 'listCategory.php', 
     success : function(output){
                 categories=$.parseJSON(output);
                 for(var k in categories){
-                    $('#categoriesDiv').append(addCategory(categories[k],k));
+                    $('#categoriesDiv').append(addCategory(categories[k].name,categories[k].id));
                     categoriesSelected[k]=false;
                 }
     }
@@ -42,9 +42,26 @@ function selectCategories(obj){
     
 }
 function showStuff(){
-    $('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
-    $('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
+    $.ajax({
+    url  : 'listDocument.php',
+    type: "POST",
+    //data: { category: JSON.stringify(categoriesSelected) }, ->non funziona!
+    success : function(output){
+                //alert(output);
+                documents=$.parseJSON(output);
+                $('#content').empty();
+                for(var k in documents){
+                    $('#content').append(addPreview(documents[k].title,documents[k].filename,documents[k].extension,new Array("aaa", "bbb","ddd"),"a"));
+                    //$('#categoriesDiv').append(addCategory(categories[k].name,categories[k].id));
+                    //categoriesSelected[k]=false;*/
+                }
+            }
+    });
+    
+    ///$('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
+    //$('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
 }
+
     function addPreview(title,description,type,tags,private){
         r="<div class='preview'><h3>"+title+"</h3><br><i>"+description+"</i><br>Type:"+type+"<br>Tags:";
         for(i=0;i<tags.length;i++)

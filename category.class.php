@@ -132,13 +132,8 @@ class Category
         $result_array = array();
         while($row = mysqli_fetch_assoc($result))
         {
-            $result_array[$row["id"]] = $row["name"];
+            $result_array[$row["id"]] = array("id" => $row["id"], "name" => $row["name"]);
         }
         return $result_array;
     }
-}
-parse_str($_SERVER['QUERY_STRING'],$query);
-$c=new Category();
-if($query['type']=='list'){
-    echo json_encode($c::getCategoryList());
 }
