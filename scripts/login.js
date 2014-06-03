@@ -77,10 +77,11 @@ function logout_succes(output)
         {
             alert('something bad happend!!'); //trasformare l'alert in un messaggio in rosso nel form di login
         }
+        usr=new Array();
         setCookie('user',"",-1);
         setCookie('pass',"",-1);
         loginFalse();
-    
+        showStuff(); //aggiunto per ricaricare dopo login!
 }
 function stayLogged(){
 
