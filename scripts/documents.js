@@ -1,5 +1,4 @@
 function showUpload(){
-    $('#content').empty();
     a="<div id='ulDiv' class='preview'>";
     a+="<h1>*DRAG A FILE HERE TO BEGIN UPLOAD*</h1>";
     a+="</div>";
@@ -38,6 +37,7 @@ function dismissDialog(){
     $('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
     $('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
 }*/
+
 function showStuff(){
     $.ajax({
     url  : 'listDocument.php',
@@ -47,6 +47,8 @@ function showStuff(){
                 //alert(output);
                 documents=$.parseJSON(output);
                 $('#content').empty();
+                if(usr.edit)
+                    showUpload();
                 for(var k in documents){
                     $('#content').append(addPreview(documents[k].title,documents[k].filename,documents[k].extension,new Array("aaa", "bbb","ddd"),"a"));
                     //$('#categoriesDiv').append(addCategory(categories[k].name,categories[k].id));

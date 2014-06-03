@@ -27,13 +27,22 @@ function updateCategories(){
                 categories=$.parseJSON(output);
                 for(var k in categories){
                     $('#categoriesDiv').append(addCategory(categories[k].name,categories[k].id));
-                    categoriesSelected[k]=false;
+                    categoriesSelected[k]=true;
+                    $('#'+categories[k].id).css( "color", "white" );
                 }
     }
 });
     
 }
 function selectCategories(obj){
+    allFalse=true;
+    for(var k in categories){
+        if(categories[k].id!==obj.id)
+            if(categoriesSelected[k])
+                allFalse=false;
+    }
+    if(categoriesSelected[obj.id]&&allFalse)
+        return
     categoriesSelected[obj.id]=!categoriesSelected[obj.id];
     if(categoriesSelected[obj.id])
         $('#'+obj.id).css( "color", "white" );

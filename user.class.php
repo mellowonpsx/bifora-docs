@@ -110,7 +110,7 @@ class User
         return $json_string;
     }
     
-    public function logoutStatus()
+    public static function logoutStatus()
     {
         return BD_USER_UNLOGGED;
     }

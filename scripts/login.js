@@ -1,4 +1,4 @@
-var usr;
+var usr={edit:false};
 
 function initLogin(){
     $('#loginWrapper').hover(
@@ -22,7 +22,6 @@ function loginTrue(){
     $('#loginDiv').empty();
     $('#loginDiv').append(usr.name+" "+usr.surname+"<br>"+usr.mail+"<br>");
     $('#loginDiv').append("<button id='logout' onclick='logout()'>Logout</button>");
-    showUpload();
 }
 function loginFalse(){
     $('#login').empty();
@@ -52,6 +51,7 @@ function login(){
 
 function login_succes(output){
     usr=$.parseJSON(output);
+    usr.edit=true;
     if(usr.status==="BD_USER_LOGGED"){
         stayLogged();
         loginTrue();
@@ -72,13 +72,13 @@ function logout(){
 
 function logout_succes(output)
 {
-        //alert(output);
+alert(output);
         usr=$.parseJSON(output);
         if(usr.status!=="BD_USER_UNLOGGED")
         {
             alert('something bad happend!!'); //trasformare l'alert in un messaggio in rosso nel form di login
         }
-        usr=new Array();
+        usr={edit:false};
         setCookie('user',"",-1);
         setCookie('pass',"",-1);
         loginFalse();
