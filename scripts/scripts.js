@@ -2,6 +2,13 @@
 $( document ).ready(function() {
     main();
 });
-/*------------------------------------------------------------------------------
- * ------------CATEGORIES-------------------------------------------------------
- ------------------------------------------------------------------------------*/
+
+function main(){
+    $(document).bind('drop dragover', function (e){
+                e.preventDefault();
+             });
+    showStuff();
+    initLogin();
+    updateCategories();
+}
+ 
