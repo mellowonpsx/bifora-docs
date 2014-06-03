@@ -41,39 +41,3 @@ function selectCategories(obj){
         $('#'+obj.id).css( "color", "black" );
     
 }
-function showStuff(){
-    $.ajax({
-    url  : 'listDocument.php',
-    type: "POST",
-    //data: { category: JSON.stringify(categoriesSelected) }, ->non funziona!
-    success : function(output){
-                //alert(output);
-                documents=$.parseJSON(output);
-                $('#content').empty();
-                for(var k in documents){
-                    $('#content').append(addPreview(documents[k].title,documents[k].filename,documents[k].extension,new Array("aaa", "bbb","ddd"),"a"));
-                    //$('#categoriesDiv').append(addCategory(categories[k].name,categories[k].id));
-                    //categoriesSelected[k]=false;*/
-                }
-            }
-    });
-    
-    ///$('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
-    //$('#content').append(addPreview("aaa","bbb","ccc",new Array("aaa", "bbb","ddd"),"a"));
-}
-
-    function addPreview(title,description,type,tags,private){
-        r="<div class='preview'><h3>"+title+"</h3><br><i>"+description+"</i><br>Type:"+type+"<br>Tags:";
-        for(i=0;i<tags.length;i++)
-            r+=tags[i]+"; ";
-        r+="<br>";
-        return r;
-    }
-function main(){
-    showStuff();
-    initLogin();
-    updateCategories();
-    }
-
-
-
