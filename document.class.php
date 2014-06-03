@@ -302,7 +302,7 @@ class Document
         //SELECT Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, Categorized.id as idCategorized, Categorized.idDocument, Categorized.idCategory FROM Document, Categorized WHERE Categorized.idDocument = Document.id and idCategory in ('0')
         $query = "SELECT Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, "
                . "Categorized.id as idCategorized, Categorized.idDocument, Categorized.idCategory "
-               . "FROM Document, Categorized WHERE Categorized.idDocument = Document.id and idCategory in $categoryList ";
+               . "FROM Document, Categorized WHERE Categorized.idDocument = Document.id and idCategory in $categoryList";
         if($showPrivate == false)
         {
             if($ownerId === NULL)
@@ -318,13 +318,13 @@ class Document
         {
             $query .= " AND date > '$yearLimit-01-01 00:00:00'";
         }
-        $query .= " ORDER BY date DESC";
+        $query .= " GROUP BY Document.id ORDER BY date DESC";
         $query .= " LIMIT $startLimit,$endLimit";
         // query end;
         $result = $db->query($query);
         while($row = mysqli_fetch_assoc($result))
-        {
-            $result_array[$row["id"]] = array("id" => $row["id"], "title" => $row["title"], "filename" => $row["filename"], "extension" => $row["extension"], "description" => $row["description"], "date" => $row["date"], "isPrivate" => $row["isPrivate"], "ownerId" => $row["ownerId"]);
+        {            
+            $result_array[$row["id"]] = array("id" => $row["id"], "title" => $row["title"], "filename" => $row["filename"], "extension" => $row["extension"], "description" => $row["description"], "date" => $row["date"], "isPrivate" => $row["isPrivate"], "ownerId" => $row["ownerId"], "tags" => Tagged::getTagListByDocumentIn($row["id"]));
         }
         return $result_array;
     }

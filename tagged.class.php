@@ -82,4 +82,18 @@ class Tagged
         $elementNumber = $row["elementNumber"];
         return $elementNumber;
     }
+    
+    //list all tag connected to a singel document
+    public static function getTagListByDocumentIn($documentId)
+    {
+        global $db;
+        $query = "SELECT Tag.id AS id, Tag.name AS name, Tagged.idDocument, Tagged.idTag FROM Tagged, Tag WHERE Tagged.idTag = Tag.id AND Tagged.idDocument = '$documentId'";
+        $result = $db->query($query);
+        $result_array = array();
+        while($row = mysqli_fetch_assoc($result))
+        {
+            $result_array[$row["id"]] = array("id" => $row["id"], "name" => $row["name"]);
+        }
+        return $result_array;
+    }
 }
