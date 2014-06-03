@@ -22,6 +22,7 @@ function loginTrue(){
     $('#loginDiv').empty();
     $('#loginDiv').append(usr.name+" "+usr.surname+"<br>"+usr.mail+"<br>");
     $('#loginDiv').append("<button id='logout' onclick='logout()'>Logout</button>");
+    showUpload();
 }
 function loginFalse(){
     $('#login').empty();
