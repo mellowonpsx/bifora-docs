@@ -72,7 +72,6 @@ function logout(){
 
 function logout_succes(output)
 {
-alert(output);
         usr=$.parseJSON(output);
         if(usr.status!=="BD_USER_UNLOGGED")
         {

@@ -4,10 +4,9 @@ $( document ).ready(function() {
 });
 
 function main(){
-    $(document).bind('drop dragover', function (e){
-                e.preventDefault();
+    $('body').bind('drop dragover', function (event){
+                event.preventDefault(); 
              });
-    showStuff();
     initLogin();
     updateCategories();
 }
