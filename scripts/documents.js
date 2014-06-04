@@ -4,10 +4,8 @@ function showUpload(){
     a+="</div>";
     $('#content').append(a);
     $('#ulDiv').bind('drop', function (e) {
-                alert();
                 handleDrop(e);
             });
-    showStuff();
 }
 function handleDrop(e) {
     e.dataTransfer = e.originalEvent.dataTransfer;
