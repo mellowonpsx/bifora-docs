@@ -1,4 +1,3 @@
-var usr={edit:false};
 
 function initLogin(){
     $('#loginWrapper').hover(

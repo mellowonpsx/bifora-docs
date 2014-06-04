@@ -1,5 +1,4 @@
-var shown=true;
-var categories=new Array();
+
 
 function showHideCategories(){
     if(shown){
@@ -9,6 +8,8 @@ function showHideCategories(){
         $('#categoriesDiv').stop(true,true).slideDown(0);
         shown=true;
     }
+    $('#nascosto').css('height',$('#ulDiv').css('height'));
+    $('#nascosto').css('width',$('#ulDiv').css('width')); 
 }
 
 function addCategory(name,id){

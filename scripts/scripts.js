@@ -1,12 +1,13 @@
+var shown=true;
+var categories=new Array();
+var usr={edit:false};
+
 
 $( document ).ready(function() {
     main();
 });
 
 function main(){
-    $('body').bind('drop dragover', function (event){
-                event.preventDefault(); 
-             });
     initLogin();
     updateCategories();
 }
