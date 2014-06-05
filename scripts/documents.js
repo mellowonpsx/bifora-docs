@@ -32,6 +32,7 @@ function openFileDialog(){
     a+="<br>Title:<br><input type='text' id='title'>";
     a+="<br>Description:<br><textarea id='desc'></textarea>";
     a+="<br>Type:<br><select id='type'></select>";
+    a+="<br>Category:<br><select id='categoriesSelect'></select>";
     a+="<br>Private:<br><input type='checkbox' id='private'>";
     a+="<br><input type='button' onclick='uploadDocument();' value='Upload'></input>";
     a+="<input type='button' onclick='dismissDialog();' value='Cancel'></input>";
@@ -41,6 +42,19 @@ function openFileDialog(){
     $('#h').css('position','absolute');
     $('#nascosto').css('height','0px');
     $('#nascosto').css('width','0px');
+    setCategoryOptions();
+}
+function setCategoryOptions(){
+    for(var k in categories){
+        $('#categoriesSelect').append(addCategoryOption(categories[k].name,categories[k].id));
+        categories[k].selected=true;
+        $('#'+categories[k].id).css( "color", "white" );
+    }
+  
+}
+function addCategoryOption(name, id){
+    a="<option value='"+id+"'>"+name+"</option>";
+    return a;
 }
 function dismissDialog(){
     $('#dialog').remove();
