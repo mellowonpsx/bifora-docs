@@ -1,6 +1,4 @@
-var shown=true;
-var categories=new Array();
-var categoriesSelected=new Array();
+
 
 function showHideCategories(){
     if(shown){
@@ -10,6 +8,8 @@ function showHideCategories(){
         $('#categoriesDiv').stop(true,true).slideDown(0);
         shown=true;
     }
+    $('#nascosto').css('height',$('#ulDiv').css('height'));
+    $('#nascosto').css('width',$('#ulDiv').css('width')); 
 }
 
 function addCategory(name,id){
@@ -27,7 +27,7 @@ function updateCategories(){
                 categories=$.parseJSON(output);
                 for(var k in categories){
                     $('#categoriesDiv').append(addCategory(categories[k].name,categories[k].id));
-                    categoriesSelected[k]=true;
+                    categories[k].selected=true;
                     $('#'+categories[k].id).css( "color", "white" );
                 }
     }
@@ -38,15 +38,24 @@ function selectCategories(obj){
     allFalse=true;
     for(var k in categories){
         if(categories[k].id!==obj.id)
-            if(categoriesSelected[k])
+            if(categories[k].selected)
                 allFalse=false;
     }
-    if(categoriesSelected[obj.id]&&allFalse)
+    if(categories[obj.id].selected&&allFalse)
         return
-    categoriesSelected[obj.id]=!categoriesSelected[obj.id];
-    if(categoriesSelected[obj.id])
+    categories[obj.id].selected=!categories[obj.id].selected;
+    if(categories[obj.id].selected)
         $('#'+obj.id).css( "color", "white" );
     else
         $('#'+obj.id).css( "color", "black" );
-    
+    showStuff();
+}
+
+function getSelectedCategories(){
+    r=new Array();
+    for(var k in categories){
+        if(categories[k].selected)
+            r[k]=categories[k];
+    }
+    return r;
 }
