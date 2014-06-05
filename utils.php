@@ -6,7 +6,7 @@
  */
 function __autoload($classname)
 {
-    $filename =  strtolower("$classname.class.php");
+    $filename =  strtolower("class.$classname.php");
     require_once($filename);
 }
 

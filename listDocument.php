@@ -1,13 +1,22 @@
 <?php
 
 /**
- * listCategory
+ * listDocument
  * @author mellowonpsx
  */
 
 require_once "utils.php";
+if(isset($_POST["username"])&&isset($_POST["password"]))
+{
+    global $db;
+    $username = $db->escape(filter_var($_POST["username"], FILTER_SANITIZE_STRING));
+    $password = $db->escape(filter_var($_POST["password"], FILTER_SANITIZE_STRING));
+    $user= new User($username,$password);
+    setSessionUser($user); //set a session
+    echo $user->toJson();
+}
+//get categody from POST
 
-//da modificare!!
 $user = getSessionUser();
 if($user != NULL)
 {
@@ -15,12 +24,13 @@ if($user != NULL)
     {
         //admin shows all
         echo json_encode(Document::getDocumentList(0, 1000, Category::getCategoryList(), true, NULL, NULL));
-        return;
     }
-    //logged show public and his his own file 
-    echo json_encode(Document::getDocumentList(0, 1000, Category::getCategoryList(), false, $user->getUserId(), NULL));
-    return;
+    else //logged show public and his his own file 
+    {
+        echo json_encode(Document::getDocumentList(0, 1000, Category::getCategoryList(), false, $user->getUserId(), NULL));
+    }
 }
-//not logged show all but public
-echo json_encode(Document::getDocumentList(0, 1000, Category::getCategoryList(), false, NULL, NULL));
-return;
+else
+{
+    echo json_encode(Document::getDocumentList(0, 1000, Category::getCategoryList(), false, NULL, NULL));
+}
