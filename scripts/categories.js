@@ -10,7 +10,7 @@ function showHideCategories(){
     }
     $('#nascosto').css('height',$('#ulDiv').css('height'));
     $('#nascosto').css('width',$('#ulDiv').css('width')); 
-}
+}   
 
 function addCategory(name,id){
     r='<div width=285 onclick="selectCategories(this);"class="category" id="'+id+'">';
@@ -30,6 +30,7 @@ function updateCategories(){
                     categories[k].selected=true;
                     $('#'+categories[k].id).css( "color", "white" );
                 }
+                showStuff();
     }
 });
     
@@ -53,9 +54,13 @@ function selectCategories(obj){
 
 function getSelectedCategories(){
     r=new Array();
+    i = 0;
     for(var k in categories){
         if(categories[k].selected)
-            r[k]=categories[k];
+        {
+            r[i]=categories[k];
+            i++;
+        }
     }
     return r;
 }

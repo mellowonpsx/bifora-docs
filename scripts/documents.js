@@ -67,9 +67,9 @@ function showStuff(){
     $.ajax({
     url  : 'listDocument.php',
     type: "POST",
-    data: { category: JSON.stringify(getSelectedCategories()) }, 
+    data: { category: JSON.stringify(getSelectedCategories()) }, // ho modificato getSelectedCategories perché category era pieno di "null" sugli elementi vuoti del vettore
     success : function(output){
-                //alert(output);
+                alert(output); // da togliere, mostra il contenuto ritornato
                 documents=$.parseJSON(output);
                 $('#content').empty();
                 if(usr.edit)

@@ -7,5 +7,5 @@ M = mellow
 A- quanto siamo in modalità upload, impedire qualsiasi altro evento fino al termine del caricamento o all'annullamento.
 A- controllare il layer di drag and drop è davanti a quello di login, possiamo fare qualcosa del tipo che si "fissa"
   e non che appare e scompare? (on click si apre, se click invio esegue login -> se login ok si chiude, se click su x si chiude).
-M- rinominare i file *.class.php in class.*.php e cambiare autoload
+M+ rinominare i file *.class.php in class.*.php e cambiare autoload
 

@@ -49,6 +49,21 @@ function removeSession()
     session_destroy();
 }
 
+function objectToArray($obj)
+{
+    if(is_object($obj)) $obj = (array) $obj;
+    if(is_array($obj))
+    {
+        $new = array();
+        foreach($obj as $key => $val)
+        {
+            $new[$key] = objectToArray($val);
+        }
+    }
+    else $new = $obj;
+    return $new;
+}
+
 // prepare configuration
 $config = new Config();
 // open database connection -> utils is require_once!!
