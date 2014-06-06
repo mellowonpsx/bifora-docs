@@ -6,13 +6,6 @@
  */
 
 require_once "utils.php";
-// verify user
-$user = getSessionUser();
-if(empty($user))
-{
-    json_exit(Errors::$ERROR_00);
-    return;
-}
 //check variabiles
 if(!isset($_GET["idDocument"]))
 {
@@ -21,6 +14,24 @@ if(!isset($_GET["idDocument"]))
 }
 
 $document = new Document($db->escape(filter_var($_GET["idDocument"], FILTER_SANITIZE_STRING)));
+
+//if is public no control (exept login?)
+if($document->getIsPrivate())
+{
+    //otherwise verify if not-owner adn not admin
+    // verify user
+    $user = getSessionUser();
+    if(empty($user))
+    {
+        echo Errors::$ERROR_00;
+        return;
+    }
+    if($user->getType() != BD_USER_TYPE_ADMIN && $user->getUserId() != $document->getOwnerId())
+    {
+        echo Errors::$ERROR_21;
+        return;
+    }
+}
 
 //global $config;
 //$directoryUpload = $config->getParam("uploadDirectory");
@@ -44,6 +55,7 @@ if(!file_exists($downloadFilename))
 if (!file_exists($downloadFilename))
 {
     echo Errors::$ERROR_20;
+    return;
 }
 else
 {
