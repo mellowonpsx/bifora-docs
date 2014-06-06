@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="scripts/jquery.js" type="text/javascript" charset="utf-8"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="tagit.js" type="text/javascript" charset="utf-8"></script>
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
+        <link href="tagit.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+
+
+        <ul id="myTags">
+            <!-- Existing list items will be pre-added to the tags -->
+            <li>Tag1</li>
+            <li>Tag2</li>
+        </ul>
+        <input type='text' id='cane'>
+        
+        
+        
+                <script type="text/javascript">
+            $(document).ready(function() {
+               
+                $("#myTags").tagit();
+                var tags;
+                $.ajax(
+                    {
+                        url: 'listTag.php',
+                        
+                        success: function(output)
+                        {
+                            alert(output);
+                            tags=$.parseJSON(output);
+                              $("#myTags").tagit({
+                                autocomplete: {delay: 0, source:tags}
+                             });
+                        }
+                    });
+
+            });
+        </script>
+    </body>
+</html>
