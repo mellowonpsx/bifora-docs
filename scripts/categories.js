@@ -1,4 +1,4 @@
-function showHideCategories() 
+    function showHideCategories() 
 {
     if (shown) 
     {
@@ -48,7 +48,8 @@ function addAdder(){
     return r;
 }
 function submitCategory(){
-    
+    if($("#categoryName").val()==="")
+        return;
     $.ajax(
     {
         url: 'addCategory.php',
@@ -56,7 +57,6 @@ function submitCategory(){
         data: $("#categoryName"),
         success:    function(output) 
                     {                  
-                       alert(output);
                        updateCategories();
                     }
     });
@@ -67,11 +67,15 @@ function selectCategories(obj)
     for (var k in categories) 
     {
         if (categories[k].id !== obj.id)
+        {
             if (categories[k].selected)
                 allFalse = false;
+        }
     }
     if (categories[obj.id].selected && allFalse)
-        return
+    {
+        return;
+    }
     categories[obj.id].selected = !categories[obj.id].selected;
     if (categories[obj.id].selected)
         $('#' + obj.id).css("color", "white");

@@ -1,3 +1,16 @@
+#header{
+    background-color: #999999;
+    
+    height: 90px;
+}
+
+#content{
+    overflow: auto;
+    height:500px;    
+    background: red;
+    z-index: 1;
+}
+
 #login
 {
     text-align: center;
@@ -43,11 +56,7 @@
     top: 98px;
 }
 
-#header{
-    background-color: #999999;
-    
-    height: 90px;
-}
+
 
 #categoriesWrapper{
     background-color: #cccccc;
@@ -69,12 +78,11 @@
     position:relative;
     right:0px;
 }
-    #categories:hover{
-        background-color: gray;
-    }
+#categories:hover{
+    background-color: gray;
+}
 #categoriesDiv{
     width: 260px;
-    
 }
 .category{
     padding-left: 20px;
@@ -83,12 +91,13 @@
 .category:hover{
     background-color: gray; 
 }
-#content{
-    overflow: auto;
-    height:500px;    
-    background: red;
-    z-index: 1;
-}
+
 .preview{
     border:solid blue;
+}
+
+#nascosto{
+    position:absolute;
+    opacity:0;
+    z-index:4;
 }
