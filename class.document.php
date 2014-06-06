@@ -41,7 +41,7 @@ class Document
         {
             $this->status = BD_DOCUMENT_EMPTY;
             global $db;
-            $query = "INSERT INTO Document(id, title, filename, extension, description, type, date, isPrivate, ownerId) VALUES (NULL, NULL, NULL, NULL, NULL, NULL, CURRENT_TIMESTAMP, '0', NULL)";
+            $query = "INSERT INTO Document(id, title, filename, extension, description, type, date, isPrivate, ownerId) VALUES (NULL, NULL, NULL, NULL, NULL, NULL, CURRENT_TIMESTAMP, 'false', NULL)";
             if(!$db->query($query))
             {
                 return; //not inserted, why?
@@ -84,6 +84,20 @@ class Document
     {                
         global $db;
         $query = "SELECT COUNT(*) AS elementNumber FROM Document WHERE id = '$idDocument'";
+        $result = $db->query($query);
+        $row = mysqli_fetch_assoc($result);
+        $elementNumber = $row["elementNumber"];
+        if($elementNumber > 0)
+        {
+            return true; //exist
+        }
+        return false; //not exist
+    }
+    
+    public static function existDocumentByFilename($filename)
+    {                
+        global $db;
+        $query = "SELECT COUNT(*) AS elementNumber FROM Document WHERE filename = '$filename'";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
         $elementNumber = $row["elementNumber"];
@@ -210,7 +224,7 @@ class Document
         return $this->isPrivate;
     }
     
-    public function setIsPrivate(bool $isPrivate)
+    public function setIsPrivate($isPrivate)
     {
         $this->isPrivate = $isPrivate;
         $this->status = BD_DOCUMENT_CHANGED;
@@ -229,31 +243,31 @@ class Document
     
     public function setMultipleValues($title = NULL, $filename  = NULL, $extension  = NULL, $description  = NULL, $type  = NULL, $isPrivate  = NULL, $ownerId  = NULL)
     {
-        if($title != NULL)
+        if($title !== NULL)
         {
             $this->setTitle($title);
         }
-        if($filename != NULL)
+        if($filename !== NULL)
         {
             $this->setFilename($filename);
         }
-        if($extension != NULL)
+        if($extension !== NULL)
         {
             $this->setExtension($extension);
         }
-        if($description != NULL)
+        if($description !== NULL)
         {
             $this->setDescription($description);
         }
-        if($type != NULL)
+        if($type !== NULL)
         {
             $this->setType($type);
         }
-        if($isPrivate != NULL)
+        if($isPrivate !== NULL)
         {
             $this->setIsPrivate($isPrivate);
         }
-        if($ownerId != NULL)
+        if($ownerId !== NULL)
         {
             $this->setOwnerId($ownerId);
         }
@@ -292,13 +306,17 @@ class Document
         //$result_array["pageNumber"] = ceil($elementNumber/$documentPerPage);
         //$result_array["documentPerPage"] = $documentPerPage;
         // query start
-        $categoryList = "(";
-        foreach ($categoryListArray as $category)
+        if(!empty($categoryListArray))
         {
-            $categoryList .= $category["id"].",";
+            $categoryList = "(";
+            foreach ($categoryListArray as $category)
+            {
+                $categoryList .= $category["id"].",";
+            }
+            $categoryList = rtrim($categoryList, ",");
+            $categoryList .= ")";
         }
-        $categoryList = rtrim($categoryList, ",");
-        $categoryList .= ")";
+        else $categoryList = "(NULL)";
         //SELECT Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, Categorized.id as idCategorized, Categorized.idDocument, Categorized.idCategory FROM Document, Categorized WHERE Categorized.idDocument = Document.id and idCategory in ('0')
         $query = "SELECT Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, "
                . "Categorized.id as idCategorized, Categorized.idDocument, Categorized.idCategory "

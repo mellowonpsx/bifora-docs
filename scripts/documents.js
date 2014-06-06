@@ -1,4 +1,4 @@
-b = false; //Booleano che serve perchè jquery è scemo...
+b = false; //Booleano che serve perchï¿½ jquery ï¿½ scemo...
 
 function showUpload() 
 {
@@ -30,13 +30,16 @@ function openFileDialog()
         $('#dialog').remove();
     var a = "<div id='dialog'>";
         a += "File:<br>" + $('#nascosto').val().replace("C:\\fakepath\\","")+"   (Click to change selected document.)";
-        a += "<br>Title:<br><input type='text' id='title'>";
-        a += "<br>Description:<br><textarea id='desc'></textarea>";
-        a += "<br>Type:<br><select id='typeSelect'></select>";
-        a += "<br>Category:<br><select id='categoriesSelect'></select>";
-        a += "<br>Private:<br><input type='checkbox' id='private'>";
-        a += "<br><input type='button' onclick='uploadDocument();' value='Upload'></input>";
-        a += "<input type='button' onclick='dismissDialog();' value='Cancel'></input>";
+        a += "<form id='documentDataForm'>";
+        a += "<br>Title:<br><input type='text' id='title' name='title'>";
+        a += "<br>Description:<br><textarea id='desc' name='description'></textarea>";
+        a += "<br>Type:<br><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
+        a += "<br>Category:<br><select id='categoriesSelect' name='categoriesSelect'></select>";
+        a += "<br>Tag:<br><select id='tagSelect' name='tagSelect'></select>";
+        a += "<br>Private:<br><input type='checkbox' id='private' name='isPrivate'>";
+        a += "</form>";
+        a += "<br><input type='button' onclick='uploadDocument();' value='Upload' name='submitButton'></input>";
+        a += "<input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";        
         a += "</div>";
     $('#ulDiv').append(a);
     
@@ -65,7 +68,7 @@ function setTypeOptions()
                 types = $.parseJSON(output);
                 for (var k in types) 
                 {
-                    $('#typeSelect').append(addOption(types[k], k));
+                    $('#typeSelect').append(addNameOption(types[k])); //type is textual
                 }
             }
         });
@@ -74,6 +77,10 @@ function setTypeOptions()
 function addOption(name, id) 
 {
     return "<option value='" + id + "'>" + name + "</option>";
+}
+function addNameOption(name) 
+{
+    return "<option value='" + name + "'>" + name + "</option>";
 }
 function dismissDialog() 
 {
@@ -117,16 +124,60 @@ function uploadDocument()
 {
     var data = new FormData();
     data.append('file', document.getElementById('nascosto').files[0]);
+    if($("#filename").length && $("#extension").length)
+    {
+        //already uploaded, need to reperform
+        insertDocument();
+        return;
+    }
     $.ajax(
     {
-        url: 'loadDocument.php',
+        url: 'uploadDocument.php',
         data: data,
         processData: false,
         contentType: false,
         type: 'POST',
-        success: function(data) 
+        success: function(output)
         {
-            alert(data);
+            //alert(output); //da togliere
+            var result = $.parseJSON(output);
+            if(result.status == "true")
+            {
+                $("#private").after("<input type='hidden' id='filename' name='filename' value='"+result.filename+"'>");
+                $("#filename").after("<input type='hidden' id='extension' name='extension' value='"+result.extension+"'>");
+                insertDocument(result);
+            }
+            else
+            {
+                alert("error on uploading file");
+            }
+        }
+    });
+}
+
+function insertDocument()
+{
+    var data = $("#documentDataForm").serialize();
+    //alert(data); //da togliere
+    $.ajax(
+    {
+        url: 'insertDocument.php',
+        type: 'POST',
+        data: data,
+        success: function(output)
+        {
+            //alert(output); //da togliere
+            var result = $.parseJSON(output);
+            if(result.status == "true")
+            {
+                alert("file uploaded");
+                //close or reset upload box
+            }
+            else
+            {
+                alert(result.error);
+                //close or reset upload box
+            }
         }
     });
 }

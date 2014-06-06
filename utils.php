@@ -64,6 +64,14 @@ function objectToArray($obj)
     return $new;
 }
 
+function json_exit($message)
+{
+    $result_array = array();
+    $result_array["status"] = "false";
+    $result_array["error"] = $message;
+    echo json_encode($result_array);
+}
+
 // prepare configuration
 $config = new Config();
 // open database connection -> utils is require_once!!

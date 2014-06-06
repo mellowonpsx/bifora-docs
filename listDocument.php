@@ -15,11 +15,6 @@ if(isset($_POST["category"]))
     {
         $category_array[$category->id] = objectToArray($category);
     }
-    //echo json_encode($category_array);
-    //return;
-    //$user= new User($username,$password);
-    //setSessionUser($user); //set a session
-    //echo $user->toJson();
 }
 //get categody from POST
 

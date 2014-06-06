@@ -61,7 +61,8 @@ function login_succes(output) {
         stayLogged();
         loginTrue();
         //showStuff(); //aggiunto per ricaricare dopo login!
-        updateCategory();
+        //updateCategory(); //errore
+        //updateCategories();
     } else {
         alert('Invalid username or password'); //trasformare l'alert in un messaggio in rosso nel form di login
     }
@@ -90,7 +91,8 @@ function logout_succes(output)
     setCookie('pass', "", -1);
     loginFalse();
     //showStuff(); //aggiunto per ricaricare dopo login!
-    updateCategory();
+    //updateCategory(); //errore
+    //updateCategories();
 }
 
 
