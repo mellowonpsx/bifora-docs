@@ -32,7 +32,7 @@ function openFileDialog()
         a += "File:<br>" + $('#nascosto').val().replace("C:\\fakepath\\","")+"   (Click to change selected document.)";
         a += "<br>Title:<br><input type='text' id='title'>";
         a += "<br>Description:<br><textarea id='desc'></textarea>";
-        a += "<br>Type:<br><select id='type'></select>";
+        a += "<br>Type:<br><select id='typeSelect'></select>";
         a += "<br>Category:<br><select id='categoriesSelect'></select>";
         a += "<br>Private:<br><input type='checkbox' id='private'>";
         a += "<br><input type='button' onclick='uploadDocument();' value='Upload'></input>";
@@ -44,17 +44,34 @@ function openFileDialog()
     $('#h').css('position', 'absolute');
     $('#nascosto').css('height', '40px');
     setCategoryOptions();
+    setTypeOptions();
 }
 function setCategoryOptions() 
 {
     for (var k in categories) 
     {
-        $('#categoriesSelect').append(addCategoryOption(categories[k].name, categories[k].id));
-        categories[k].selected = true;
-        $('#' + categories[k].id).css("color", "white");
+        $('#categoriesSelect').append(addOption(categories[k].name, categories[k].id));
     }
 }
-function addCategoryOption(name, id) 
+
+function setTypeOptions()
+{
+    var types;
+    $.ajax(
+        {
+            url: 'listDocumentType.php',
+            success: function(output) 
+            {
+                types = $.parseJSON(output);
+                for (var k in types) 
+                {
+                    $('#typeSelect').append(addOption(types[k], k));
+                }
+            }
+        });
+    
+}
+function addOption(name, id) 
 {
     return "<option value='" + id + "'>" + name + "</option>";
 }
