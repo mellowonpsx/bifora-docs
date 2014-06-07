@@ -219,6 +219,11 @@ class Document
         return $documentType;
     }
     
+    public static function isDocumentType($typeToCheck)
+    {
+        return in_array($typeToCheck, Document::listDocumentType());
+    }
+    
     public function getIsPrivate()
     {
         return $this->isPrivate;

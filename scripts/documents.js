@@ -35,7 +35,7 @@ function openFileDialog()
     a += "<br>Description:<br><textarea id='desc' name='description'></textarea>";
     a += "<br>Type:<br><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
     a += "<br>Categories : <ul id='categoriesUl' class='killableUl'></ul>";
-    a += "<br><select id='categoriesSelect' name='categoriesSelect' onchange='addCategoryLi(this)'></select>";
+    a += "<br><select id='categoriesSelect' onchange='addCategoryLi(this)'></select>";
     a += "<br>Tag:<ul id='tagUl' class='killableUl'></ul>";
     a += "<br><input type='text' id='tagInput'></input>";
     a += "<input type='button' onclick='addTagLi();' value='Add' name='tagButton' autocomplete='on'></input>";
@@ -61,10 +61,14 @@ function setTagAutocomplete(){
             success: function(output)
             {
                 tags=$.parseJSON(output);
+                //funzionalità che vorrei:
+                //1- l'invio inserisce il tag
+                //2- l'invio sul tag evidenziato (o il click di mouse) inserisce il tag
+                //3- quando il tag viene inserito (da valutare se sempre o solo su inserimento avvenuto), svuotare la casella
                  $('#tagInput').autocomplete(
                     {
 
-                        source:tags
+                        source:tags 
                     }        
                 )
 
@@ -77,9 +81,10 @@ function addCategoryLi(p) {
     for(var i=0; i<$('#categoriesUl li').length; i++)
         if($('#categoriesUl li')[i].id===p.options[p.selectedIndex].text)return;
         
-    
-    var a = "<li class='killable' id='"+p.options[p.selectedIndex].text+"'><span>" + p.options[p.selectedIndex].text + "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";
+    var a = "<li class='killable' id='"+p.options[p.selectedIndex].text+"'><span>" + p.options[p.selectedIndex].text + "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";    
     $('#categoriesUl').append(a);
+    //aggiungere la rimozione di questa cosa!!
+    $("#categoriesUl").after("<input type='hidden' name='categoryList[]' value='" + p.options[p.selectedIndex].value + "'>");
 }
 function addTagLi(){
     for(var i=0; i<$('#tagUl li').length; i++)
@@ -90,7 +95,9 @@ function addTagLi(){
             n="";
     }
     var a = "<li class='killable' id='"+$('#tagInput').val()+"'><span>" + $('#tagInput').val()+n+ "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";
-    $('#tagUl').append(a);;
+    $('#tagUl').append(a);
+    // aggiungere rimozione di questa cosa!!
+    $("#tagUl").after("<input type='hidden' name='tagList[]' value='" + $('#tagInput').val() + "'>");
 }
 function kill(obj) {
     var parent = obj.parentNode;
@@ -102,7 +109,7 @@ function setCategoryOptions()
     $('#categoriesSelect').append(addOption("-SELECT  A CATEGORY-"));
     for (var k in categories)
     {
-        $('#categoriesSelect').append(addOption(categories[k].name));
+        $('#categoriesSelect').append(addOptionIdName(categories[k].id, categories[k].name)); //category is not textual!!
     }
 }
 
@@ -128,6 +135,12 @@ function addOption(name)
 {
     return "<option value='" + name + "'>" + name + "</option>";
 }
+
+function addOptionIdName(id, name)
+{
+    return "<option value='" + id + "'>" + name + "</option>";
+}
+
 function dismissDialog()
 {
     $('#dialog').remove();
@@ -168,8 +181,18 @@ function addPreview(title, description, type, tags, private)
 
 function uploadDocument()
 {
+    if($('#nascosto').val() == '')
+    {
+        // se cerco di cambiare il file e poi faccio cancel,
+        // mi toglie il documento, ma sopratutto svuota il form...
+        // voluto o errore?
+        alert("empty input file"); //da segnalare in altro modo
+        return;
+    }
+    
     var data = new FormData();
     data.append('file', document.getElementById('nascosto').files[0]);
+    
     if ($("#filename").length && $("#extension").length)
     {
         //already uploaded, need to reperform
@@ -191,7 +214,15 @@ function uploadDocument()
                     {
                         $("#private").after("<input type='hidden' id='filename' name='filename' value='" + result.filename + "'>");
                         $("#filename").after("<input type='hidden' id='extension' name='extension' value='" + result.extension + "'>");
-                        insertDocument(result);
+                        if ($("#filename").length && $("#extension").length)
+                        {
+                            insertDocument();
+                            return;
+                        }
+                        else
+                        {
+                             alert("empty input file");
+                        }
                     }
                     else
                     {
@@ -212,17 +243,25 @@ function insertDocument()
                 data: data,
                 success: function(output)
                 {
-                    //alert(output); //da togliere
+                    alert(output); //da togliere
                     var result = $.parseJSON(output);
                     if (result.status == "true")
                     {
-                        alert("file uploaded");
+                        alert("file updated");
                         //close or reset upload box
                     }
                     else
                     {
                         alert(result.error);
                         //close or reset upload box
+                    }
+                    if(typeof result.id !== 'undefined')
+                    {
+                        if (!$("#documentId").length)
+                        {
+                            // from now update instead of re-enter
+                            $("#title").after("<input type='hidden' id='documentId' name='documentId' value='" + result.id + "'>");
+                        }
                     }
                 }
             });

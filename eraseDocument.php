@@ -1,7 +1,7 @@
 <?php
 
 /**
- * uploadDocument
+ * eraseDocument
  * @author mellowonpsx
  */
 
@@ -13,6 +13,12 @@ if(!isset($_GET["idDocument"]))
     return;
 }
 
+if(!isset($_GET["eraseTempKey"]))
+{
+    echo Errors::$ERROR_90." _GET[\"tempKey\"]";
+    return;
+}
+
 if(!Document::existDocument($db->escape(filter_var($_GET["idDocument"], FILTER_SANITIZE_STRING))))
 {
     echo Errors::$ERROR_12;
@@ -21,24 +27,33 @@ if(!Document::existDocument($db->escape(filter_var($_GET["idDocument"], FILTER_S
 
 $document = new Document($db->escape(filter_var($_GET["idDocument"], FILTER_SANITIZE_STRING)));
 
-//if is public no control (exept login?)
-if($document->getIsPrivate())
+// verify user
+$user = getSessionUser();
+if(empty($user))
 {
-    //otherwise verify if not-owner adn not admin
-    // verify user
-    $user = getSessionUser();
-    if(empty($user))
-    {
-        echo Errors::$ERROR_00;
-        return;
-    }
-    if($user->getType() != BD_USER_TYPE_ADMIN && $user->getUserId() != $document->getOwnerId())
-    {
-        echo Errors::$ERROR_21;
-        return;
-    }
+    echo Errors::$ERROR_00;
+    return;
+}
+if($user->getType() != BD_USER_TYPE_ADMIN && $user->getUserId() != $document->getOwnerId())
+{
+    echo Errors::$ERROR_21;
+    return;
 }
 
+$eraseTempKey = $db->escape(filter_var($_GET["eraseTempKey"], FILTER_SANITIZE_STRING));
+
+if(!TempKey::existTempKey($eraseTempKey, $user->getUserId()))
+{
+    echo Errors::$ERROR_50;
+    return;
+}
+
+if(!TempKey::isValidTempKey($eraseTempKey, $user->getUserId()))
+{
+    echo Errors::$ERROR_51;
+    return;
+}
+/*
 //global $config;
 //$directoryUpload = $config->getParam("uploadDirectory");
 //$directoryDownload = $config->getParam("downloadDirectory");
@@ -73,3 +88,6 @@ else
 //If continued downloads are a small percentage of your downloads, you can delete the zip file immediately; as long as your server is still sending the file to the client, it'll remain on disk.
 unlink($downloadFilename);
 rmdir($downloadFilenameDirectory);
+ 
+ /*
+ */

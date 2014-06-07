@@ -70,6 +70,19 @@ class Categorized
         return 0; //erased
     }
     
+    public static function eraseAllDocumentBind($idDocument)
+    {
+        global $db;
+        $query = "SELECT * FROM Categorized  WHERE idDocument = '$idDocument'";
+        $result  = $db->query($query);
+        $finalResult = 0;
+        while($row = mysqli_fetch_array($result))
+        {
+            $finalResult += Categorized::eraseBind($row["idCategory"], $row["idDocument"], true);
+        }
+        return $finalResult; //if all deletion are ok, return 0;
+    }
+    
     public static function getBindNumber($idDocument)
     {
         global $db;

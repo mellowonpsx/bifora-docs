@@ -67,12 +67,12 @@ class Tag
         //single query check if there is row in Categoryzed, otherwise remove element
         //single query do not need lock (YEAH!!!)
         //improve performance
-        if (!Tagged::existCategoryById($tagId))
+        if (!Tag::existTagById($tagId))
         {
             return 1; //not exist -> not erased
         }
         //improve performance
-        if(Tagged::getBindNumberByCategory($tagId) > 0)
+        if(Tagged::getBindNumberByTag($tagId) > 0)
         {
             return 1; //not eresable (has bind)
         }

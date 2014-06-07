@@ -1,10 +1,11 @@
-#header{
-    background-color: #999999;
-    
+#header
+{
+    background-color: #999999;    
     height: 90px;
 }
 
-#content{
+#content
+{
     overflow: auto;
     height:500px;    
     background: red;
@@ -33,7 +34,8 @@
         color: white;
     }
     
-.dialog{
+.dialog
+{
     border: solid white;
     background: grey;
     position: absolute;
@@ -44,7 +46,8 @@
     height:auto;
 }
     
-#loginDiv{
+#loginDiv
+{
     background:#E0E0E0;
     
     z-index: 9;
@@ -58,7 +61,8 @@
 
 
 
-#categoriesWrapper{
+#categoriesWrapper
+{
     background-color: #cccccc;
     
     height: 500px;
@@ -66,7 +70,8 @@
     float: left;
 }
 
-#categories{
+#categories
+{
     border:solid red;
     text-align: center;
     background-color: lightgray;
@@ -78,19 +83,27 @@
     position:relative;
     right:0px;
 }
-#categories:hover{
-    background-color: gray;
-}
-#categoriesDiv{
+
+    #categories:hover
+    {
+        background-color: gray;
+    }
+
+#categoriesDiv
+{
     width: 260px;
 }
-.category{
+
+.category
+{
     padding-left: 20px;
     padding-right: 20px;
 }
-.category:hover{
-    background-color: gray; 
-}
+
+    .category:hover
+    {
+        background-color: gray; 
+    }
 
 .preview{
     border:solid blue;
@@ -101,10 +114,12 @@
     opacity:0;
     z-index:4;
 }
+
 ul{
    margin:0px;
    display:inline;
 }
+
 .killable{
     list-style: none;
     background: threedlightshadow;
