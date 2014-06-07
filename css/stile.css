@@ -101,3 +101,23 @@
     opacity:0;
     z-index:4;
 }
+ul{
+   margin:0px;
+   display:inline;
+}
+.killable{
+    list-style: none;
+    background: threedlightshadow;
+    border: solid grey;
+    color: grey;
+    padding: 5px;
+    border-radius:5px;
+    max-width:100px;
+}
+
+.killer{
+    float: right;
+    color: black;
+    cursor: pointer;
+    cursor: hand;
+}

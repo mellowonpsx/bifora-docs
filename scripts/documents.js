@@ -1,5 +1,5 @@
 b = false; //Booleano che serve perch� jquery � scemo...
-
+var tags;
 function showUpload()
 {
     var a = "<div id='ulDiv' class='preview'>";
@@ -34,9 +34,9 @@ function openFileDialog()
     a += "<br>Title:<br><input type='text' id='title' name='title'>";
     a += "<br>Description:<br><textarea id='desc' name='description'></textarea>";
     a += "<br>Type:<br><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
-    a += "<br>Categories : <ul id='categoriesUl'></ul>";
+    a += "<br>Categories : <ul id='categoriesUl' class='killableUl'></ul>";
     a += "<br><select id='categoriesSelect' name='categoriesSelect' onchange='addCategoryLi(this)'></select>";
-    a += "<br>Tag:<ul id='tagUl'></ul>";
+    a += "<br>Tag:<ul id='tagUl' class='killableUl'></ul>";
     a += "<br><input type='text' id='tagInput'></input>";
     a += "<input type='button' onclick='addTagLi();' value='Add' name='tagButton' autocomplete='on'></input>";
     a += "<br>Private:<br><input type='checkbox' id='private' name='isPrivate'>";
@@ -53,14 +53,13 @@ function openFileDialog()
     setTagAutocomplete();
 }
 function setTagAutocomplete(){
-    var tags;
+
     $.ajax(
         {
             url: 'listTag.php',
 
             success: function(output)
             {
-                alert(output);
                 tags=$.parseJSON(output);
                  $('#tagInput').autocomplete(
                     {
@@ -73,11 +72,24 @@ function setTagAutocomplete(){
         });
 }
 function addCategoryLi(p) {
-    var a = "<li><span>" + p.options[p.selectedIndex].text + "</span><span onclick='kill(this)'>\t\tx </span></li>";
+    if(p.options[p.selectedIndex].text==="-SELECT A CATEGORY-")
+        return;
+    for(var i=0; i<$('#categoriesUl li').length; i++)
+        if($('#categoriesUl li')[i].id===p.options[p.selectedIndex].text)return;
+        
+    
+    var a = "<li class='killable' id='"+p.options[p.selectedIndex].text+"'><span>" + p.options[p.selectedIndex].text + "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";
     $('#categoriesUl').append(a);
 }
 function addTagLi(){
-    var a = "<li><span>" + $('#tagInput').val()+ "</span><span onclick='kill(this)'>\t\tx </span></li>";
+    for(var i=0; i<$('#tagUl li').length; i++)
+        if($('#tagUl li')[i].id===$('#tagInput').val())return;
+    var n="<span>\t(New)</span>";
+    for(var k in tags){
+        if(tags[k]===$('#tagInput').val())
+            n="";
+    }
+    var a = "<li class='killable' id='"+$('#tagInput').val()+"'><span>" + $('#tagInput').val()+n+ "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";
     $('#tagUl').append(a);;
 }
 function kill(obj) {
@@ -87,9 +99,10 @@ function kill(obj) {
 }
 function setCategoryOptions()
 {
+    $('#categoriesSelect').append(addOption("-SELECT  A CATEGORY-"));
     for (var k in categories)
     {
-        $('#categoriesSelect').append(addOption(categories[k].name, categories[k].id));
+        $('#categoriesSelect').append(addOption(categories[k].name));
     }
 }
 
