@@ -74,6 +74,13 @@ function setTagAutocomplete(){
 
             }
         });
+        $('#tagInput').keypress(function(e)
+                  {
+                      if(e.which === 13) 
+                      {
+                        addTagLi();
+                      }
+                  });
 }
 function addCategoryLi(p) {
     if(p.options[p.selectedIndex].text==="-SELECT A CATEGORY-")
@@ -98,6 +105,7 @@ function addTagLi(){
     $('#tagUl').append(a);
     // aggiungere rimozione di questa cosa!!
     $("#tagUl").after("<input type='hidden' name='tagList[]' value='" + $('#tagInput').val() + "'>");
+    $('#tagInput').val(""); 
 }
 function kill(obj) {
     var parent = obj.parentNode;
@@ -197,6 +205,10 @@ function uploadDocument()
     {
         //already uploaded, need to reperform
         insertDocument();
+        return;
+    }
+    if ($("#categoriesUl li").length===0){
+        alert("You must select at least one category!");
         return;
     }
     $.ajax(
