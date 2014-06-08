@@ -46,6 +46,15 @@ function loginFalse() {
     $('#loginDiv').append("Password:   <input type='password' size=20 id='pass' name='pass' ><br>");
     $('#loginDiv').append('<button id="loggati" onclick="login();">Login</button>');
     $('#loginDiv').append("</form>");
+    
+    showStuff();
+    $('#loginDiv').keypress(function(e)
+        {
+            if(e.which === 13) 
+            {
+                login();
+            }
+        });
 
 }
 
@@ -60,6 +69,7 @@ function login_succes(output) {
     if (usr.status === "BD_USER_LOGGED") {
         stayLogged();
         loginTrue();
+        
         //showStuff(); //aggiunto per ricaricare dopo login!
         //updateCategory(); //errore
         //updateCategories();
@@ -90,6 +100,7 @@ function logout_succes(output)
     setCookie('user', "", -1);
     setCookie('pass', "", -1);
     loginFalse();
+    
     //showStuff(); //aggiunto per ricaricare dopo login!
     //updateCategory(); //errore
     //updateCategories();
