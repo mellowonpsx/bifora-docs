@@ -10,7 +10,7 @@ require_once "utils.php";
 $user = getSessionUser();
 if(empty($user))
 {
-    json_exit(Errors::$ERROR_00);
+    json_error(Errors::$ERROR_00);
     return;
 }
 //global $config;
@@ -35,14 +35,10 @@ foreach($_FILES as $nomefile => $descrittore)
     }
     if(move_uploaded_file($tmp_name, $directory.$filename))
     {
+        $document = new Document();
+        $document->setMultipleValues(BD_DOCUMENT_DEFAULT_NAME, $filename, $extension, "", BD_DOCUMENT_DEFAULT_TYPE, true, $user->getUserId());
         $result_array["status"] = "true";
-        // ho valuato se rinviarlo al client o mettere nella sessione
-        // restituendolo al client mi "espongo" leggermente ad un utente curiosone
-        // ma comunque non gli comunico la cartella di upload, quindi la sua visione è limitata.
-        // se lo mettessi nella sessione, mi esporrei a problemi di concorrenza in caso di upload multipli
-        // file grandi = tanto tempo = non istantaneo => possibilità di invertire ordine di terminazione.
-        $result_array["filename"] = "$filename";
-        $result_array["extension"] = "$extension";
+        $result_array["id"] = $document->getId();
     }
     else
     {

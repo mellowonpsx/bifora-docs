@@ -21,6 +21,10 @@ define("BD_DOCUMENT_TYPE_AUDIO", "AUDIO");
 define("BD_DOCUMENT_TYPE_VIDEO", "VIDEO");
 define("BD_DOCUMENT_TYPE_ARCHIVE", "ARCHIVE");
 
+//default constrains
+define("BD_DOCUMENT_DEFAULT_NAME", "new document");
+define("BD_DOCUMENT_DEFAULT_TYPE", BD_DOCUMENT_TYPE_UNKNOW);
+
 // the phylosophy behind this project expect to have already control and excaped variables
 class Document
 {
@@ -74,10 +78,21 @@ class Document
     
     public function __destruct()
     {
-        if($this->updateDBValue())
+        $this->updateDBValue();
+    }
+    
+    public function deleteDocument()
+    {
+        if(!isset($this->id))
         {
-            //error
+            return 0; // nothing to delete
         }
+        global $db;
+        $db->query("DELETE FROM Document WHERE id = '$this->id'");
+        $this->status = BD_DOCUMENT_EMPTY;
+        Tagged::eraseAllDocumentBind($this->id);
+        Categorized::eraseAllDocumentBind($this->id);
+        return;
     }
     
     public static function existDocument($idDocument)

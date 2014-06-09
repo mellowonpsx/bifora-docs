@@ -9,19 +9,13 @@ require_once "utils.php";
 //check variabiles
 if(!isset($_GET["idDocument"]))
 {
-    echo Errors::$ERROR_90." _GET[\"idDocument\"]";
-    return;
-}
-
-if(!isset($_GET["eraseTempKey"]))
-{
-    echo Errors::$ERROR_90." _GET[\"tempKey\"]";
+    json_error(Errors::$ERROR_90." _GET[\"idDocument\"]");
     return;
 }
 
 if(!Document::existDocument($db->escape(filter_var($_GET["idDocument"], FILTER_SANITIZE_STRING))))
 {
-    echo Errors::$ERROR_12;
+    json_error(Errors::$ERROR_12);
     return;
 }
 
@@ -31,63 +25,57 @@ $document = new Document($db->escape(filter_var($_GET["idDocument"], FILTER_SANI
 $user = getSessionUser();
 if(empty($user))
 {
-    echo Errors::$ERROR_00;
+    json_error(Errors::$ERROR_00);
     return;
 }
 if($user->getType() != BD_USER_TYPE_ADMIN && $user->getUserId() != $document->getOwnerId())
 {
-    echo Errors::$ERROR_21;
+    json_error(Errors::$ERROR_21);
     return;
 }
 
-$eraseTempKey = $db->escape(filter_var($_GET["eraseTempKey"], FILTER_SANITIZE_STRING));
-
-if(!TempKey::existTempKey($eraseTempKey, $user->getUserId()))
+$generateTempKey = true;
+if(isset($_GET["eraseTempKey"]))
 {
-    echo Errors::$ERROR_50;
+    $generateTempKey = false;
+    $eraseTempKey = $db->escape(filter_var($_GET["eraseTempKey"], FILTER_SANITIZE_STRING));
     return;
 }
 
-if(!TempKey::isValidTempKey($eraseTempKey, $user->getUserId()))
+define("BD_TEMPKEY_EXPIRATION_TIME_SECONDS", 60); 
+
+if($generateTempKey)
 {
-    echo Errors::$ERROR_51;
+    do
+    {
+        $tempKey = TempKey::generateTempKey($user->getUserId(), BD_TEMPKEY_EXPIRATION_TIME_SECONDS);
+    }while(!$tempKey);
+    echo json_encode($tempKey);
     return;
 }
-/*
+
+if(!TempKey::useTempKey($eraseTempKey, $user->getUserId())) //check if exist and use
+{
+    json_error(Errors::$ERROR_50);
+    return;
+}
+
+// erasing document
+
 //global $config;
 //$directoryUpload = $config->getParam("uploadDirectory");
 //$directoryDownload = $config->getParam("downloadDirectory");
 $directoryUpload = "./ul/";
 $directoryDownload = "./dl/";
 //prepare filename
-$downloadFilenameDirectory = $directoryDownload.$document->getFilename()."/";
-$downloadFilename = $downloadFilenameDirectory.$document->getTitle().".".$document->getExtension();
-$uploadFilename = $directoryUpload.$document->getFilename();
+$filename = $directoryUpload.$document->getFilename();
 //check file already exist
-if(!file_exists($downloadFilename))
+
+if(!file_exists($filename))
 {
-    // if not exist create folder
-    mkdir($directoryDownload.$document->getFilename());
-    //copy file to folder
-    copy($uploadFilename, $downloadFilename);
-    //prepare a trim for file deletion
-}    
-//last check and send to user
-if (!file_exists($downloadFilename))
-{
-    echo Errors::$ERROR_20;
+    json_error(Errors::$ERROR_20);
     return;
 }
-else
-{
-    header('Content-Type: application/octet-stream');
-    header("Content-Transfer-Encoding: Binary"); 
-    header("Content-disposition: attachment; filename=\"".basename($downloadFilename)."\""); 
-    readfile($downloadFilename); 
-}
-//If continued downloads are a small percentage of your downloads, you can delete the zip file immediately; as long as your server is still sending the file to the client, it'll remain on disk.
-unlink($downloadFilename);
-rmdir($downloadFilenameDirectory);
- 
- /*
- */
+
+unlink($filename);
+$document->deleteDocument();

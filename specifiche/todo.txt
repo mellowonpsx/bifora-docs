@@ -10,8 +10,11 @@ A+- controllare il layer di drag and drop è davanti a quello di login, possiamo
 A- su tag mettere autocompletamento con invio (invio = inserisci).
 A- almeno una categoria deve essere inserita.
 M+ rinominare i file *.class.php in class.*.php e cambiare autoload
+M/A- aggiungere la categorizzazione per anno e la paginazione nella lista documenti
 M/A- controllare la lunghezza dei campi? //lato server già fatto
 M/A- ricerca
-M/A- edit e cancellazione categorie e documenti 
-M/A- cancellazione dei tag orfani?
-
+M/A- edit e cancellazione categorie
+M/A- edit e cancellazione documenti (cancellazione fatta, edit è "facile" da fare).
+M/A- cancellazione dei tag orfani? (secondo me lo fa già in automatico)
+M+ modificare l'upload creando un documento temporaneo ed usare l'id documento al posto del nomefile per inserire i dati
+M/A- aggiungere funzioni di amministrazione per il purge della cartella temporanea e per cancellare i file non categorizzati

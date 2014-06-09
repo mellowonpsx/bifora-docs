@@ -64,7 +64,7 @@ function objectToArray($obj)
     return $new;
 }
 
-function json_exit($message)
+function json_error($message)
 {
     $result_array = array();
     $result_array["status"] = "false";

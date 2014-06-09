@@ -201,10 +201,10 @@ function uploadDocument()
     var data = new FormData();
     data.append('file', document.getElementById('nascosto').files[0]);
     
-    if ($("#filename").length && $("#extension").length)
+    if ($("#idDocument").length)
     {
         //already uploaded, need to reperform
-        insertDocument();
+        updateDocument();
         return;
     }
     if ($("#categoriesUl li").length===0){
@@ -224,11 +224,19 @@ function uploadDocument()
                     var result = $.parseJSON(output);
                     if (result.status == "true")
                     {
-                        $("#private").after("<input type='hidden' id='filename' name='filename' value='" + result.filename + "'>");
-                        $("#filename").after("<input type='hidden' id='extension' name='extension' value='" + result.extension + "'>");
-                        if ($("#filename").length && $("#extension").length)
+                        /*$("#private").after("<input type='hidden' id='filename' name='filename' value='" + result.filename + "'>");
+                        $("#filename").after("<input type='hidden' id='extension' name='extension' value='" + result.extension + "'>");*/
+                        if(typeof result.id !== 'undefined')
                         {
-                            insertDocument();
+                            if (!$("#documentId").length)
+                            {
+                                // from now update instead of re-enter
+                                $("#private").after("<input type='hidden' id='documentId' name='documentId' value='" + result.id + "'>");
+                            }
+                        }
+                        if ($("#private").length)
+                        {
+                            updateDocument();
                             return;
                         }
                         else
@@ -244,13 +252,13 @@ function uploadDocument()
             });
 }
 
-function insertDocument()
+function updateDocument()
 {
     var data = $("#documentDataForm").serialize();
     //alert(data); //da togliere
     $.ajax(
             {
-                url: 'insertDocument.php',
+                url: 'updateDocument.php',
                 type: 'POST',
                 data: data,
                 success: function(output)
@@ -267,14 +275,15 @@ function insertDocument()
                         alert(result.error);
                         //close or reset upload box
                     }
-                    if(typeof result.id !== 'undefined')
+                    /* moved before
+                     * if(typeof result.id !== 'undefined')
                     {
                         if (!$("#documentId").length)
                         {
                             // from now update instead of re-enter
                             $("#title").after("<input type='hidden' id='documentId' name='documentId' value='" + result.id + "'>");
                         }
-                    }
+                    }*/
                 }
             });
 }

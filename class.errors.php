@@ -19,7 +19,6 @@ class Errors
     static public $ERROR_30 = "Error 30: error erasing tags";
     static public $ERROR_40 = "Error 40: error erasing categories";
     static public $ERROR_41 = "Error 41: at least one category needed";
-    static public $ERROR_50 = "Error 50: temp key wrong or already used";
-    static public $ERROR_51 = "Error 41: temp key expired";
+    static public $ERROR_50 = "Error 50: temp key wrong, expired or already used";
     static public $ERROR_90 = "Error 90: missing variabile";
 }
