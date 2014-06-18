@@ -267,7 +267,7 @@ function updateDocument()
                     if (result.status == "true")
                     {
                         alert("file updated");
-                        //close or reset upload box
+                        dismissDialog();
                     }
                     else
                     {
