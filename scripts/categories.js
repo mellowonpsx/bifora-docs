@@ -1,4 +1,4 @@
-    function showHideCategories() 
+function showHideCategories() 
 {
     if (shown) 
     {
@@ -35,10 +35,16 @@ function updateCategories()
 }
 function addCategory(name, id) 
 {
-    var r = '<div onclick="selectCategories(this);"class="category" id="' + id + '">';
-        r += name;
-        r += "</div>";
+    var r = '<li onclick="selectCategories(this);" class="killableCat" id="' + id + '">';
+        r += '<span>'+name+"</span>";
+        r += "<span onclick='killCat(this)' class='killerCat'>\t\tx </span>";
+        r += "</li>";
     return r;
+}
+function killCat(obj) {
+    //Controlla che sia vuota!!!!
+    var parent = obj.parentNode;
+    parent.parentNode.removeChild(parent);
 }
 function addAdder(){
     var r='<div class="category"><form id="addCategory">';

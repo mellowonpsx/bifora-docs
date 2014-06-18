@@ -102,7 +102,7 @@
 
     .category:hover
     {
-        background-color: gray; 
+
     }
 
 .preview{
@@ -116,23 +116,42 @@
 }
 
 ul{
-   margin:0px;
-   display:inline;
+    margin:0px;
+    height:40px;
 }
 
 .killable{
+    position: relative;
+    top: 10px;
     list-style: none;
     background: threedlightshadow;
     border: solid grey;
     color: grey;
     padding: 5px;
     border-radius:5px;
-    max-width:100px;
+   display: inline;
 }
-
+.killableCat{
+    list-style: none;
+    background: threedlightshadow;
+    border: solid grey;
+    color: grey;
+    padding: 5px;
+    border-radius:5px;
+    max-width: 223px;
+}
+.killableCat:hover{
+    background-color: gray; 
+}
 .killer{
-    float: right;
     color: black;
     cursor: pointer;
     cursor: hand;
+}
+.killerCat{
+    color: black;
+    cursor: pointer;
+    cursor: hand;
+    float: right;
+    
 }
