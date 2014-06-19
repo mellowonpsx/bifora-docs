@@ -36,6 +36,8 @@ function loginTrue() {
     $('#loginDiv').append(usr.name + " " + usr.surname + "<br>" + usr.mail + "<br>");
     $('#loginDiv').append("<button id='logout' onclick='logout()'>Logout</button>");
     showStuff();
+
+
 }
 function loginFalse() {
     $('#login').empty();
@@ -47,7 +49,6 @@ function loginFalse() {
     $('#loginDiv').append('<button id="loggati" onclick="login();">Login</button>');
     $('#loginDiv').append("</form>");
     
-    showStuff();
     $('#loginDiv').keypress(function(e)
         {
             if(e.which === 13) 
@@ -55,7 +56,7 @@ function loginFalse() {
                 login();
             }
         });
-
+    showStuff();
 }
 
 function stayLogged() {
@@ -69,12 +70,12 @@ function login_succes(output) {
     if (usr.status === "BD_USER_LOGGED") {
         stayLogged();
         loginTrue();
+
             
     } else {
         alert('Invalid username or password'); //trasformare l'alert in un messaggio in rosso nel form di login
     }
-
-
+    $("#ed").attr("href","css/edit.css");
 }
 
 function logout() {
@@ -96,12 +97,7 @@ function logout_succes(output)
     usr = {edit: false};
     setCookie('user', "", -1);
     setCookie('pass', "", -1);
-    $("span.killerCat").css({visibility:"hidden"});
-    $(".categoryAdder").css({visibility:"hidden"});
+    $("#ed").attr("href","css/noedit.css");
     loginFalse();
-    
+
 }
-
-
-
-

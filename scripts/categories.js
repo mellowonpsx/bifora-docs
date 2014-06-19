@@ -32,11 +32,6 @@ function updateCategories()
                 showStuff();
         }
     });
-    if(usr.type==="ADMIN"){
-        $(".killerCat").css({visibility:"visible"});
-        $(".categoryAdder").css({visibility:"visible"});
-    }else
-        alert(usr.type);
 }
 function addCategory(name, id) 
 {
@@ -97,6 +92,7 @@ function submitEditCategory(event,obj)
                        updateCategories();
                     }
     });
+    
     event.stopPropagation();
 }
 
