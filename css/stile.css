@@ -6,9 +6,13 @@
 
 #content
 {
-    overflow: auto;
     height:500px;    
     background: red;
+    
+}
+#preview{
+   overflow: auto;
+   height: 470px;
     z-index: 1;
 }
 
@@ -94,17 +98,6 @@
     width: 260px;
 }
 
-.category
-{
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-    .category:hover
-    {
-        background-color: gray; 
-    }
-
 .preview{
     border:solid blue;
 }
@@ -116,23 +109,58 @@
 }
 
 ul{
-   margin:0px;
-   display:inline;
+    margin:0px;
+    height:40px;
 }
 
 .killable{
+    position: relative;
+    top: 10px;
     list-style: none;
     background: threedlightshadow;
     border: solid grey;
     color: grey;
     padding: 5px;
     border-radius:5px;
-    max-width:100px;
+   display: inline;
 }
-
+.killableCat{
+    list-style: none;
+    background: threedlightshadow;
+    border: solid grey;
+    color: grey;
+    padding: 5px;
+    border-radius:5px;
+    max-width: 223px;
+}
+.killableCat:hover{
+    background-color: gray; 
+}
 .killer{
-    float: right;
     color: black;
     cursor: pointer;
     cursor: hand;
+}
+.killerCat{
+    color: black;
+    cursor: pointer;
+    cursor: hand;
+    float: right;
+    visibility:hidden;
+    
+}
+.nameCat{
+    visibility:auto;
+}
+.editCat{
+    position: absolute;
+    float: left;
+    visibility: hidden;
+}
+.editCat input{
+    position: relative;
+    top: -22px;
+}
+.categoryAdder{
+    visibility:hidden;
 }

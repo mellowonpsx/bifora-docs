@@ -2,11 +2,11 @@ b = false; //Booleano che serve perch� jquery � scemo...
 var tags;
 function showUpload()
 {
-    var a = "<div id='ulDiv' class='preview'>";
-    a += "<input type='file' id='nascosto'>";
-    a += "<h1 id='h'>*DRAG A FILE HERE TO BEGIN UPLOAD*</h1>";
-    a += "</div>";
-    $('#content').append(a);
+    var a = "<div id='ulDiv'>";
+            a += "<input type='file' id='nascosto'>";
+            a += "<h1 id='h'>*DRAG A FILE HERE TO BEGIN UPLOAD*</h1>";
+        a += "</div>";
+    $('#preview').append(a);
     $('#nascosto').change(function()
     {
         if (b)
@@ -34,7 +34,7 @@ function openFileDialog()
     a += "<br>Title:<br><input type='text' id='title' name='title'>";
     a += "<br>Description:<br><textarea id='desc' name='description'></textarea>";
     a += "<br>Type:<br><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
-    a += "<br>Categories : <ul id='categoriesUl' class='killableUl'></ul>";
+    a += "<br>Categories:<ul id='categoriesUl' class='killableUl'></ul>";
     a += "<br><select id='categoriesSelect' onchange='addCategoryLi(this)'></select>";
     a += "<br>Tag:<ul id='tagUl' class='killableUl'></ul>";
     a += "<br><input type='text' id='tagInput'></input>";
@@ -61,13 +61,8 @@ function setTagAutocomplete(){
             success: function(output)
             {
                 tags=$.parseJSON(output);
-                //funzionalità che vorrei:
-                //1- l'invio inserisce il tag
-                //2- l'invio sul tag evidenziato (o il click di mouse) inserisce il tag
-                //3- quando il tag viene inserito (da valutare se sempre o solo su inserimento avvenuto), svuotare la casella
                  $('#tagInput').autocomplete(
                     {
-
                         source:tags 
                     }        
                 )
@@ -86,14 +81,12 @@ function addCategoryLi(p) {
     if(p.options[p.selectedIndex].text==="-SELECT A CATEGORY-")
         return;
     for(var i=0; i<$('#categoriesUl li').length; i++)
-        if($('#categoriesUl li')[i].id===p.options[p.selectedIndex].text)return;
-        
-    var a = "<li class='killable' id='"+p.options[p.selectedIndex].text+"'><span>" + p.options[p.selectedIndex].text + "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";    
+        if($('#categoriesUl li')[i].id===p.options[p.selectedIndex].text)return;  
+    var a = "<li class='killable'>"+"<input type='hidden' name='categoryList[]' value='" + p.options[p.selectedIndex].value + "'>"+"<span>" + p.options[p.selectedIndex].text + "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";    
     $('#categoriesUl').append(a);
-    //aggiungere la rimozione di questa cosa!!
-    $("#categoriesUl").after("<input type='hidden' name='categoryList[]' value='" + p.options[p.selectedIndex].value + "'>");
 }
 function addTagLi(){
+    if(""===$('#tagInput').val())return;
     for(var i=0; i<$('#tagUl li').length; i++)
         if($('#tagUl li')[i].id===$('#tagInput').val())return;
     var n="<span>\t(New)</span>";
@@ -101,16 +94,13 @@ function addTagLi(){
         if(tags[k]===$('#tagInput').val())
             n="";
     }
-    var a = "<li class='killable' id='"+$('#tagInput').val()+"'><span>" + $('#tagInput').val()+n+ "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";
+    var a = "<li class='killable' id='"+$('#tagInput').val()+"'>"+"<input type='hidden' name='tagList[]' value='" + $('#tagInput').val() + "'>"+"<span>" + $('#tagInput').val()+n+ "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";
     $('#tagUl').append(a);
-    // aggiungere rimozione di questa cosa!!
-    $("#tagUl").after("<input type='hidden' name='tagList[]' value='" + $('#tagInput').val() + "'>");
     $('#tagInput').val(""); 
 }
 function kill(obj) {
     var parent = obj.parentNode;
-    parent.parentNode.removeChild(parent)
-
+    parent.parentNode.removeChild(parent);
 }
 function setCategoryOptions()
 {
@@ -165,14 +155,19 @@ function showStuff()
                 data: {category: JSON.stringify(getSelectedCategories())}, // ho modificato getSelectedCategories perché category era pieno di "null" sugli elementi vuoti del vettore
                 success: function(output)
                 {
-                    //alert(output); // da togliere, mostra il contenuto ritornato
+                  //  alert(output); // da togliere, mostra il contenuto ritornato
                     documents = $.parseJSON(output);
-                    $('#content').empty();
+                    $('#preview').empty();
                     if (usr.edit)
                         showUpload();
                     for (var k in documents)
                     {
-                        $('#content').append(addPreview(documents[k].title, documents[k].description, documents[k].extension, new Array("aaa", "bbb", "ddd")));
+                        var arr=new Array();
+                        for(var h in documents[k].tags){
+                            arr.push(documents[k].tags[h].name);
+                        }
+                        $('#preview').append(addPreview(documents[k].title, documents[k].description, documents[k].extension,arr));
+                
                     }
                 }
             });
@@ -180,7 +175,7 @@ function showStuff()
 
 function addPreview(title, description, type, tags, private)
 {
-    r = "<div class='preview'><h3>" + title + "</h3><br><i>" + description + "</i><br>Type:" + type + "<br>Tags:";
+    r = "<div class='preview'><h3>" + title + "</h3><br><i>" + description + "</i><br>Type:" + type + "<br>Tags: ";
     for (i = 0; i < tags.length; i++)
         r += tags[i] + "; ";
     r += "<br>";
@@ -230,7 +225,6 @@ function uploadDocument()
                         {
                             if (!$("#documentId").length)
                             {
-                                // from now update instead of re-enter
                                 $("#private").after("<input type='hidden' id='documentId' name='documentId' value='" + result.id + "'>");
                             }
                         }
@@ -255,7 +249,7 @@ function uploadDocument()
 function updateDocument()
 {
     var data = $("#documentDataForm").serialize();
-    //alert(data); //da togliere
+    //alert(data);
     $.ajax(
             {
                 url: 'updateDocument.php',
@@ -268,22 +262,13 @@ function updateDocument()
                     if (result.status == "true")
                     {
                         alert("file updated");
-                        //close or reset upload box
+                        dismissDialog();
                     }
                     else
                     {
                         alert(result.error);
                         //close or reset upload box
                     }
-                    /* moved before
-                     * if(typeof result.id !== 'undefined')
-                    {
-                        if (!$("#documentId").length)
-                        {
-                            // from now update instead of re-enter
-                            $("#title").after("<input type='hidden' id='documentId' name='documentId' value='" + result.id + "'>");
-                        }
-                    }*/
                 }
             });
 }

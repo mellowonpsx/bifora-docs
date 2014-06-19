@@ -106,7 +106,7 @@ class Category
         //single query => no lock needed
         $query = "DELETE FROM Category WHERE id= '$categoryId' AND '0' IN (SELECT COUNT(*) FROM Categorized WHERE idCategory = '$categoryId')";
         $db->query($query);
-        if(!$db->affectedRows())
+        if(!$db->affectedRows())    
         {
             return 1; //not erased
         }

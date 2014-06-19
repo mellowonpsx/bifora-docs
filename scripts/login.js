@@ -12,7 +12,7 @@ function initLogin() {
     $('#user').val(getCookie('user'));
     $('#pass').val(getCookie('pass'));
     login();
-
+    
 }
 
 function login() {
@@ -69,10 +69,7 @@ function login_succes(output) {
     if (usr.status === "BD_USER_LOGGED") {
         stayLogged();
         loginTrue();
-        
-        //showStuff(); //aggiunto per ricaricare dopo login!
-        //updateCategory(); //errore
-        //updateCategories();
+            
     } else {
         alert('Invalid username or password'); //trasformare l'alert in un messaggio in rosso nel form di login
     }
@@ -99,11 +96,10 @@ function logout_succes(output)
     usr = {edit: false};
     setCookie('user', "", -1);
     setCookie('pass', "", -1);
+    $("span.killerCat").css({visibility:"hidden"});
+    $(".categoryAdder").css({visibility:"hidden"});
     loginFalse();
     
-    //showStuff(); //aggiunto per ricaricare dopo login!
-    //updateCategory(); //errore
-    //updateCategories();
 }
 
 

@@ -1,4 +1,4 @@
-    function showHideCategories() 
+function showHideCategories() 
 {
     if (shown) 
     {
@@ -28,22 +28,82 @@ function updateCategories()
                     $('#' + categories[k].id).css("color", "white");
                 }
                 $('#categoriesDiv').append(addAdder());
+                
                 showStuff();
         }
     });
-
+    if(usr.type==="ADMIN"){
+        $(".killerCat").css({visibility:"visible"});
+        $(".categoryAdder").css({visibility:"visible"});
+    }else
+        alert(usr.type);
 }
 function addCategory(name, id) 
 {
-    var r = '<div onclick="selectCategories(this);"class="category" id="' + id + '">';
-        r += name;
-        r += "</div>";
+    var r = '<li onclick="selectCategories(this);" class="killableCat" id="' + id + '"><div>';
+        r += "<span class='nameCat'>"+name+"</span>";
+        r += "<span onclick='editCat(event,this)' class='killerCat'>\t\te </span>";
+        r += "<span onclick='killCat(event,this)' class='killerCat'>\t\tx </span>";
+        r += "<div class='editCat'><input type='text' onclick='event.stopPropagation();' name='categoryName'><input type='button' onclick='submitEditCategory(event,this)' value='Edit'></div>";
+        r += "</div></li>";
     return r;
 }
+
+function killCat(event,obj) {
+    var id= obj.parentNode.parentNode.parentNode.id;
+    $.ajax(
+    {
+        url: 'editCategory.php',
+        type: "POST",
+        data: {id:id},
+        success:    function(output) 
+                    {       
+                       alert(output);
+                       updateCategories();
+                    }
+    });
+    event.stopPropagation();
+}
+function editCat(event,obj){
+    if(obj.parentNode.getElementsByClassName("nameCat")[0].style.visibility!=="hidden")
+    {
+        obj.parentNode.getElementsByClassName("nameCat")[0].style.visibility="hidden";
+        obj.parentNode.getElementsByClassName("editCat")[0].style.visibility="visible";
+        obj.parentNode.getElementsByClassName("editCat")[0].firstElementChild.value=obj.parentNode.getElementsByClassName("nameCat")[0].innerHTML;
+    }
+    else
+    {
+        obj.parentNode.getElementsByClassName("nameCat")[0].style.visibility="visible";
+        obj.parentNode.getElementsByClassName("editCat")[0].style.visibility="hidden";
+    }
+    event.stopPropagation();
+}
+function submitEditCategory(event,obj)
+{
+    var id= obj.parentNode.parentNode.parentNode.id;
+    var value=obj.parentNode.firstElementChild.value;
+    $.ajax(
+    {
+        url: 'editCategory.php',
+        type: "POST",
+        data: {
+                id:id,
+                value:value,
+            
+        },
+        success:    function(output) 
+                    {       
+                       alert(output);
+                       updateCategories();
+                    }
+    });
+    event.stopPropagation();
+}
+
 function addAdder(){
-    var r='<div class="category"><form id="addCategory">';
-        r+='<input type="text" id="categoryName" name="categoryName">';
-        r+='<input type="button" id="categoryButton" onclick="submitCategory()" value="Add">';
+    var r='<div class="categoryAdder"><form id="addCategory">';
+            r+='<input type="text" id="categoryName" name="categoryName">';
+            r+='<input type="button" id="categoryButton" onclick="submitCategory()" value="Add">';
         r+='</form></div>';
     return r;
 }
