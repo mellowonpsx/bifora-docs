@@ -32,11 +32,6 @@ function updateCategories()
                 showStuff();
         }
     });
-    if(usr.type==="ADMIN"){
-        $(".killerCat").css({visibility:"visible"});
-        $(".categoryAdder").css({visibility:"visible"});
-    }else
-        alert(usr.type);
 }
 function addCategory(name, id) 
 {
@@ -50,15 +45,14 @@ function addCategory(name, id)
 }
 
 function killCat(event,obj) {
-    var id= obj.parentNode.parentNode.parentNode.id;
+    var id= obj.parentNode.parentNode.id;
     $.ajax(
     {
-        url: 'editCategory.php',
+        url: 'deleteCategory.php',
         type: "POST",
         data: {id:id},
         success:    function(output) 
-                    {       
-                       alert(output);
+                    {  
                        updateCategories();
                     }
     });
@@ -97,6 +91,7 @@ function submitEditCategory(event,obj)
                        updateCategories();
                     }
     });
+    
     event.stopPropagation();
 }
 

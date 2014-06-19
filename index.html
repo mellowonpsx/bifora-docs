@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="css/stile.css" rel="stylesheet" type="text/css">
+        <link href="css/noedit.css" rel="stylesheet" type="text/css" id='ed'>
         <link href="css/ui-lightness/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css">
         <script src="scripts/jquery-1.10.2.js"></script>
         <script src="scripts/jquery-ui-1.10.4.custom.min.js" type="text/javascript" charset="utf-8"></script>
@@ -17,6 +18,7 @@
     <body> 
         <div class="container">  
             <div id="header">
+               
                 <div id="loginWrapper">
                     <div id="login">
                         
@@ -25,18 +27,21 @@
                         
                     </div>
                 </div>
+                <input type='text' id='search'>
+                <input type='button' id='editButton' value='Edit' onclick='editMode()'>
             </div>
             <div id="categoriesWrapper">
                 <div id="categories" onclick="showHideCategories();">
                     <p>C<br>A<br>T<br>E<br>G<br>O<br>R<br>I<br>E<br>S<br></p>   
                 </div>
                 <div id="categoriesDiv">
+                    
                 </div>
                 
             </div>
             <div id="content">
                 <div id="bar">
-                    <input type='text' id='search'>
+                    
                 </div>
                 <div id='preview'>
                     

@@ -12,7 +12,20 @@ function main()
     initLogin();
     updateCategories();
 }
-
+function editMode(){
+    if($("#ed").attr("href")==="css/noedit.css")
+    {
+        if(usr.type==="ADMIN")
+            $("#ed").attr("href","css/adminEdit");
+        else
+            $("#ed").attr("href","css/noAdminEdit");
+    }
+    else
+    {
+        $("#ed").attr("href","css/noedit.css");
+    }
+    showStuff();
+}
 
 //UTILS
 function setCookie(cname, cvalue, exdays) 

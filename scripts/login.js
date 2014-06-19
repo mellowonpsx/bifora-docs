@@ -35,7 +35,10 @@ function loginTrue() {
     $('#loginDiv').empty();
     $('#loginDiv').append(usr.name + " " + usr.surname + "<br>" + usr.mail + "<br>");
     $('#loginDiv').append("<button id='logout' onclick='logout()'>Logout</button>");
+    $("#editButton").css("visibility","visible");
     showStuff();
+
+
 }
 function loginFalse() {
     $('#login').empty();
@@ -46,8 +49,6 @@ function loginFalse() {
     $('#loginDiv').append("Password:   <input type='password' size=20 id='pass' name='pass' ><br>");
     $('#loginDiv').append('<button id="loggati" onclick="login();">Login</button>');
     $('#loginDiv').append("</form>");
-    
-    showStuff();
     $('#loginDiv').keypress(function(e)
         {
             if(e.which === 13) 
@@ -55,7 +56,8 @@ function loginFalse() {
                 login();
             }
         });
-
+    $("#editButton").css("visibility","hidden");        
+    showStuff();
 }
 
 function stayLogged() {
@@ -69,12 +71,12 @@ function login_succes(output) {
     if (usr.status === "BD_USER_LOGGED") {
         stayLogged();
         loginTrue();
+
             
     } else {
         alert('Invalid username or password'); //trasformare l'alert in un messaggio in rosso nel form di login
     }
-
-
+    
 }
 
 function logout() {
@@ -96,12 +98,6 @@ function logout_succes(output)
     usr = {edit: false};
     setCookie('user', "", -1);
     setCookie('pass', "", -1);
-    $("span.killerCat").css({visibility:"hidden"});
-    $(".categoryAdder").css({visibility:"hidden"});
     loginFalse();
-    
+
 }
-
-
-
-

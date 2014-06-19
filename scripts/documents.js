@@ -158,8 +158,9 @@ function showStuff()
                   //  alert(output); // da togliere, mostra il contenuto ritornato
                     documents = $.parseJSON(output);
                     $('#preview').empty();
-                    if (usr.edit)
+                    if ($("#ed").attr("href")!=="css/noedit.css"){
                         showUpload();
+                    }
                     for (var k in documents)
                     {
                         var arr=new Array();
