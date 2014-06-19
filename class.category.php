@@ -101,14 +101,14 @@ class Category
         //improve performance
         if(Categorized::getBindNumberByCategory($categoryId) > 0)
         {
-            return 1; //not eresable (has bind)
+            return 2; //not eresable (has bind)
         }
         //single query => no lock needed
         $query = "DELETE FROM Category WHERE id= '$categoryId' AND '0' IN (SELECT COUNT(*) FROM Categorized WHERE idCategory = '$categoryId')";
         $db->query($query);
         if(!$db->affectedRows())    
         {
-            return 1; //not erased
+            return 3; //not erased
         }
         return 0; //erased
     }

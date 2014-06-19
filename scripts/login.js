@@ -35,6 +35,7 @@ function loginTrue() {
     $('#loginDiv').empty();
     $('#loginDiv').append(usr.name + " " + usr.surname + "<br>" + usr.mail + "<br>");
     $('#loginDiv').append("<button id='logout' onclick='logout()'>Logout</button>");
+    $("#editButton").css("visibility","visible");
     showStuff();
 
 
@@ -48,7 +49,6 @@ function loginFalse() {
     $('#loginDiv').append("Password:   <input type='password' size=20 id='pass' name='pass' ><br>");
     $('#loginDiv').append('<button id="loggati" onclick="login();">Login</button>');
     $('#loginDiv').append("</form>");
-    
     $('#loginDiv').keypress(function(e)
         {
             if(e.which === 13) 
@@ -56,6 +56,7 @@ function loginFalse() {
                 login();
             }
         });
+    $("#editButton").css("visibility","hidden");        
     showStuff();
 }
 
@@ -75,7 +76,7 @@ function login_succes(output) {
     } else {
         alert('Invalid username or password'); //trasformare l'alert in un messaggio in rosso nel form di login
     }
-    $("#ed").attr("href","css/edit.css");
+    
 }
 
 function logout() {
@@ -97,7 +98,6 @@ function logout_succes(output)
     usr = {edit: false};
     setCookie('user', "", -1);
     setCookie('pass', "", -1);
-    $("#ed").attr("href","css/noedit.css");
     loginFalse();
 
 }
