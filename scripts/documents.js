@@ -2,11 +2,11 @@ b = false; //Booleano che serve perch� jquery � scemo...
 var tags;
 function showUpload()
 {
-    var a = "<div id='ulDiv' class='preview'>";
-    a += "<input type='file' id='nascosto'>";
-    a += "<h1 id='h'>*DRAG A FILE HERE TO BEGIN UPLOAD*</h1>";
-    a += "</div>";
-    $('#content').append(a);
+    var a = "<div id='ulDiv'>";
+            a += "<input type='file' id='nascosto'>";
+            a += "<h1 id='h'>*DRAG A FILE HERE TO BEGIN UPLOAD*</h1>";
+        a += "</div>";
+    $('#preview').append(a);
     $('#nascosto').change(function()
     {
         if (b)
@@ -61,10 +61,6 @@ function setTagAutocomplete(){
             success: function(output)
             {
                 tags=$.parseJSON(output);
-                //funzionalità che vorrei:
-                //1- l'invio inserisce il tag
-                //2- l'invio sul tag evidenziato (o il click di mouse) inserisce il tag
-                //3- quando il tag viene inserito (da valutare se sempre o solo su inserimento avvenuto), svuotare la casella
                  $('#tagInput').autocomplete(
                     {
                         source:tags 
@@ -161,7 +157,7 @@ function showStuff()
                 {
                   //  alert(output); // da togliere, mostra il contenuto ritornato
                     documents = $.parseJSON(output);
-                    $('#content').empty();
+                    $('#preview').empty();
                     if (usr.edit)
                         showUpload();
                     for (var k in documents)
@@ -170,7 +166,7 @@ function showStuff()
                         for(var h in documents[k].tags){
                             arr.push(documents[k].tags[h].name);
                         }
-                        $('#content').append(addPreview(documents[k].title, documents[k].description, documents[k].extension,arr));
+                        $('#preview').append(addPreview(documents[k].title, documents[k].description, documents[k].extension,arr));
                 
                     }
                 }
@@ -229,7 +225,6 @@ function uploadDocument()
                         {
                             if (!$("#documentId").length)
                             {
-                                // from now update instead of re-enter
                                 $("#private").after("<input type='hidden' id='documentId' name='documentId' value='" + result.id + "'>");
                             }
                         }
@@ -254,7 +249,7 @@ function uploadDocument()
 function updateDocument()
 {
     var data = $("#documentDataForm").serialize();
-    //alert(data); //da togliere
+    //alert(data);
     $.ajax(
             {
                 url: 'updateDocument.php',
@@ -274,15 +269,6 @@ function updateDocument()
                         alert(result.error);
                         //close or reset upload box
                     }
-                    /* moved before
-                     * if(typeof result.id !== 'undefined')
-                    {
-                        if (!$("#documentId").length)
-                        {
-                            // from now update instead of re-enter
-                            $("#title").after("<input type='hidden' id='documentId' name='documentId' value='" + result.id + "'>");
-                        }
-                    }*/
                 }
             });
 }

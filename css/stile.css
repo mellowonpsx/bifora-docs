@@ -6,9 +6,13 @@
 
 #content
 {
-    overflow: auto;
     height:500px;    
     background: red;
+    
+}
+#preview{
+   overflow: auto;
+   height: 470px;
     z-index: 1;
 }
 
@@ -94,17 +98,6 @@
     width: 260px;
 }
 
-.category
-{
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-    .category:hover
-    {
-
-    }
-
 .preview{
     border:solid blue;
 }
@@ -153,5 +146,21 @@ ul{
     cursor: pointer;
     cursor: hand;
     float: right;
+    visibility:hidden;
     
+}
+.nameCat{
+    visibility:auto;
+}
+.editCat{
+    position: absolute;
+    float: left;
+    visibility: hidden;
+}
+.editCat input{
+    position: relative;
+    top: -22px;
+}
+.categoryAdder{
+    visibility:hidden;
 }

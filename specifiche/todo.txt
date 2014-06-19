@@ -16,7 +16,8 @@ M+ modificare l'upload creando un documento temporaneo ed usare l'id documento a
 M- aggiungere funzioni di amministrazione per il purge della cartella temporanea e per cancellare i file non categorizzati
 A- Programmare le viste
 A- quanto siamo in modalità upload, impedire qualsiasi altro evento fino al termine del caricamento o all'annullamento.
-A- edit e cancellazione categorie (lato client)
+A+ edit e cancellazione categorie (lato client)
+M- cancellazione categorie lato server non funziona (chiede conferma il db?, su phpmyadmin funziona ma chiede conferma)
 M/A- paginazine
 M/A- aggiungere la categorizzazione per anno e la paginazione nella lista documenti
 M/A- controllare la lunghezza dei campi? //lato server già fatto
