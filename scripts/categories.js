@@ -28,7 +28,16 @@ function updateCategories()
                     $('#' + categories[k].id).css("color", "white");
                 }
                 $('#categoriesDiv').append(addAdder());
-                
+                //this is the right way to do it!!! 
+                $('#categoryName').keypress(function(event)
+                {
+                    if(event.keyCode == 13)
+                    {
+                        event.preventDefault();
+                        $("#categoryButton").click();
+                    }
+                });
+                //end of right way
                 showStuff();
         }
     });
@@ -97,7 +106,7 @@ function submitEditCategory(event,obj)
 
 function addAdder(){
     var r='<div class="categoryAdder"><form id="addCategory">';
-            r+='<input type="text" id="categoryName" name="categoryName">';
+            r+='<input type="text" id="categoryName" name="categoryName">'; 
             r+='<input type="button" id="categoryButton" onclick="submitCategory()" value="Add">';
         r+='</form></div>';
     return r;

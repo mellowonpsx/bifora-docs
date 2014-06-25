@@ -16,9 +16,9 @@ function editMode(){
     if($("#ed").attr("href")==="css/noedit.css")
     {
         if(usr.type==="ADMIN")
-            $("#ed").attr("href","css/adminEdit");
+            $("#ed").attr("href","css/adminEdit.css");
         else
-            $("#ed").attr("href","css/noAdminEdit");
+            $("#ed").attr("href","css/noAdminEdit.css");
     }
     else
     {

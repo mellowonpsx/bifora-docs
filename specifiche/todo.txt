@@ -11,6 +11,7 @@ A/M- Colorare documenti in base a ownership (aggiunta campo "owned" a documenti)
 A/M- Possibilità di cancellare solo categorie vuote (aggiunta campo "empty" a categoria)
 M/A- aggiungere la categorizzazione per anno
 A+- Programmare le viste
+A- Quando si aggiunge una categoria già esistente, lasciare il campo pieno e popup con notifica errore
 A- Dettaglio documenti (pop-up, con tasto modifica per passare alla modalità modifica -> solo se owner)
 A- Cancellazione documento (invoco eraseDocument, mi restituisce un campo temporaneo che va messo in eraseTempKey alla conferma).
 M- Mettere upload e download folder in database configurazioni
