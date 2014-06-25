@@ -4,22 +4,33 @@ M = mellow
 - = to do
 + = completed
 
+M/A- paginazione nella lista documenti
+M- Invertire ordine della lista documenti (data decrescente)
+A- Tipo errato (adesso usiamo estensione), aggiungere css immagine per indicare tipo documento
+A/M- Colorare documenti in base a ownership (aggiunta campo "owned" a documenti)
+A/M- Possibilità di cancellare solo categorie vuote (aggiunta campo "empty" a categoria)
+M/A- aggiungere la categorizzazione per anno
+A+- Programmare le viste
+A- Dettaglio documenti (pop-up, con tasto modifica per passare alla modalità modifica -> solo se owner)
+A- Cancellazione documento (invoco eraseDocument, mi restituisce un campo temporaneo che va messo in eraseTempKey alla conferma).
+M- Mettere upload e download folder in database configurazioni
+A- Aggiungere effetto vibrato
+M- ricerca
+M/A- controllare che tutte le richieste siano in POST!
 
+opzionale:
+M- aggiungere funzioni di amministrazione per il purge della cartella temporanea e per cancellare i file non categorizzati
+A- quanto siamo in modalità upload, impedire qualsiasi altro evento fino al termine del caricamento o all'annullamento.
+
+completati:
 A+ controllare il layer di drag and drop è davanti a quello di login, possiamo fare qualcosa del tipo che si "fissa"
   e non che appare e scompare? (on click si apre, se click invio esegue login -> se login ok si chiude, se click su x si chiude).
 A+ su tag mettere autocompletamento con invio (invio = inserisci).
 A+ almeno una categoria deve essere inserita.
 M+ rinominare i file *.class.php in class.*.php e cambiare autoload
-
+A+ edit e cancellazione categorie (lato client)
 M+ cancellazione dei tag orfani? (secondo me lo fa già in automatico)
 M+ modificare l'upload creando un documento temporaneo ed usare l'id documento al posto del nomefile per inserire i dati
-M- aggiungere funzioni di amministrazione per il purge della cartella temporanea e per cancellare i file non categorizzati
-A- Programmare le viste
-A- quanto siamo in modalità upload, impedire qualsiasi altro evento fino al termine del caricamento o all'annullamento.
-A+ edit e cancellazione categorie (lato client)
-M- cancellazione categorie lato server non funziona (chiede conferma il db?, su phpmyadmin funziona ma chiede conferma)
-M/A- paginazine
-M/A- aggiungere la categorizzazione per anno e la paginazione nella lista documenti
-M/A- controllare la lunghezza dei campi? //lato server già fatto
-M/A- ricerca
-M- edit e cancellazione documenti (cancellazione fatta, edit è "facile" da fare).
+M+ cancellazione categorie lato server non funziona (chiede conferma il db?, su phpmyadmin funziona ma chiede conferma)
+M+ controllare la lunghezza dei campi? //lato server già fatto
+M+ edit e cancellazione documenti //lato server fatto.

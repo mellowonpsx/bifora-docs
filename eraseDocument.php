@@ -7,19 +7,19 @@
 
 require_once "utils.php";
 //check variabiles
-if(!isset($_GET["idDocument"]))
+if(!isset($_POST["idDocument"]))
 {
-    json_error(Errors::$ERROR_90." _GET[\"idDocument\"]");
+    json_error(Errors::$ERROR_90." _POST[\"idDocument\"]");
     return;
 }
 
-if(!Document::existDocument($db->escape(filter_var($_GET["idDocument"], FILTER_SANITIZE_STRING))))
+if(!Document::existDocument($db->escape(filter_var($_POST["idDocument"], FILTER_SANITIZE_STRING))))
 {
     json_error(Errors::$ERROR_12);
     return;
 }
 
-$document = new Document($db->escape(filter_var($_GET["idDocument"], FILTER_SANITIZE_STRING)));
+$document = new Document($db->escape(filter_var($_POST["idDocument"], FILTER_SANITIZE_STRING)));
 
 // verify user
 $user = getSessionUser();
@@ -35,10 +35,10 @@ if($user->getType() != BD_USER_TYPE_ADMIN && $user->getUserId() != $document->ge
 }
 
 $generateTempKey = true;
-if(isset($_GET["eraseTempKey"]))
+if(isset($_POST["eraseTempKey"]))
 {
     $generateTempKey = false;
-    $eraseTempKey = $db->escape(filter_var($_GET["eraseTempKey"], FILTER_SANITIZE_STRING));
+    $eraseTempKey = $db->escape(filter_var($_POST["eraseTempKey"], FILTER_SANITIZE_STRING));
     return;
 }
 
@@ -48,10 +48,10 @@ if($generateTempKey)
 {
     do
     {
-        $tempKey = TempKey::generateTempKey($user->getUserId(), BD_TEMPKEY_EXPIRATION_TIME_SECONDS);
-    }while(!$tempKey);
-    echo json_encode($tempKey);
-    return;
+        $eraseTempKey = TempKey::generateTempKey($user->getUserId(), BD_TEMPKEY_EXPIRATION_TIME_SECONDS);
+    }while(!$eraseTempKey);
+    echo json_encode($eraseTempKey);
+    return; //importante sennò va avinti l'esecuzione
 }
 
 if(!TempKey::useTempKey($eraseTempKey, $user->getUserId())) //check if exist and use
