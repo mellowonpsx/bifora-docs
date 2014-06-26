@@ -31,6 +31,21 @@ class DB
     {
         return $this->db->query($query); //moved die away, i want to handle query errors
     }
+        
+    public function multi_query($query)
+    {
+        return $this->db->multi_query($query);
+    }
+    
+    public function store_result()
+    {
+        return $this->db->store_result();
+    }
+    
+    public function next_result()
+    {
+        return $this->db->next_result();
+    }
     
     public function affectedRows()
     {

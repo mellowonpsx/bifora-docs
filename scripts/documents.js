@@ -117,6 +117,7 @@ function setTypeOptions()
     $.ajax(
             {
                 url: 'listDocumentType.php',
+                
                 success: function(output)
                 {
                     types = $.parseJSON(output);
@@ -151,23 +152,32 @@ function showStuff()
     $.ajax(
             {
                 url: 'listDocument.php',
-                type: "POST",
-                data: {category: JSON.stringify(getSelectedCategories())}, // ho modificato getSelectedCategories perché category era pieno di "null" sugli elementi vuoti del vettore
+                type: "POST",                                                        
+                //sostituire 1 con page number, attenzione, la numerazione parte da 1 e non da 0!!!
+                data: {category: JSON.stringify(getSelectedCategories()), pageNumber: 2}, // ho modificato getSelectedCategories perché category era pieno di "null" sugli elementi vuoti del vettore
                 success: function(output)
                 {
-                  //  alert(output); // da togliere, mostra il contenuto ritornato
+                    //da togliere alternativo ad alert
+                    //$('#preview').empty();
+                    //$('#preview').append(output);
+                    //return;
+                    //alert(output); // da togliere, mostra il contenuto ritornato
                     documents = $.parseJSON(output);
+                    documentsList = documents.documentList;
+                    //funziona!!!!
+                    //alert(documents.numberOfDocument);
+                    //alert(documents.documentPerPage);
                     $('#preview').empty();
                     if ($("#ed").attr("href")!=="css/noedit.css"){
                         showUpload();
                     }
-                    for (var k in documents)
+                    for (var k in documentsList)
                     {
                         var arr=new Array();
-                        for(var h in documents[k].tags){
-                            arr.push(documents[k].tags[h].name);
+                        for(var h in documentsList[k].tags){
+                            arr.push(documentsList[k].tags[h].name);
                         }
-                        $('#preview').append(addPreview(documents[k].title, documents[k].description, documents[k].extension,arr));
+                        $('#preview').append(addPreview(documentsList[k].title, documentsList[k].description, documentsList[k].extension,arr));
                 
                     }
                 }

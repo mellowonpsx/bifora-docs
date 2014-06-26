@@ -293,38 +293,11 @@ class Document
         }
     }
     
-    public static function getDocumentNumber($showPrivate = false, $ownerId = NULL)
-    {
-        global $db;
-        $query = "SELECT COUNT(*) AS elementNumber FROM Document";
-        if($showPrivate == false)
-        {
-            $query .= " WHERE isPrivate = false";
-        }
-        else
-        {
-            if($ownerId != NULL)
-            {
-                $query .= " WHERE isPrivate = false OR ownerId = '$ownerId'";
-            }
-        }           
-        $result = $db->query($query);
-        $row = mysqli_fetch_assoc($result);
-        $elementNumber = $row["elementNumber"];
-        return $elementNumber;
-    }
-    
     public static function getDocumentList($startLimit = 0, $endLimit = 0, $categoryListArray, $showPrivate = false, $ownerId = NULL, $yearLimit = NULL)
     {
         global $db, $config;
         $result_array = array();
-        //$documentPerPage = $config->getParam(numRighe);
-        //$startLimit = $page*$documentPerPage;
-        //$endLimit = ($page+1)*$documentPerPage;
-        //$elementNumber = Document::getDocumentNumber($showPrivate, $ownerId);
-        //$result_array["documentNumber"] = $elementNumber;
-        //$result_array["pageNumber"] = ceil($elementNumber/$documentPerPage);
-        //$result_array["documentPerPage"] = $documentPerPage;
+        $result_list_array = array();
         // query start
         if(!empty($categoryListArray))
         {
@@ -338,7 +311,7 @@ class Document
         }
         else $categoryList = "(NULL)";
         //SELECT Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, Categorized.id as idCategorized, Categorized.idDocument, Categorized.idCategory FROM Document, Categorized WHERE Categorized.idDocument = Document.id and idCategory in ('0')
-        $query = "SELECT Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, "
+        $query = "SELECT SQL_CALC_FOUND_ROWS Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, "
                . "Categorized.id as idCategorized, Categorized.idDocument, Categorized.idCategory "
                . "FROM Document, Categorized WHERE Categorized.idDocument = Document.id and idCategory in $categoryList";
         if($showPrivate == false)
@@ -358,12 +331,61 @@ class Document
         }
         $query .= " GROUP BY Document.id ORDER BY date DESC";
         $query .= " LIMIT $startLimit,$endLimit";
+        
+        $query .= "; SELECT FOUND_ROWS() as numRow;";
         // query end;
-        $result = $db->query($query);
-        while($row = mysqli_fetch_assoc($result))
-        {            
-            $result_array[$row["id"]] = array("id" => $row["id"], "title" => $row["title"], "filename" => $row["filename"], "extension" => $row["extension"], "description" => $row["description"], "date" => $row["date"], "isPrivate" => $row["isPrivate"], "ownerId" => $row["ownerId"], "tags" => Tagged::getTagListByDocumentIn($row["id"]));
+        
+/*        if(!$db->multi_query($query))
+        {
+            return "Multi query failed: (" . $mysqli->errno . ") " . $mysqli->error;
+        }*/
+             
+        /*if($res = $db->store_result())
+        {
+            var_dump($res->fetch_all(MYSQLI_ASSOC));
+            $res->free();
         }
+        
+        $db->next_result();
+        
+        if($res = $db->store_result())
+        {
+            return var_dump($res->fetch_all(MYSQLI_ASSOC));
+            $res->free();
+        }*/
+        $i = 0;
+        if (!$db->multi_query($query))
+        {
+            return "Error";
+        }
+        //else
+        do
+        {
+            if($result = $db->store_result())
+            {
+                while($row = mysqli_fetch_assoc($result))
+                {
+                    if(isset($row["numRow"]))
+                    {
+                        $numberOfDocument = $row["numRow"];
+                    }
+                    else
+                    {
+                        // spostato rimepimento tags
+                        $result_list_array[$i++] = array("id" => $row["id"], "title" => $row["title"], "filename" => $row["filename"], "extension" => $row["extension"], "description" => $row["description"], "date" => $row["date"], "isPrivate" => $row["isPrivate"], "ownerId" => $row["ownerId"], "tags" => "");
+                    }
+                }
+            }
+        }while($db->next_result());
+        
+        foreach ($result_list_array as &$thisElement)
+        {
+            $thisElement["tags"] = Tagged::getTagListByDocumentIn($thisElement["id"]);
+        }
+        
+        $result_array["numberOfDocument"] = $numberOfDocument;
+        $result_array["documentPerPage"] = $config->getParam("documentPerPage");
+        $result_array["documentList"] = $result_list_array;
         return $result_array;
     }
 }
