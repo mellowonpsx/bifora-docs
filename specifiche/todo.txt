@@ -4,12 +4,14 @@ M = mellow
 - = to do
 + = completed
 
-M/A- paginazione nella lista documenti
-M- Invertire ordine della lista documenti (data decrescente)
+A- paginazione nella lista documenti (lato client)
 A- Tipo errato (adesso usiamo estensione), aggiungere css immagine per indicare tipo documento
-A/M- Colorare documenti in base a ownership (aggiunta campo "owned" a documenti)
-A/M- Possibilità di cancellare solo categorie vuote (aggiunta campo "empty" a categoria)
-M/A- aggiungere la categorizzazione per anno
+A- Colorare documenti in base a ownership
+M- Aggiungere campo "owned" nei documenti
+A- Possibilità di cancellare solo categorie vuote
+M- Aggiunta campo "empty" a categoria
+A- aggiungere la categorizzazione per anno
+M- categorizzazione per anno lato server
 A+- Programmare le viste
 A- Quando si aggiunge una categoria già esistente, lasciare il campo pieno e popup con notifica errore
 A- Dettaglio documenti (pop-up, con tasto modifica per passare alla modalità modifica -> solo se owner)
@@ -17,7 +19,8 @@ A- Cancellazione documento (invoco eraseDocument, mi restituisce un campo tempor
 M- Mettere upload e download folder in database configurazioni
 A- Aggiungere effetto vibrato
 M- ricerca
-M/A- controllare che tutte le richieste siano in POST!
+A- controllare che tutte le richieste siano in POST!
+M- refactory finale
 
 opzionale:
 M- aggiungere funzioni di amministrazione per il purge della cartella temporanea e per cancellare i file non categorizzati
@@ -35,3 +38,5 @@ M+ modificare l'upload creando un documento temporaneo ed usare l'id documento a
 M+ cancellazione categorie lato server non funziona (chiede conferma il db?, su phpmyadmin funziona ma chiede conferma)
 M+ controllare la lunghezza dei campi? //lato server già fatto
 M+ edit e cancellazione documenti //lato server fatto.
+M+ paginazione nella lista documenti (lato server)
+M+ Invertire ordine della lista documenti (data decrescente)
