@@ -132,7 +132,12 @@ class Category
         $result_array = array();
         while($row = mysqli_fetch_assoc($result))
         {
-            $result_array[$row["id"]] = array("id" => $row["id"], "name" => $row["name"]);
+            $isEmpty = true;
+            if(Categorized::getBindNumberByCategory($row["id"]))
+            {
+                $isEmpty = false;
+            }
+            $result_array[$row["id"]] = array("id" => $row["id"], "name" => $row["name"], "empty" => $isEmpty);
         }
         return $result_array;
     }

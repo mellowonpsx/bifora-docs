@@ -154,7 +154,12 @@ function showStuff()
                 url: 'listDocument.php',
                 type: "POST",                                                        
                 //sostituire 1 con page number, attenzione, la numerazione parte da 1 e non da 0!!!
-                data: {category: JSON.stringify(getSelectedCategories()), pageNumber: 2}, // ho modificato getSelectedCategories perché category era pieno di "null" sugli elementi vuoti del vettore
+                data: {
+                        category: JSON.stringify(getSelectedCategories()),
+                        pageNumber: 1,
+                        yearLimit: 2012, //se non esiste non deve essere settato (lato server faccio check su isset(_POST["yearLimit"]);
+                        searchQuery: "filmato" //se non esiste non deve essere settato (lato server faccio check su isset(_POST["searchQuery"]);
+                      }, // ho modificato getSelectedCategories perché category era pieno di "null" sugli elementi vuoti del vettore
                 success: function(output)
                 {
                     //da togliere alternativo ad alert

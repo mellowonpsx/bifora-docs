@@ -293,7 +293,7 @@ class Document
         }
     }
     
-    public static function getDocumentList($startLimit = 0, $endLimit = 0, $categoryListArray, $showPrivate = false, $ownerId = NULL, $yearLimit = NULL)
+    public static function getDocumentList($startLimit = 0, $endLimit = 0, $categoryListArray, $showPrivate = false, $ownerId = NULL, $yearLimit = NULL, $searchKey = NULL)
     {
         global $db, $config;
         $result_array = array();
@@ -325,38 +325,32 @@ class Document
                 $query .= " AND (isPrivate = false OR ownerId = '$ownerId')";
             }
         }
+        
+        if ($searchKey != NULL)
+        {
+            //substring su più key
+            $searchKey = trim(strtolower($searchKey));
+            $searchKey = wordwrap($searchKey, 1, "%");
+            $searchKey = trim($searchKey, "%");
+            $query .= "  AND (title LIKE '%$searchKey%' OR description LIKE '%$searchKey%')";
+        }
+        
         if($yearLimit !== NULL)
         {
             $query .= " AND date > '$yearLimit-01-01 00:00:00'";
         }
         $query .= " GROUP BY Document.id ORDER BY date DESC";
         $query .= " LIMIT $startLimit,$endLimit";
-        
         $query .= "; SELECT FOUND_ROWS() as numRow;";
         // query end;
-        
-/*        if(!$db->multi_query($query))
-        {
-            return "Multi query failed: (" . $mysqli->errno . ") " . $mysqli->error;
-        }*/
-             
-        /*if($res = $db->store_result())
-        {
-            var_dump($res->fetch_all(MYSQLI_ASSOC));
-            $res->free();
-        }
-        
-        $db->next_result();
-        
-        if($res = $db->store_result())
-        {
-            return var_dump($res->fetch_all(MYSQLI_ASSOC));
-            $res->free();
-        }*/
         $i = 0;
         if (!$db->multi_query($query))
         {
-            return "Error";
+            return "Multi query failed: (".$db->db->errno.") ".$db->db->error;
+            //$result_array["numberOfDocument"] = 0;
+            //$result_array["documentPerPage"] = $config->getParam("documentPerPage");
+            //$result_array["documentList"] = "";
+            //return $result_array;
         }
         //else
         do
@@ -372,7 +366,12 @@ class Document
                     else
                     {
                         // spostato rimepimento tags
-                        $result_list_array[$i++] = array("id" => $row["id"], "title" => $row["title"], "filename" => $row["filename"], "extension" => $row["extension"], "description" => $row["description"], "date" => $row["date"], "isPrivate" => $row["isPrivate"], "ownerId" => $row["ownerId"], "tags" => "");
+                        $owned = false;
+                        if($ownerId == $row["ownerId"])
+                        {
+                            $owned = true;
+                        }
+                        $result_list_array[$i++] = array("id" => $row["id"], "title" => $row["title"], "filename" => $row["filename"], "extension" => $row["extension"], "description" => $row["description"], "date" => $row["date"], "isPrivate" => $row["isPrivate"], "ownerId" => $row["ownerId"], "owned" => $owned, "tags" => "");
                     }
                 }
             }

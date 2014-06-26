@@ -5,26 +5,29 @@ M = mellow
 + = completed
 
 A- paginazione nella lista documenti (lato client)
+M+ paginazione nella lista documenti (lato server)
+M+ Invertire ordine della lista documenti (data decrescente)
 A- Tipo errato (adesso usiamo estensione), aggiungere css immagine per indicare tipo documento
 A- Colorare documenti in base a ownership
-M- Aggiungere campo "owned" nei documenti
+M+ Aggiungere campo "owned" nei documenti
 A- Possibilità di cancellare solo categorie vuote
-M- Aggiunta campo "empty" a categoria
+M+ Aggiunta campo "empty" a categoria
 A- aggiungere la categorizzazione per anno
-M- categorizzazione per anno lato server
+M+ categorizzazione per anno lato server
 A+- Programmare le viste
 A- Quando si aggiunge una categoria già esistente, lasciare il campo pieno e popup con notifica errore
 A- Dettaglio documenti (pop-up, con tasto modifica per passare alla modalità modifica -> solo se owner)
 A- Cancellazione documento (invoco eraseDocument, mi restituisce un campo temporaneo che va messo in eraseTempKey alla conferma).
-M- Mettere upload e download folder in database configurazioni
 A- Aggiungere effetto vibrato
-M- ricerca
 A- controllare che tutte le richieste siano in POST!
-M- refactory finale
+M+/- ricerca
 
 opzionale:
+M- Mettere upload e download folder in database configurazioni
 M- aggiungere funzioni di amministrazione per il purge della cartella temporanea e per cancellare i file non categorizzati
+M- refactory finale
 A- quanto siamo in modalità upload, impedire qualsiasi altro evento fino al termine del caricamento o all'annullamento.
+   (in realtà meglio upload visivo, da decidere!).
 
 completati:
 A+ controllare il layer di drag and drop è davanti a quello di login, possiamo fare qualcosa del tipo che si "fissa"
@@ -38,5 +41,3 @@ M+ modificare l'upload creando un documento temporaneo ed usare l'id documento a
 M+ cancellazione categorie lato server non funziona (chiede conferma il db?, su phpmyadmin funziona ma chiede conferma)
 M+ controllare la lunghezza dei campi? //lato server già fatto
 M+ edit e cancellazione documenti //lato server fatto.
-M+ paginazione nella lista documenti (lato server)
-M+ Invertire ordine della lista documenti (data decrescente)
