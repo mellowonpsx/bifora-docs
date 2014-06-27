@@ -39,11 +39,11 @@ if($document->getIsPrivate())
     }
 }
 
-//global $config;
-//$directoryUpload = $config->getParam("uploadDirectory");
-//$directoryDownload = $config->getParam("downloadDirectory");
-$directoryUpload = "./ul/";
-$directoryDownload = "./dl/";
+global $config;
+$directoryUpload = $config->getParam("uploadDirectory");
+$directoryDownload = $config->getParam("downloadDirectory");
+//$directoryUpload = "./ul/";
+//$directoryDownload = "./dl/";
 //prepare filename
 $downloadFilenameDirectory = $directoryDownload.$document->getFilename()."/";
 $downloadFilename = $downloadFilenameDirectory.$document->getTitle().".".$document->getExtension();

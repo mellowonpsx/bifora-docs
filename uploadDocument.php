@@ -13,9 +13,11 @@ if(empty($user))
     json_error(Errors::$ERROR_00);
     return;
 }
-//global $config;
-//$directory = $config->getParam("uploadDirectory");
-$directory = "./ul/";
+global $config;
+$directoryUpload = $config->getParam("uploadDirectory");
+$directoryDownload = $config->getParam("downloadDirectory");
+$directory = $directoryUpload;
+//$directory = "./ul/";
 foreach($_FILES as $nomefile => $descrittore)
 {
     $tmp_name = $descrittore["tmp_name"];
@@ -37,6 +39,8 @@ foreach($_FILES as $nomefile => $descrittore)
     {
         $document = new Document();
         $document->setMultipleValues(BD_DOCUMENT_DEFAULT_NAME, $filename, $extension, "", BD_DOCUMENT_DEFAULT_TYPE, true, $user->getUserId());
+        //default category: the one with lowest id
+        Categorized::insertCategorized(Category::getFirstCategoryId(), $document->getId());
         $result_array["status"] = "true";
         $result_array["id"] = $document->getId();
     }

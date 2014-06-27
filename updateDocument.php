@@ -36,36 +36,33 @@ if(!isset($_POST["type"]))
     json_error(Errors::$ERROR_90." _POST[\"type\"]");
     return;
 }
-/*if(!isset($_POST["filename"]))
-{
-    json_error(Errors::$ERROR_90." _POST[\"filename\"]");
-    return;
-}
-if(!isset($_POST["extension"]))
-{
-    json_error(Errors::$ERROR_90." _POST[\"extension\"]");
-    return;
-}*/
+
 if(!isset($_POST["categoryList"]))
 {
     json_error(Errors::$ERROR_90." _POST[\"categoryList\"]");
     return;
 }
-if(!isset($_POST["tagList"]))
+
+//l'assenza di tagList non è un errore, i tag non sono obbligatori!
+//if(!isset($_POST["tagList"]))
+//{
+    //json_error(Errors::$ERROR_90." _POST[\"tagList\"]");
+    //return;
+//}
+
+$tagList = array();
+if(isset($_POST["tagList"]))
 {
-    json_error(Errors::$ERROR_90." _POST[\"tagList\"]");
-    return;
+    foreach ($_POST["tagList"] as $tag)
+    {
+        array_push($tagList,  array("name" => trim(strtolower($db->escape(filter_var($tag, FILTER_SANITIZE_STRING))))));
+    }
 }
 
 $categoryList = array();
 foreach ($_POST["categoryList"] as $category)
 {
     array_push($categoryList,  array("id" => $db->escape(filter_var($category, FILTER_SANITIZE_STRING))));
-}
-$tagList = array();
-foreach ($_POST["tagList"] as $tag)
-{
-    array_push($tagList,  array("name" => trim(strtolower($db->escape(filter_var($tag, FILTER_SANITIZE_STRING))))));
 }
 
 $isPrivate = false;
@@ -144,6 +141,11 @@ foreach ($categoryList as $category)
 }
 if(!$atLeastOne)
 {
+    //puo capitare che l'admin cancelli una categoria che io ho scelto come unica per il mio file.
+    //per non lasciare il file non categorizzato, prima di notificare l'errore, lo attacco alla categoria di default.
+    //default category: the one with lowest id
+    Categorized::insertCategorized(Category::getFirstCategoryId(), $document->getId());
+    //notifico l'errore
     json_error(Errors::$ERROR_41);
     return;
 }
@@ -157,9 +159,5 @@ if($document->updateDBValue())
 //all ok
 $result_array = array();
 $result_array["status"] = "true";
-//$result_array["id"] = $document->getId();
 echo json_encode($result_array);
 return;
-
-/*
- */

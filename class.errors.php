@@ -16,6 +16,7 @@ class Errors
     static public $ERROR_12 = "Error 12: document not exist";
     static public $ERROR_20 = "Error 20: file not exist";
     static public $ERROR_21 = "Error 21: file not owned by user";
+    static public $ERROR_22 = "Error 22: file not exist, already erased?";
     static public $ERROR_30 = "Error 30: error erasing tags";
     static public $ERROR_40 = "Error 40: error erasing categories";
     static public $ERROR_41 = "Error 41: at least one category needed";

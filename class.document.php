@@ -22,7 +22,7 @@ define("BD_DOCUMENT_TYPE_VIDEO", "VIDEO");
 define("BD_DOCUMENT_TYPE_ARCHIVE", "ARCHIVE");
 
 //default constrains
-define("BD_DOCUMENT_DEFAULT_NAME", "new document");
+define("BD_DOCUMENT_DEFAULT_NAME", "NEW UNNAMED DOCUMENT");
 define("BD_DOCUMENT_DEFAULT_TYPE", BD_DOCUMENT_TYPE_UNKNOW);
 
 // the phylosophy behind this project expect to have already control and excaped variables

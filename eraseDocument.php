@@ -62,18 +62,20 @@ if(!TempKey::useTempKey($eraseTempKey, $user->getUserId())) //check if exist and
 
 // erasing document
 
-//global $config;
-//$directoryUpload = $config->getParam("uploadDirectory");
-//$directoryDownload = $config->getParam("downloadDirectory");
-$directoryUpload = "./ul/";
-$directoryDownload = "./dl/";
+global $config;
+$directoryUpload = $config->getParam("uploadDirectory");
+$directoryDownload = $config->getParam("downloadDirectory");
+//$directoryUpload = "./ul/";
+//$directoryDownload = "./dl/";
 //prepare filename
 $filename = $directoryUpload.$document->getFilename();
 //check file already exist
 
 if(!file_exists($filename))
 {
-    json_error(Errors::$ERROR_20);
+    // il file non esiste, cancello comunque il documento ma lo notifico
+    $document->deleteDocument();
+    json_error(Errors::$ERROR_22);
     return;
 }
 

@@ -24,6 +24,15 @@ class Category
         return $result_array;
     }
     
+    public static function getFirstCategoryId()
+    {
+        global $db;
+        $query = "SELECT * FROM Category LIMIT 0,1";
+        $result = $db->query($query);
+        $row = mysqli_fetch_assoc($result);
+        return $row["id"];
+    }
+    
     public static function existCategoryById($categoryId)
     {
         // db is declared in utils $db = new DB();
