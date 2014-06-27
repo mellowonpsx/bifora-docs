@@ -13,7 +13,7 @@ class DB
     
     public function __construct()
     {
-        $this->db = new mysqli(Config::$db_host, Config::$db_user, Config::$db_password, Config::$db_name) or die($this->db->error);
+        $this->db = new mysqli(Config::$db_host, Config::$db_user, Config::$db_password, Config::$db_name) or die(json_error(Errors::$ERROR_80." (".$this->errno().") ".$this->error()));
         $this->db->set_charset("utf8"); // serve per json perché senno con la presenza di caratteri accentati esplode!
     }
     
@@ -24,7 +24,7 @@ class DB
     
     public function close()
     {
-	$this->db->close() or die($this->db->error);
+	$this->db->close() or die(json_error(Errors::$ERROR_80." (".$this->errno().") ".$this->error()));
     }
 
     public function query($query)

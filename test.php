@@ -102,12 +102,16 @@ echo Tagged::getBindNumberByTag(25); //0 0
 echo Tagged::getBindNumberByTag(26); //0 */
 
 //$result = Document::getDocumentList(0, 1000, Category::getCategoryList(), true, NULL, NULL);
+
+global $db;
+die(json_error(Errors::$ERROR_80." (".$db->errno().") ".$db->error()));
+/*
 $result = Document::getDocumentList(0, 1000, Category::getCategoryList(), true, NULL, NULL);
 
 echo json_encode($result, JSON_UNESCAPED_UNICODE);
- echo json_last_error_msg();
+echo json_last_error_msg();
 
-var_dump($result);
+var_dump($result);*/
 /*
 echo "<br />";
 echo "<br />";
