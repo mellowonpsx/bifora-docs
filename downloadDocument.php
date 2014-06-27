@@ -7,19 +7,19 @@
 
 require_once "utils.php";
 //check variabiles
-if(!isset($_GET["idDocument"]))
+if(!isset($_POST["idDocument"]))
 {
-    echo Errors::$ERROR_90." _GET[\"idDocument\"]";
+    echo Errors::$ERROR_90." _POST[\"idDocument\"]";
     return;
 }
 
-if(!Document::existDocument($db->escape(filter_var($_GET["idDocument"], FILTER_SANITIZE_STRING))))
+if(!Document::existDocument($db->escape(filter_var($_POST["idDocument"], FILTER_SANITIZE_STRING))))
 {
     echo Errors::$ERROR_12;
     return;
 }
 
-$document = new Document($db->escape(filter_var($_GET["idDocument"], FILTER_SANITIZE_STRING)));
+$document = new Document($db->escape(filter_var($_POST["idDocument"], FILTER_SANITIZE_STRING)));
 
 //if is public no control (exept login?)
 if($document->getIsPrivate())
