@@ -311,9 +311,14 @@ class Document
         }
         else $categoryList = "(NULL)";
         //SELECT Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, Categorized.id as idCategorized, Categorized.idDocument, Categorized.idCategory FROM Document, Categorized WHERE Categorized.idDocument = Document.id and idCategory in ('0')
-        $query = "SELECT SQL_CALC_FOUND_ROWS Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, "
-               . "Categorized.id as idCategorized, Categorized.idDocument, Categorized.idCategory "
-               . "FROM Document, Categorized WHERE Categorized.idDocument = Document.id and idCategory in $categoryList";
+        $query = " SELECT SQL_CALC_FOUND_ROWS Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, "
+               . " Categorized.idDocument, Categorized.idCategory, Tag.id, Tag.name, Tagged.idTag, Tagged.idDocument "
+               . " FROM Document, Categorized, Tagged, Tag WHERE "
+               . " Categorized.idDocument = Document.id "
+               // controllo la validità del tag solo nel momento in cui faccio il confronto con la stringa di ricerca
+               //. " AND Tagged.idDocument = Document.id "
+               //. " AND Tagged.idTag = Tag.id "
+               . " AND idCategory in $categoryList ";
         if($showPrivate == false)
         {
             if($ownerId === NULL)
@@ -322,14 +327,14 @@ class Document
             }
             if($ownerId !== NULL)
             {
-                $query .= " AND (isPrivate = false OR ownerId = '$ownerId')";
+                $query .= " AND (isPrivate = false OR ownerId = '$ownerId') ";
             }
         }
         
         if ($searchKey != NULL)
         {
             //substring su più key
-            $query .= " AND (";
+            $query .= " AND ( ";
             $searchKeyArray = explode(" ", $searchKey);
             $k=0;
             foreach ($searchKeyArray as $thisSearchKey)
@@ -338,26 +343,27 @@ class Document
                 $thisSearchKey = wordwrap($thisSearchKey, 1, "%"); //utile o no?
                 $thisSearchKey = trim($thisSearchKey, "%");
                 if($k++ != 0) $query .= " AND ";
-                $query .= "(title LIKE '%$thisSearchKey%' OR description LIKE '%$thisSearchKey%')";
+                $query .= " (title LIKE '%$thisSearchKey%' OR description LIKE '%$thisSearchKey%' OR (Tagged.idDocument = Document.id AND Tagged.idTag = Tag.id AND Tag.name LIKE '%$thisSearchKey%')) ";
             }
-            $query .= ")";
+            $query .= " ) ";
         }
         
         if($yearLimit !== NULL)
         {
-            $query .= " AND date > '$yearLimit-01-01 00:00:00'";
+            $query .= " AND date > '$yearLimit-01-01 00:00:00' ";
         }
-        $query .= " GROUP BY Document.id ORDER BY date DESC";
-        $query .= " LIMIT $startLimit,$endLimit";
-        $query .= "; SELECT FOUND_ROWS() as numRow;";
+        $query .= " GROUP BY Document.id ORDER BY date DESC ";
+        $query .= " LIMIT $startLimit,$endLimit; ";
+        $query .= " SELECT FOUND_ROWS() as numRow; ";
         // query end;
+        //return $query;// to check if query works.
         $i = 0;
         if (!$db->multi_query($query))
         {
             //return "Multi query failed: (".$db->db->errno.") ".$db->db->error;
             $result_array["numberOfDocument"] = 0;
             $result_array["documentPerPage"] = $config->getParam("documentPerPage");
-            $result_array["documentList"] = "";
+            $result_array["documentList"] = "ERROR: (".$db->errno().") ".$db->error();
             return $result_array;
         }
         //else

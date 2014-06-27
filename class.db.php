@@ -52,6 +52,16 @@ class DB
         return $this->db->affected_rows;
     }
     
+    public function errno()
+    {
+        return $this->db->errno;
+    }
+        
+    public function error()
+    {
+        return $this->db->error;
+    }
+    
     public function lastId()
     {
         return mysqli_insert_id($this->db);

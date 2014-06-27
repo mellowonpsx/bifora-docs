@@ -161,16 +161,27 @@ function showStuff()
                         //se non esiste non deve essere settato (lato server faccio check su isset(_POST["yearLimit"]);
                         yearLimit: 2012,
                         searchQuery: ""
+                        //la ricerca estrae i record contenenti TUTTE le keyword in (titolo oppure descrizione oppure tag collegati)
+                        //può anche essere che una keyword appartenga al titolo, una alla descrizione ed una al tag collegato).
                         //searchQuery: "filmato spada" //funziona
                         //searchQuery: "film spa" //funziona
                         //searchQuery: "lmat ad" //funziona
+                        //searchQuery: "filmato" //funziona
+                        //searchQuery: "spada osè" //non funziona
+                        //prove con i tag
+                        //searchQuery: "primo" //funziona
+                        //searchQuery: "prova26" //funziona
+                        //searchQuery: "secondo" //funziona
+                        //misto tag, parole
+                        //searchQuery: "primo quantistica trattato fisica" //funziona
+                        //searchQuery: "pri quantistica trattato fisica" //funziona
                       },
                 success: function(output)
                 {
                     //da togliere alternativo ad alert
-                    $('#preview').empty();
-                    $('#preview').append(output);
-                    return;
+                    //$('#preview').empty();
+                    //$('#preview').append(output);
+                    //return;
                     //alert(output); // da togliere, mostra il contenuto ritornato
                     documents = $.parseJSON(output);
                     documentsList = documents.documentList;
