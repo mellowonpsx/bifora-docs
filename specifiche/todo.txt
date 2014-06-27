@@ -23,7 +23,7 @@ A- controllare che tutte le richieste siano in POST!
 A- mettere un numero minimo di caratteri per la ricerca (3-5)?
 A- nella ricerca bisogna fare l'autocompletamento per tag, da definizione specifiche.
 A- aggiungere il tasto cerca (invio farà l'autocompletamento)
-M+ ricerca
+M+ ricerca (migliorata)
 
 opzionale:
 M+ Mettere upload e download folder in database configurazioni
