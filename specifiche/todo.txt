@@ -4,26 +4,19 @@ M = mellow
 - = to do
 + = completed
 
-A- paginazione nella lista documenti (lato client)
-M+ paginazione nella lista documenti (lato server)
-M+ Invertire ordine della lista documenti (data decrescente)
 A- Tipo errato (adesso usiamo estensione), aggiungere css immagine per indicare tipo documento
+
 A- Colorare documenti in base a ownership
-M+ Aggiungere campo "owned" nei documenti
-A- Possibilità di cancellare solo categorie vuote
-M+ Aggiunta campo "empty" a categoria
+
 A- aggiungere la categorizzazione per anno
-M+ categorizzazione per anno lato server
+
 A+- Programmare le viste
-A- Quando si aggiunge una categoria già esistente, lasciare il campo pieno e popup con notifica errore
+
 A- Dettaglio documenti (pop-up, con tasto modifica per passare alla modalità modifica -> solo se owner)
+
 A- Cancellazione documento (invoco eraseDocument, mi restituisce un campo temporaneo che va messo in eraseTempKey alla conferma).
+
 A- Aggiungere effetto vibrato
-A- controllare che tutte le richieste siano in POST!
-A- mettere un numero minimo di caratteri per la ricerca (3-5)?
-A- nella ricerca bisogna fare l'autocompletamento per tag, da definizione specifiche.
-A- aggiungere il tasto cerca (invio farà l'autocompletamento)
-M+ ricerca (migliorata)
 
 opzionale:
 M+ Mettere upload e download folder in database configurazioni
@@ -44,3 +37,15 @@ M+ modificare l'upload creando un documento temporaneo ed usare l'id documento a
 M+ cancellazione categorie lato server non funziona (chiede conferma il db?, su phpmyadmin funziona ma chiede conferma)
 M+ controllare la lunghezza dei campi? //lato server già fatto
 M+ edit e cancellazione documenti //lato server fatto.
+M+ paginazione nella lista documenti (lato server)
+M+ Invertire ordine della lista documenti (data decrescente)
+M+ Aggiungere campo "owned" nei 
+M+ Aggiunta campo "empty" a categoria
+M+ categorizzazione per anno lato server
+M+ ricerca (migliorata)
+
+A+ paginazione nella lista documenti (lato client)
+A+ Possibilità di cancellare solo categorie vuote
+A+ Quando si aggiunge una categoria già esistente, lasciare il campo pieno e popup con notifica errore
+A+ aggiungere il tasto cerca (invio farà l'autocompletamento
+A+ nella ricerca bisogna fare l'autocompletamento per tag, da definizione specifiche.
