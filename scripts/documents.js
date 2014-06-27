@@ -167,7 +167,7 @@ function showStuff()
                         //searchQuery: "film spa" //funziona
                         //searchQuery: "lmat ad" //funziona
                         //searchQuery: "filmato" //funziona
-                        //searchQuery: "spada osè" //non funziona
+                        //searchQuery: "spada osè" //non funziona, credo per l'accentata
                         //prove con i tag
                         //searchQuery: "primo" //funziona
                         //searchQuery: "prova26" //funziona
