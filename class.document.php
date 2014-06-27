@@ -329,10 +329,18 @@ class Document
         if ($searchKey != NULL)
         {
             //substring su più key
-            $searchKey = trim(strtolower($searchKey));
-            $searchKey = wordwrap($searchKey, 1, "%");
-            $searchKey = trim($searchKey, "%");
-            $query .= "  AND (title LIKE '%$searchKey%' OR description LIKE '%$searchKey%')";
+            $query .= " AND (";
+            $searchKeyArray = explode(" ", $searchKey);
+            $k=0;
+            foreach ($searchKeyArray as $thisSearchKey)
+            {
+                $thisSearchKey = trim(strtolower($thisSearchKey));
+                $thisSearchKey = wordwrap($thisSearchKey, 1, "%"); //utile o no?
+                $thisSearchKey = trim($thisSearchKey, "%");
+                if($k++ != 0) $query .= " AND ";
+                $query .= "(title LIKE '%$thisSearchKey%' OR description LIKE '%$thisSearchKey%')";
+            }
+            $query .= ")";
         }
         
         if($yearLimit !== NULL)
@@ -346,11 +354,11 @@ class Document
         $i = 0;
         if (!$db->multi_query($query))
         {
-            return "Multi query failed: (".$db->db->errno.") ".$db->db->error;
-            //$result_array["numberOfDocument"] = 0;
-            //$result_array["documentPerPage"] = $config->getParam("documentPerPage");
-            //$result_array["documentList"] = "";
-            //return $result_array;
+            //return "Multi query failed: (".$db->db->errno.") ".$db->db->error;
+            $result_array["numberOfDocument"] = 0;
+            $result_array["documentPerPage"] = $config->getParam("documentPerPage");
+            $result_array["documentList"] = "";
+            return $result_array;
         }
         //else
         do

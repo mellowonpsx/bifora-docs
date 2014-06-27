@@ -155,17 +155,22 @@ function showStuff()
                 type: "POST",                                                        
                 //sostituire 1 con page number, attenzione, la numerazione parte da 1 e non da 0!!!
                 data: {
-                        category: JSON.stringify(getSelectedCategories()),
+                        category: JSON.stringify(getSelectedCategories()), // ho modificato getSelectedCategories perché category era pieno di "null" sugli elementi vuoti del vettore
+                        //se non esiste viene assunto automaticamente come 1 lato server (esistenza con isset(_POST["pageNumber"]);
                         pageNumber: 1,
-                        yearLimit: 2012, //se non esiste non deve essere settato (lato server faccio check su isset(_POST["yearLimit"]);
-                        searchQuery: "filmato" //se non esiste non deve essere settato (lato server faccio check su isset(_POST["searchQuery"]);
-                      }, // ho modificato getSelectedCategories perché category era pieno di "null" sugli elementi vuoti del vettore
+                        //se non esiste non deve essere settato (lato server faccio check su isset(_POST["yearLimit"]);
+                        yearLimit: 2012,
+                        searchQuery: ""
+                        //searchQuery: "filmato spada" //funziona
+                        //searchQuery: "film spa" //funziona
+                        //searchQuery: "lmat ad" //funziona
+                      },
                 success: function(output)
                 {
                     //da togliere alternativo ad alert
-                    //$('#preview').empty();
-                    //$('#preview').append(output);
-                    //return;
+                    $('#preview').empty();
+                    $('#preview').append(output);
+                    return;
                     //alert(output); // da togliere, mostra il contenuto ritornato
                     documents = $.parseJSON(output);
                     documentsList = documents.documentList;

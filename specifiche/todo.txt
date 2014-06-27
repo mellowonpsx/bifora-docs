@@ -20,7 +20,8 @@ A- Dettaglio documenti (pop-up, con tasto modifica per passare alla modalità mo
 A- Cancellazione documento (invoco eraseDocument, mi restituisce un campo temporaneo che va messo in eraseTempKey alla conferma).
 A- Aggiungere effetto vibrato
 A- controllare che tutte le richieste siano in POST!
-M+/- ricerca
+A- mettere un numero minimo di caratteri per la ricerca (3-5)?
+M+ ricerca
 
 opzionale:
 M- Mettere upload e download folder in database configurazioni
