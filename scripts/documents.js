@@ -64,7 +64,8 @@ function setTagAutocomplete(){
                  $('#tagInput').autocomplete(
                     {
                         source:tags 
-                    }        
+                    } 
+                 
                 )
 
             }
@@ -147,8 +148,9 @@ function dismissDialog()
     $('#h').css('position', 'relative');
     $('#nascosto').css('height', $('#ulDiv').css('height'));
 }
-function showStuff()
+function showStuff(a)
 {
+    a = typeof a !== 'undefined' ? a : 1;
     $.ajax(
             {
                 url: 'listDocument.php',
@@ -157,10 +159,10 @@ function showStuff()
                 data: {
                         category: JSON.stringify(getSelectedCategories()), // ho modificato getSelectedCategories perché category era pieno di "null" sugli elementi vuoti del vettore
                         //se non esiste viene assunto automaticamente come 1 lato server (esistenza con isset(_POST["pageNumber"]);
-                        pageNumber: 1,
+                        pageNumber: a,
                         //se non esiste non deve essere settato (lato server faccio check su isset(_POST["yearLimit"]);
                         yearLimit: 2012,
-                        searchQuery: ""
+                        searchQuery: $("#search").val()
                         //la ricerca estrae i record contenenti TUTTE le keyword in (titolo oppure descrizione oppure tag collegati)
                         //può anche essere che una keyword appartenga al titolo, una alla descrizione ed una al tag collegato).
                         //searchQuery: "filmato spada" //funziona
@@ -184,6 +186,7 @@ function showStuff()
                     //return;
                     //alert(output); // da togliere, mostra il contenuto ritornato
                     documents = $.parseJSON(output);
+                    $('#smart-paginator').smartpaginator({ totalrecords: documents.numberOfDocument, recordsperpage: documents.documentPerPage, initval:a , next: 'Next', prev: 'Prev', first: 'First', last: 'Last', theme: 'green', onchange: pagChange});
                     documentsList = documents.documentList;
                     //funziona!!!!
                     //alert(documents.numberOfDocument);

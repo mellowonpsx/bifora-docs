@@ -312,7 +312,7 @@ class Document
         else $categoryList = "(NULL)";
         //SELECT Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, Categorized.id as idCategorized, Categorized.idDocument, Categorized.idCategory FROM Document, Categorized WHERE Categorized.idDocument = Document.id and idCategory in ('0')
         $query = " SELECT SQL_CALC_FOUND_ROWS Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, "
-               . " Categorized.idDocument, Categorized.idCategory, Tag.id, Tag.name, Tagged.idTag, Tagged.idDocument "
+               . " Categorized.idDocument, Categorized.idCategory, Tag.name, Tagged.idTag, Tagged.idDocument "
                . " FROM Document, Categorized, Tagged, Tag WHERE "
                . " Categorized.idDocument = Document.id "
                // controllo la validità del tag solo nel momento in cui faccio il confronto con la stringa di ricerca
@@ -389,7 +389,7 @@ class Document
                     }
                 }
             }
-        }while($db->next_result());
+        }while($db->more_results() && $db->next_result());
         
         foreach ($result_list_array as &$thisElement)
         {

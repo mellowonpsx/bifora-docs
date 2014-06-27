@@ -46,6 +46,10 @@ class DB
     {
         return $this->db->next_result();
     }
+    public function more_results()
+    {
+        return $this->db->more_results();
+    }
     
     public function affectedRows()
     {

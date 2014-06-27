@@ -11,8 +11,47 @@ function main()
 {
     initLogin();
     updateCategories();
+    initSearch();
+    initPagination();
 }
-function editMode(){
+function initSearch()
+{
+    $("#search").keypress(function(event)
+                {
+                   
+                    if(event.keyCode === 13)
+                    {
+                        event.preventDefault();
+                        showStuff();
+                    }
+                });
+    $.ajax(
+        {
+            url: 'listTag.php',
+
+            success: function(output)
+            {
+                tags=$.parseJSON(output);
+                 $('#search').autocomplete(
+                    {
+                        source:tags 
+                    } 
+                 
+               );
+
+            }
+        });
+}
+function initPagination()
+{
+    $('#smart-paginator').smartpaginator({ totalrecords: 100, recordsperpage: 10, initval:0 , next: 'Next', prev: 'Prev', first: 'First', last: 'Last', theme: 'green', onchange: pagChange});
+}
+function pagChange(newPageValue) 
+{
+    showStuff(newPageValue);
+}
+function editMode()
+{
     if($("#ed").attr("href")==="css/noedit.css")
     {
         if(usr.type==="ADMIN")

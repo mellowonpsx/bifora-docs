@@ -23,7 +23,7 @@ function updateCategories()
                 categories = $.parseJSON(output);
                 for (var k in categories) 
                 {
-                    $('#categoriesDiv').append(addCategory(categories[k].name, categories[k].id));
+                    $('#categoriesDiv').append(addCategory(categories[k].name, categories[k].id,categories[k].empty));
                     categories[k].selected = true;
                     $('#' + categories[k].id).css("color", "white");
                 }
@@ -42,11 +42,12 @@ function updateCategories()
         }
     });
 }
-function addCategory(name, id) 
+function addCategory(name, id,empty) 
 {
     var r = '<li onclick="selectCategories(this);" class="killableCat" id="' + id + '"><div>';
         r += "<span class='nameCat'>"+name+"</span>";
         r += "<span onclick='editCat(event,this)' class='killerCat'>\t\te </span>";
+        if(empty)
         r += "<span onclick='killCat(event,this)' class='killerCat'>\t\tx </span>";
         r += "<div class='editCat'><input type='text' onclick='event.stopPropagation();' name='categoryName'><input type='button' onclick='submitEditCategory(event,this)' value='Edit'></div>";
         r += "</div></li>";
@@ -122,7 +123,12 @@ function submitCategory(){
         success:    function(output) 
                     {       
                        //alert(output); //aggiungere gestione errori
-                       updateCategories();
+                       out=$.parseJSON(output);
+                       
+                       if(out.status==="false")
+                           alert(out.error);
+                       else
+                           updateCategories();
                     }
     });
 }
