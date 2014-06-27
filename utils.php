@@ -69,7 +69,18 @@ function json_error($message)
     $result_array = array();
     $result_array["status"] = "false";
     $result_array["error"] = $message;
-    echo json_encode($result_array);
+    return json_encode($result_array);
+}
+
+function json_ok($json_data = NULL)
+{
+    $result_array = array();
+    $result_array["status"] = "true";
+    if($json_data !== NULL)
+    {
+        $result_array["data"] = $json_data;
+    }
+    return json_encode($result_array);
 }
 
 // prepare configuration

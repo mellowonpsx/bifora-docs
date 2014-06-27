@@ -120,7 +120,8 @@ function submitCategory(){
         type: "POST",
         data: $("#categoryName"),
         success:    function(output) 
-                    {                  
+                    {       
+                       //alert(output); //aggiungere gestione errori
                        updateCategories();
                     }
     });

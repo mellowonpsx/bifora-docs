@@ -10,7 +10,7 @@ require_once "utils.php";
 $user = getSessionUser();
 if(empty($user))
 {
-    json_error(Errors::$ERROR_00);
+    die(json_error(Errors::$ERROR_00));
     return;
 }
 
