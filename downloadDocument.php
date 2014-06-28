@@ -9,12 +9,16 @@ require_once 'utils.php';
 //check variabiles
 if(!isset($_POST["idDocument"]))
 {
-    die(json_error(Errors::$ERROR_90." _POST[\"idDocument\"]"));
+    //die(json_error(Errors::$ERROR_90." _POST[\"idDocument\"]"));
+    //this error will appear in downloaded file, instead file content.
+    //it's better if this message are human readable
+    die(Errors::$ERROR_90." _POST[\"idDocument\"]");
 }
 
 if(!Document::existDocument($db->escape(filter_var($_POST["idDocument"], FILTER_SANITIZE_STRING))))
 {
-    die(json_error(Errors::$ERROR_12));
+    //die(json_error(Errors::$ERROR_12));
+    die(Errors::$ERROR_12);
 }
 
 $document = new Document($db->escape(filter_var($_POST["idDocument"], FILTER_SANITIZE_STRING)));
@@ -27,11 +31,13 @@ if($document->getIsPrivate())
     $user = getSessionUser();
     if(empty($user))
     {
-        die(json_error(Errors::$ERROR_00));
+        //die(json_error(Errors::$ERROR_00));
+        die(Errors::$ERROR_00);
     }
     if($user->getType() != BD_USER_TYPE_ADMIN && $user->getUserId() != $document->getOwnerId())
     {
-        die(json_error(Errors::$ERROR_21));
+        //die(json_error(Errors::$ERROR_21));
+        die(Errors::$ERROR_21);
     }
 }
 
