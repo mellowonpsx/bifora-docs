@@ -11,12 +11,16 @@ A- Colorare documenti in base a ownership
 A- aggiungere la categorizzazione per anno
 
 A+- Programmare le viste
+    A- (VISTA) In modalità edit non deve essere possibile vedere il dettaglio documento
 
 A- Dettaglio documenti (pop-up, con tasto modifica per passare alla modalità modifica -> solo se owner)
 
-A- Cancellazione documento (invoco eraseDocument, mi restituisce un campo temporaneo che va messo in eraseTempKey alla conferma).
+A- Cancellazione documento (invoco deleteDocument, mi restituisce, in caso ci sia
+     un campo temporaneo che va messo in eraseTempKey per la conferma).
 
 A- Aggiungere effetto vibrato
+
+A- Sistemare l'autocompletamento
 
 opzionale:
 M+ Mettere upload e download folder in database configurazioni
@@ -49,3 +53,7 @@ A+ Possibilità di cancellare solo categorie vuote
 A+ Quando si aggiunge una categoria già esistente, lasciare il campo pieno e popup con notifica errore
 A+ aggiungere il tasto cerca (invio farà l'autocompletamento
 A+ nella ricerca bisogna fare l'autocompletamento per tag, da definizione specifiche.
+
+BUGS:
+- se esci dalla modalità edit durante la modifica della categoria, rimangono aperti i form di modifica
+- se la cancellazione della categoria fallisce, non c'è alcuna notifica!

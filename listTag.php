@@ -1,11 +1,17 @@
 <?php
+/**
+ * listTag
+ *
+ * @author mellowonpsx
+ * @author aci
+ */
+require_once 'utils.php';
 
-require_once "utils.php";
-$i=0;
-$arr=Tag::getTagList();
-$r=array();
-foreach($arr as &$value){
-    $r[$i]=$value;
-    $i++;
+$tagSearchKey = NULL;
+if(isset($_POST["tagSearchKey"]))
+{
+   $tagSearchKey = $db->escape(filter_var($_POST["tagSearchKey"], FILTER_SANITIZE_STRING));
 }
-echo json_encode($r);
+
+echo json_ok(Tag::getTagList($tagSearchKey));
+exit();

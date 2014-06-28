@@ -1,10 +1,11 @@
 <?php
-
 /**
  * listDocumentType
+ *
  * @author mellowonpsx
+ * @author aci
  */
+require_once 'utils.php';
 
-require_once "utils.php";
-
-echo json_encode(Document::listDocumentType());
+echo json_ok(Document::listDocumentType());
+exit();

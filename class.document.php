@@ -3,9 +3,9 @@
  * Document
  *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 
 //status
 define("BD_DOCUMENT_EMPTY", "BD_DOCUMENT_EMPTY");
@@ -148,21 +148,7 @@ class Document
         
         return 1; //not updated
     }
-    public function getJson(){
-        $json_array = array();
-            $json_array["id"] = $this->getId();
-            $json_array["date"] = $this->getDate('d-m-Y');
-            $json_array["title"] = $this->getTitle();
-            $json_array["filename"] = $this->getFilename();
-            $json_array["extension"] = $this->getExtension();
-            $json_array["description"] = $this->getDescription();
-            $json_array["type"] = $this->getType();
-            $json_array["isPrivate"] = $this->getIsPrivate();
-            $json_array["categories"]= Categorized::getCategoryListByDocumentId($this->getId());
-            $json_array["tags"]= Tagged::getTagListByDocumentIn1($this->getId());
-        $json_string  = json_encode($json_array);
-        return $json_string;
-    }
+    
     public function getId()
     {
         return $this->id;
@@ -414,5 +400,35 @@ class Document
         $result_array["documentPerPage"] = $config->getParam("documentPerPage");
         $result_array["documentList"] = $result_list_array;
         return $result_array;
+    }
+    
+    public function toArray($ownerId = NULL)
+    {
+        $data_array = array();
+        
+        $data_array["id"] = $this->getId();
+        $data_array["date"] = $this->getDate('d-m-Y');
+        $data_array["title"] = $this->getTitle();
+        $data_array["filename"] = $this->getFilename();
+        $data_array["extension"] = $this->getExtension();
+        $data_array["description"] = $this->getDescription();
+        $data_array["type"] = $this->getType();
+        $data_array["isPrivate"] = $this->getIsPrivate();
+        $owned = false;
+        if($ownerId == $this->getOwnerId())
+        {
+            $owned = true;
+        }
+        $data_array["owned"] = $owned;
+        $data_array["categories"] = Categorized::getCategoryListByDocumentId($this->getId());
+        $data_array["tags"] = Tagged::getTagListByDocumentIn1($this->getId());
+        
+        //$json_string  = json_encode($json_array);
+        return $data_array;
+    }
+    
+    public function toJson($ownerId = NULL)
+    {
+        return json_encode($this->toArray($ownerId));
     }
 }

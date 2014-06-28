@@ -3,9 +3,9 @@
  * Category
  *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 
 // the phylosophy behind this project expect to have already control and excaped variables
 class Category
@@ -27,7 +27,7 @@ class Category
     public static function getFirstCategoryId()
     {
         global $db;
-        $query = "SELECT * FROM Category LIMIT 0,1";
+        $query = "SELECT id FROM Category LIMIT 0,1";
         $result = $db->query($query);
         $row = mysqli_fetch_assoc($result);
         return $row["id"];

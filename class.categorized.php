@@ -3,11 +3,10 @@
  * Categorized
  *
  * @author mellowonpsx
+ * @author aci
  */
+require_once 'utils.php';
 
-require_once "utils.php";
-
-// the phylosophy behind this project expect to have already control and excaped variables
 class Categorized
 {
     public static function existBind($idCategory, $idDocument)
@@ -113,6 +112,6 @@ class Categorized
         {
             $result_array[$row["id"]] = array("id" => $row["id"], "name" => $row["name"]);
         }
-        return json_encode($result_array);
+        return $result_array;
     }
 }

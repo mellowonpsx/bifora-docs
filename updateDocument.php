@@ -1,46 +1,40 @@
 <?php
-
 /**
- * insertDocument
+ * updateDocument
+ *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 // verify user
 $user = getSessionUser();
 if(empty($user))
 {
     die(json_error(Errors::$ERROR_00));
-    return;
 }
 
 //check variabiles
 if(!isset($_POST["documentId"]))
 {
-    json_error(Errors::$ERROR_90." _POST[\"documentId\"]");
-    return;
+    die(json_error(Errors::$ERROR_90." _POST[\"documentId\"]"));
 }
 
 if(!isset($_POST["title"]))
 {
-    json_error(Errors::$ERROR_90." _POST[\"title\"]");
-    return;
+    die(json_error(Errors::$ERROR_90." _POST[\"title\"]"));
 }
 if(!isset($_POST["description"]))
 {
-    json_error(Errors::$ERROR_90." _POST[\"description\"]");
-    return;
+    die(json_error(Errors::$ERROR_90." _POST[\"description\"]"));
 }
 if(!isset($_POST["type"]))
 {
-    json_error(Errors::$ERROR_90." _POST[\"type\"]");
-    return;
+    die(json_error(Errors::$ERROR_90." _POST[\"type\"]"));
 }
 
 if(!isset($_POST["categoryList"]))
 {
-    json_error(Errors::$ERROR_90." _POST[\"categoryList\"]");
-    return;
+    die(json_error(Errors::$ERROR_90." _POST[\"categoryList\"]"));
 }
 
 //l'assenza di tagList non è un errore, i tag non sono obbligatori!
@@ -73,55 +67,49 @@ if(isset($_POST["isPrivate"]))
 
 if(!Document::existDocument($db->escape(filter_var($_POST["documentId"], FILTER_SANITIZE_STRING))))
 {
-    echo Errors::$ERROR_12;
-    return;
+    die(json_error(Errors::$ERROR_12));
 }
 
 
 if(!Document::existDocument($db->escape(filter_var($_POST["documentId"], FILTER_SANITIZE_STRING))))
 {
-    json_error(Errors::$ERROR_12);
-    return;
+    die(json_error(Errors::$ERROR_12));
 }
 
 $title = $db->escape(filter_var($_POST["title"], FILTER_SANITIZE_STRING));
 $description = $db->escape(filter_var($_POST["description"], FILTER_SANITIZE_STRING));
 $type = $db->escape(filter_var($_POST["type"], FILTER_SANITIZE_STRING));
+
 if(!Document::isDocumentType($type))
 {
     $type = BD_DOCUMENT_TYPE_UNKNOW;
 }
-//$filename = $db->escape(filter_var($_POST["filename"], FILTER_SANITIZE_STRING));
-//$extension = $db->escape(filter_var($_POST["extension"], FILTER_SANITIZE_STRING));
 
 $document = new Document($db->escape(filter_var($_POST["documentId"], FILTER_SANITIZE_STRING)));
     
-//user check: if is update i must be owner or admin
+//user check: (is always an update) i must be owner or admin
 if($user->getType() != BD_USER_TYPE_ADMIN && $user->getUserId() != $document->getOwnerId())
 {
-    echo Errors::$ERROR_21;
-    return;
+    die(json_error(Errors::$ERROR_21));
 }
 
 //erase all bind
 if(Tagged::eraseAllDocumentBind($document->getId()))
 {
-    json_error(Errors::$ERROR_30);
-    return;
+    die(json_error(Errors::$ERROR_30));
 }
    
 if(empty($categoryList))
 {
-    json_error(Errors::$ERROR_41);
-    return;
+    die(json_error(Errors::$ERROR_41));
 }
 
 if(Categorized::eraseAllDocumentBind($document->getId()))
 {
-    json_error(Errors::$ERROR_40);
-    return;
+    die(json_error(Errors::$ERROR_40));
 }
 
+//setMultipleValues($title, $filename, $extension, $description, $type, $isPrivate, $ownerId)
 $document->setMultipleValues($title, null, null, $description, $type, $isPrivate, null);
 
 // updateTag
@@ -143,21 +131,18 @@ if(!$atLeastOne)
 {
     //puo capitare che l'admin cancelli una categoria che io ho scelto come unica per il mio file.
     //per non lasciare il file non categorizzato, prima di notificare l'errore, lo attacco alla categoria di default.
-    //default category: the one with lowest id
+    //default category: the one with lowest id => to not have a file without category
     Categorized::insertCategorized(Category::getFirstCategoryId(), $document->getId());
     //notifico l'errore
-    json_error(Errors::$ERROR_41);
-    return;
+    die(json_error(Errors::$ERROR_41));
 }
 
 // force update database value
 if($document->updateDBValue())
 {
-    json_error(Errors::$ERROR_10);
-    return;
+    die(json_error(Errors::$ERROR_10));
 }
+
 //all ok
-$result_array = array();
-$result_array["status"] = "true";
-echo json_encode($result_array);
-return;
+echo json_ok($result_array);
+exit();

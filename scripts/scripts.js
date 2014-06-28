@@ -23,7 +23,7 @@ function initYear(){
     }
 }
 function changeYear(){
-    alert();
+    alert($("#year").val());
     showStuff();
 }
 function initSearch()

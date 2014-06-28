@@ -3,9 +3,9 @@
  * TempKey
  *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 
 // the phylosophy behind this project expect to have already control and excaped variables
 class TempKey

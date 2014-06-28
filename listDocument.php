@@ -1,11 +1,11 @@
 <?php
-
 /**
  * listDocument
+ *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 $category_array = array();
 if(isset($_POST["category"]))
 {
@@ -62,4 +62,5 @@ else //user = null => not logged (?)
     //echo json_encode(Document::getDocumentList(0, 1000, $category_array, false, NULL, NULL));
     $result_array = Document::getDocumentList($startLimit, $endLimit, $category_array, false, NULL, $yearLimit, $searchQuery);
 }
-echo json_encode($result_array);
+echo json_ok($result_array);
+exit();

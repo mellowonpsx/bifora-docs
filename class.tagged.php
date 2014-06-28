@@ -3,9 +3,9 @@
  * Tagged
  *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 
 // the phylosophy behind this project expect to have already control and excaped variables
 class Tagged
@@ -157,6 +157,7 @@ class Tagged
         {
             $result_array[$row["id"]] = array("id" => $row["id"], "name" => $row["name"]);
         }
-        return json_encode($result_array);
+        //return json_encode($result_array);
+        return $result_array;
     }
 }

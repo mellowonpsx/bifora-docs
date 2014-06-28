@@ -58,7 +58,7 @@ function killCat(event,obj) {
     var id= obj.parentNode.parentNode.id;
     $.ajax(
     {
-        url: 'deleteCategory.php',
+        url: 'removeCategory.php',
         type: "POST",
         data: {id:id},
         success:    function(output) 
@@ -88,11 +88,11 @@ function submitEditCategory(event,obj)
     var value=obj.parentNode.firstElementChild.value;
     $.ajax(
     {
-        url: 'editCategory.php',
+        url: 'updateCategory.php',
         type: "POST",
         data: {
-                id:id,
-                value:value,
+                categoryId:id,
+                categoryName:value,
             
         },
         success:    function(output) 
@@ -117,7 +117,7 @@ function submitCategory(){
         return;
     $.ajax(
     {
-        url: 'addCategory.php',
+        url: 'insertCategory.php',
         type: "POST",
         data: $("#categoryName"),
         success:    function(output) 
