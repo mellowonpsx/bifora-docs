@@ -186,8 +186,8 @@ function showStuff(a)
                     //return;
                     //alert(output); // da togliere, mostra il contenuto ritornato
                     documents = $.parseJSON(output);
-                    $('#smart-paginator').smartpaginator({ totalrecords: documents.numberOfDocument, recordsperpage: documents.documentPerPage, initval:a , next: 'Next', prev: 'Prev', first: 'First', last: 'Last', theme: 'green', onchange: pagChange});
                     documentsList = documents.documentList;
+                    refreshPaginator(documents.numberOfDocument,documents.documentPerPage,a);
                     //funziona!!!!
                     //alert(documents.numberOfDocument);
                     //alert(documents.documentPerPage);

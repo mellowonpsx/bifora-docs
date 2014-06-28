@@ -12,7 +12,6 @@ function main()
     initLogin();
     updateCategories();
     initSearch();
-    initPagination();
 }
 function initSearch()
 {
@@ -41,14 +40,6 @@ function initSearch()
 
             }
         });
-}
-function initPagination()
-{
-    $('#smart-paginator').smartpaginator({ totalrecords: 100, recordsperpage: 10, initval:0 , next: 'Next', prev: 'Prev', first: 'First', last: 'Last', theme: 'green', onchange: pagChange});
-}
-function pagChange(newPageValue) 
-{
-    showStuff(newPageValue);
 }
 function editMode()
 {
