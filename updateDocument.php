@@ -1,11 +1,11 @@
 <?php
-
 /**
- * insertDocument
+ * updateDocument
+ *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 // verify user
 $user = getSessionUser();
 if(empty($user))

@@ -3,9 +3,9 @@
  * Errors
  *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 
 class Errors
 {
@@ -15,7 +15,8 @@ class Errors
     static public $ERROR_11 = "Error 11: document already exist";
     static public $ERROR_12 = "Error 12: document not exist";
     static public $ERROR_13 = "Error 13: category already exist/cannot insert category";
-    static public $ERROR_14 = "Error 14: category not exist";
+    static public $ERROR_14 = "Error 14: category not exist/cannot update category";
+    static public $ERROR_15 = "Error 14: category not exist/category non empty/cannot remove category";
     static public $ERROR_20 = "Error 20: file not exist";
     static public $ERROR_21 = "Error 21: file not owned by user";
     static public $ERROR_22 = "Error 22: file not exist, already erased?";

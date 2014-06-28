@@ -3,9 +3,9 @@
  * Document
  *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 
 //status
 define("BD_DOCUMENT_EMPTY", "BD_DOCUMENT_EMPTY");
@@ -148,7 +148,7 @@ class Document
         
         return 1; //not updated
     }
-    public function getJson(){
+    public function toJson($ownerId = NULL){
         $json_array = array();
             $json_array["id"] = $this->getId();
             $json_array["date"] = $this->getDate('d-m-Y');
@@ -158,8 +158,14 @@ class Document
             $json_array["description"] = $this->getDescription();
             $json_array["type"] = $this->getType();
             $json_array["isPrivate"] = $this->getIsPrivate();
-            $json_array["categories"]= Categorized::getCategoryListByDocumentId($this->getId());
-            $json_array["tags"]= Tagged::getTagListByDocumentIn1($this->getId());
+            $owned = false;
+            if($ownerId == $this->getOwnerId())
+            {
+                $owned = true;
+            }
+            $json_array["owned"] = $owned;
+            $json_array["categories"] = Categorized::getCategoryListByDocumentId($this->getId());
+            $json_array["tags"] = Tagged::getTagListByDocumentIn1($this->getId());
         $json_string  = json_encode($json_array);
         return $json_string;
     }

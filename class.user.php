@@ -3,9 +3,9 @@
  * User
  *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 
 //status
 define("BD_USER_NOT_LOGGED", "BD_USER_NOT_LOGGED");

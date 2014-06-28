@@ -1,11 +1,11 @@
 <?php
-
 /**
- * uploadDocument
+ * downloadDocument
+ *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 //check variabiles
 if(!isset($_POST["idDocument"]))
 {

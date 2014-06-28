@@ -1,11 +1,11 @@
 <?php
-
 /**
  * login
+ *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 
 if(isset($_POST["username"])&&isset($_POST["password"]))
 {

@@ -3,9 +3,9 @@
  * Config
  *
  * @author mellowonpsx
+ * @author aci
  */
-
-require_once "utils.php";
+require_once 'utils.php';
 
 class Config
 {

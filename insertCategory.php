@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * insertCategory
+ *
+ * @author mellowonpsx
+ * @author aci
+ */
 require_once 'utils.php';
 
 if(!isset($_POST["categoryName"]))
@@ -9,12 +14,14 @@ if(!isset($_POST["categoryName"]))
 
 global $db;
 $user = getSessionUser();
+
 if(empty($user))
 {
     die(json_error(Errors::$ERROR_00));
     
 }
-if($user->getType() != BD_USER_TYPE_ADMIN && $user->getUserId() != $document->getOwnerId())
+
+if($user->getType() != BD_USER_TYPE_ADMIN) //only admin can modify category!!
 {
     die(json_error(Errors::$ERROR_01));
 }
