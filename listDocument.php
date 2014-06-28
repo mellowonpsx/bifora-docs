@@ -62,4 +62,5 @@ else //user = null => not logged (?)
     //echo json_encode(Document::getDocumentList(0, 1000, $category_array, false, NULL, NULL));
     $result_array = Document::getDocumentList($startLimit, $endLimit, $category_array, false, NULL, $yearLimit, $searchQuery);
 }
-echo json_encode($result_array);
+echo json_ok($result_array);
+exit();

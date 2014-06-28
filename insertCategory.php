@@ -31,4 +31,5 @@ if(Category::insertCategory($db->escape(filter_var($_POST['categoryName'], FILTE
     die(json_error(Errors::$ERROR_13));
 }
 
-die(json_ok());
+echo json_ok();
+exit();

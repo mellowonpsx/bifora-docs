@@ -112,6 +112,6 @@ class Categorized
         {
             $result_array[$row["id"]] = array("id" => $row["id"], "name" => $row["name"]);
         }
-        return json_encode($result_array);
+        return $result_array;
     }
 }

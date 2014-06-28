@@ -7,14 +7,11 @@
  */
 require_once 'utils.php';
 
-// perché tagList non funziona semplicemente con questo?
-/*echo json_encode(Tag::getTagList());
-return*/
-$i=0;
-$arr=Tag::getTagList();
-$r=array();
-foreach($arr as &$value){
-    $r[$i]=$value;
-    $i++;
+$tagSearchKey = NULL;
+if(isset($_POST["tagSearchKey"]))
+{
+   $tagSearchKey = $db->escape(filter_var($_POST["tagSearchKey"], FILTER_SANITIZE_STRING));
 }
-echo json_encode($r);
+
+echo json_ok(Tag::getTagList($tagSearchKey));
+exit();
