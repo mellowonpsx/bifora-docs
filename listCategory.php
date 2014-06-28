@@ -6,5 +6,4 @@
  * @author aci
  */
 require_once 'utils.php';
-echo json_ok(Category::getCategoryList());
-exit();
+echo json_encode(Category::getCategoryList());
