@@ -26,10 +26,11 @@ function resizeInput()
 }
 function openFileDialog()
 {
+    addGreyDiv();
     if ($('#h').css('opacity') === '0')
         $('#dialog').remove();
     var a = "<div id='dialog'>";
-    a += "File:<br>" + $('#nascosto').val().replace("C:\\fakepath\\", "") + "   (Click to change selected document.)";
+    a += "<div class='dialog'><div onclick='nascoClick()'>File:<br>" + $('#nascosto').val().replace("C:\\fakepath\\", "") + "   (Click to change selected document.)</div>";
     a += "<form id='documentDataForm'>";
     a += "<br>Title:<br><input type='text' id='title' name='title'>";
     a += "<br>Description:<br><textarea id='desc' name='description'></textarea>";
@@ -43,14 +44,17 @@ function openFileDialog()
     a += "</form>";
     a += "<br><input type='button' onclick='uploadDocument();' value='Upload' name='submitButton'></input>";
     a += "<input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
-    a += "</div>";
-    $('#ulDiv').append(a);
+    a += "</div></div>";
+    $('.greyDiv').append(a);
     $('#h').css('opacity', '0');
     $('#h').css('position', 'absolute');
     $('#nascosto').css('height', '40px');
     setCategoryOptions();
     setTypeOptions();
     setTagAutocomplete();
+}
+function nascoClick(){
+    $('#nascosto').click();
 }
 function setTagAutocomplete(){
 
@@ -147,6 +151,7 @@ function dismissDialog()
     $('#h').css('opacity', '1');
     $('#h').css('position', 'relative');
     $('#nascosto').css('height', $('#ulDiv').css('height'));
+    removeGreyDiv();
 }
 function showStuff(a)
 {
@@ -161,7 +166,7 @@ function showStuff(a)
                         //se non esiste viene assunto automaticamente come 1 lato server (esistenza con isset(_POST["pageNumber"]);
                         pageNumber: a,
                         //se non esiste non deve essere settato (lato server faccio check su isset(_POST["yearLimit"]);
-                        yearLimit: 2012,
+                        yearLimit: $("#year").val(),
                         searchQuery: $("#search").val()
                         //la ricerca estrae i record contenenti TUTTE le keyword in (titolo oppure descrizione oppure tag collegati)
                         //può anche essere che una keyword appartenga al titolo, una alla descrizione ed una al tag collegato).
@@ -186,8 +191,8 @@ function showStuff(a)
                     //return;
                     //alert(output); // da togliere, mostra il contenuto ritornato
                     documents = $.parseJSON(output);
-                    $('#smart-paginator').smartpaginator({ totalrecords: documents.numberOfDocument, recordsperpage: documents.documentPerPage, initval:a , next: 'Next', prev: 'Prev', first: 'First', last: 'Last', theme: 'green', onchange: pagChange});
                     documentsList = documents.documentList;
+                    refreshPaginator(documents.numberOfDocument,documents.documentPerPage,a);
                     //funziona!!!!
                     //alert(documents.numberOfDocument);
                     //alert(documents.documentPerPage);
@@ -201,16 +206,17 @@ function showStuff(a)
                         for(var h in documentsList[k].tags){
                             arr.push(documentsList[k].tags[h].name);
                         }
-                        $('#preview').append(addPreview(documentsList[k].title, documentsList[k].description, documentsList[k].extension,arr));
-                
+                        $('#preview').append(addPreview(documentsList[k].title, documentsList[k].description, documentsList[k].extension,arr,documentsList[k].isPrivate,documentsList[k].owned,documentsList[k].id));
+                        
                     }
                 }
             });
 }
 
-function addPreview(title, description, type, tags, private)
+function addPreview(title, description, type, tags, private,owned,id)
 {
-    r = "<div class='preview'><h3>" + title + "</h3><br><i>" + description + "</i><br>Type:" + type + "<br>Tags: ";
+    
+    r = "<div class='preview'><h3 id='"+id+"' onclick='documentDetail(this)'>" + title + "</h3><br><i>" + description + "</i><br>Type:" + type + "<br>Tags: ";
     for (i = 0; i < tags.length; i++)
         r += tags[i] + "; ";
     r += "<br>";
@@ -219,15 +225,19 @@ function addPreview(title, description, type, tags, private)
 
 function uploadDocument()
 {
-    if($('#nascosto').val() == '')
+    if($('#nascosto').val() === '')
     {
         // se cerco di cambiare il file e poi faccio cancel,
         // mi toglie il documento, ma sopratutto svuota il form...
         // voluto o errore?
-        alert("empty input file"); //da segnalare in altro modo
+        alert("empty input file!"); //da segnalare in altro modo
         return;
     }
-    
+    if($('#title').val()===''){
+        alert("empty title!");
+        return;
+    }
+        
     var data = new FormData();
     data.append('file', document.getElementById('nascosto').files[0]);
     
@@ -308,5 +318,46 @@ function updateDocument()
             });
 }
 
+function documentDetail(r){
+   var data = new FormData();
+   data.append('id',r.id);
+   $.ajax(
+            {
+                url: 'listDocumentDetail.php',
+                type: 'POST',
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function(output)
+                {
+                 //alert(output);
+                 documento=$.parseJSON(output);
+                 addGreyDiv();
+                
+                 //manca roba private
+                 var a = "<div id='dialog'>";
+                    a += "<div class='dialog'>";
+                    a += "<br>Title:<br><span>"+documento.title+"</span>";
+                    a += "<br>Description:<br><span>"+documento.description+"</span>";
+                    a += "<br>Type:<br><span>"+documento.type+"</span>"; //da trasformare in qualcosa di visuale!!
+                    a += "<br>Categories:<br><span>";
+                   
+                    for(entry in $.parseJSON(documento.categories)){
+     
+                        a+=$.parseJSON(documento.categories)[entry].name+";";
+                    };
+                    //manca getCategories
+                    a += "<br>Tag:<br>";
+                    for(entry in $.parseJSON(documento.tags)){
+                      
+                        a+=$.parseJSON(documento.tags)[entry].name+";";
+                    };
+                    //manca getTags
+                    a += "<br><input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
+                    a += "</div></div>";
+                    $(".greyDiv").append(a);
+                }
+            });
+}
 
 

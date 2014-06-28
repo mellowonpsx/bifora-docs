@@ -12,7 +12,19 @@ function main()
     initLogin();
     updateCategories();
     initSearch();
-    initPagination();
+    initYear();
+}
+function initYear(){
+    thisYear=new Date().getFullYear();
+    $('#year').append(addOptionIdName(0,"-ALL YEARS-"));
+    for (i=0;i<5;i++)
+    {
+        $('#year').append(addOption(thisYear-i)); //category is not textual!!
+    }
+}
+function changeYear(){
+    alert();
+    showStuff();
 }
 function initSearch()
 {
@@ -41,14 +53,6 @@ function initSearch()
 
             }
         });
-}
-function initPagination()
-{
-    $('#smart-paginator').smartpaginator({ totalrecords: 100, recordsperpage: 10, initval:0 , next: 'Next', prev: 'Prev', first: 'First', last: 'Last', theme: 'green', onchange: pagChange});
-}
-function pagChange(newPageValue) 
-{
-    showStuff(newPageValue);
 }
 function editMode()
 {
@@ -88,4 +92,10 @@ function getCookie(cname)
     return "";
 }
 
+function addGreyDiv(){
+    $("body").append("<div class='greyDiv'></div>");
+}
+function removeGreyDiv(){
+    $(".greyDiv").remove();
+}
 
