@@ -102,4 +102,17 @@ class Categorized
         $elementNumber = $row["elementNumber"];
         return $elementNumber;
     }
+    
+    public static function getCategoryListByDocumentId($documentId)
+    {
+        global $db;
+        $query = "SELECT Category.id AS id, Category.name AS name, Categorized.idDocument, Categorized.idCategory FROM Categorized, Category WHERE Categorized.idCategory = Category.id AND Categorized.idDocument = '$documentId'";
+        $result = $db->query($query);
+        $result_array = array();
+        while($row = mysqli_fetch_assoc($result))
+        {
+            $result_array[$row["id"]] = array("id" => $row["id"], "name" => $row["name"]);
+        }
+        return json_encode($result_array);
+    }
 }

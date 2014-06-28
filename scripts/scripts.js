@@ -12,6 +12,19 @@ function main()
     initLogin();
     updateCategories();
     initSearch();
+    initYear();
+}
+function initYear(){
+    thisYear=new Date().getFullYear();
+    $('#year').append(addOptionIdName(0,"-ALL YEARS-"));
+    for (i=0;i<5;i++)
+    {
+        $('#year').append(addOption(thisYear-i)); //category is not textual!!
+    }
+}
+function changeYear(){
+    alert();
+    showStuff();
 }
 function initSearch()
 {
@@ -79,4 +92,10 @@ function getCookie(cname)
     return "";
 }
 
+function addGreyDiv(){
+    $("body").append("<div class='greyDiv'></div>");
+}
+function removeGreyDiv(){
+    $(".greyDiv").remove();
+}
 

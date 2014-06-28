@@ -173,3 +173,23 @@ ul{
     position: relative;
     top: -22px;
 }
+.greyDiv{
+    background-color: rgba(236,236,224,.5);
+    height: 100%;
+    width:100%;
+    z-index:20;
+    position:absolute;
+    top:0px;
+    left:0px;
+    text-align: center;
+}
+.dialog{
+    position:relative;
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+    width:500px;
+    text-align: left;
+    background-color:white;
+    border: solid black;
+}

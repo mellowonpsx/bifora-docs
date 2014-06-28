@@ -148,7 +148,21 @@ class Document
         
         return 1; //not updated
     }
-    
+    public function getJson(){
+        $json_array = array();
+            $json_array["id"] = $this->getId();
+            $json_array["date"] = $this->getDate('d-m-Y');
+            $json_array["title"] = $this->getTitle();
+            $json_array["filename"] = $this->getFilename();
+            $json_array["extension"] = $this->getExtension();
+            $json_array["description"] = $this->getDescription();
+            $json_array["type"] = $this->getType();
+            $json_array["isPrivate"] = $this->getIsPrivate();
+            $json_array["categories"]= Categorized::getCategoryListByDocumentId($this->getId());
+            $json_array["tags"]= Tagged::getTagListByDocumentIn1($this->getId());
+        $json_string  = json_encode($json_array);
+        return $json_string;
+    }
     public function getId()
     {
         return $this->id;
