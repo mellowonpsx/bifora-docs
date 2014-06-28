@@ -15,8 +15,7 @@ A+- Programmare le viste
 
 A- Dettaglio documenti (pop-up, con tasto modifica per passare alla modalità modifica -> solo se owner)
 
-A- Cancellazione documento (invoco deleteDocument, mi restituisce, in caso ci sia
-     un campo temporaneo che va messo in eraseTempKey per la conferma).
+A- Cancellazione documento (invoco eraseDocument, mi restituisce un campo temporaneo che va messo in eraseTempKey alla conferma).
 
 A- Aggiungere effetto vibrato
 

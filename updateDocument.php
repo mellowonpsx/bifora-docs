@@ -11,30 +11,36 @@ $user = getSessionUser();
 if(empty($user))
 {
     die(json_error(Errors::$ERROR_00));
+    return;
 }
 
 //check variabiles
 if(!isset($_POST["documentId"]))
 {
-    die(json_error(Errors::$ERROR_90." _POST[\"documentId\"]"));
+    json_error(Errors::$ERROR_90." _POST[\"documentId\"]");
+    return;
 }
 
 if(!isset($_POST["title"]))
 {
-    die(json_error(Errors::$ERROR_90." _POST[\"title\"]"));
+    json_error(Errors::$ERROR_90." _POST[\"title\"]");
+    return;
 }
 if(!isset($_POST["description"]))
 {
-    die(json_error(Errors::$ERROR_90." _POST[\"description\"]"));
+    json_error(Errors::$ERROR_90." _POST[\"description\"]");
+    return;
 }
 if(!isset($_POST["type"]))
 {
-    die(json_error(Errors::$ERROR_90." _POST[\"type\"]"));
+    json_error(Errors::$ERROR_90." _POST[\"type\"]");
+    return;
 }
 
 if(!isset($_POST["categoryList"]))
 {
-    die(json_error(Errors::$ERROR_90." _POST[\"categoryList\"]"));
+    json_error(Errors::$ERROR_90." _POST[\"categoryList\"]");
+    return;
 }
 
 //l'assenza di tagList non è un errore, i tag non sono obbligatori!
@@ -67,49 +73,55 @@ if(isset($_POST["isPrivate"]))
 
 if(!Document::existDocument($db->escape(filter_var($_POST["documentId"], FILTER_SANITIZE_STRING))))
 {
-    die(json_error(Errors::$ERROR_12));
+    echo Errors::$ERROR_12;
+    return;
 }
 
 
 if(!Document::existDocument($db->escape(filter_var($_POST["documentId"], FILTER_SANITIZE_STRING))))
 {
-    die(json_error(Errors::$ERROR_12));
+    json_error(Errors::$ERROR_12);
+    return;
 }
 
 $title = $db->escape(filter_var($_POST["title"], FILTER_SANITIZE_STRING));
 $description = $db->escape(filter_var($_POST["description"], FILTER_SANITIZE_STRING));
 $type = $db->escape(filter_var($_POST["type"], FILTER_SANITIZE_STRING));
-
 if(!Document::isDocumentType($type))
 {
     $type = BD_DOCUMENT_TYPE_UNKNOW;
 }
+//$filename = $db->escape(filter_var($_POST["filename"], FILTER_SANITIZE_STRING));
+//$extension = $db->escape(filter_var($_POST["extension"], FILTER_SANITIZE_STRING));
 
 $document = new Document($db->escape(filter_var($_POST["documentId"], FILTER_SANITIZE_STRING)));
     
-//user check: (is always an update) i must be owner or admin
+//user check: if is update i must be owner or admin
 if($user->getType() != BD_USER_TYPE_ADMIN && $user->getUserId() != $document->getOwnerId())
 {
-    die(json_error(Errors::$ERROR_21));
+    echo Errors::$ERROR_21;
+    return;
 }
 
 //erase all bind
 if(Tagged::eraseAllDocumentBind($document->getId()))
 {
-    die(json_error(Errors::$ERROR_30));
+    json_error(Errors::$ERROR_30);
+    return;
 }
    
 if(empty($categoryList))
 {
-    die(json_error(Errors::$ERROR_41));
+    json_error(Errors::$ERROR_41);
+    return;
 }
 
 if(Categorized::eraseAllDocumentBind($document->getId()))
 {
-    die(json_error(Errors::$ERROR_40));
+    json_error(Errors::$ERROR_40);
+    return;
 }
 
-//setMultipleValues($title, $filename, $extension, $description, $type, $isPrivate, $ownerId)
 $document->setMultipleValues($title, null, null, $description, $type, $isPrivate, null);
 
 // updateTag
@@ -131,18 +143,21 @@ if(!$atLeastOne)
 {
     //puo capitare che l'admin cancelli una categoria che io ho scelto come unica per il mio file.
     //per non lasciare il file non categorizzato, prima di notificare l'errore, lo attacco alla categoria di default.
-    //default category: the one with lowest id => to not have a file without category
+    //default category: the one with lowest id
     Categorized::insertCategorized(Category::getFirstCategoryId(), $document->getId());
     //notifico l'errore
-    die(json_error(Errors::$ERROR_41));
+    json_error(Errors::$ERROR_41);
+    return;
 }
 
 // force update database value
 if($document->updateDBValue())
 {
-    die(json_error(Errors::$ERROR_10));
+    json_error(Errors::$ERROR_10);
+    return;
 }
-
 //all ok
-echo json_ok($result_array);
-exit();
+$result_array = array();
+$result_array["status"] = "true";
+echo json_encode($result_array);
+return;

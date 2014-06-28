@@ -7,5 +7,4 @@
  */
 require_once 'utils.php';
 
-echo json_ok(Document::listDocumentType());
-exit();
+echo json_encode(Document::listDocumentType());
