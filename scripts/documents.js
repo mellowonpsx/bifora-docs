@@ -319,18 +319,19 @@ function updateDocument()
 }
 
 function documentDetail(r){
-   var data = new FormData();
-   data.append('id',r.id);
+   //var data = new FormData();
+   //data.append('idDocument',r.id);
    $.ajax(
             {
-                url: 'listDocumentDetail.php',
+                url: 'getDocumentDetail.php',
                 type: 'POST',
-                data: data,
-                processData: false,
-                contentType: false,
+                data: {idDocument: r.id},
+                //processData: false,
+                //contentType: false,
                 success: function(output)
                 {
-                 //alert(output);
+                 alert(output);
+                 return;
                  documento=$.parseJSON(output);
                  addGreyDiv();
                 

@@ -93,21 +93,26 @@ class User
     {
         return $this->type;
     }
-    public function toJson()
+    
+    public function toArray()
     {
-        $json_array = array();
-        $json_array["status"] = $this->status;
+        $data_array = array();
+        $data_array["status"] = $this->status;
         if($this->isLogged())
         {
-            $json_array["id"] = $this->id;
-            $json_array["user"] = $this->username;
-            $json_array["name"] = $this->name;
-            $json_array["surname"] = $this->surname;
-            $json_array["mail"] = $this->mail;
-            $json_array["type"] = $this->type;
+            $data_array["id"] = $this->id;
+            $data_array["user"] = $this->username;
+            $data_array["name"] = $this->name;
+            $data_array["surname"] = $this->surname;
+            $data_array["mail"] = $this->mail;
+            $data_array["type"] = $this->type;
         }
-        $json_string  = json_encode($json_array);
-        return $json_string;
+        return $data_array;
+    }
+    
+    public function toJson()
+    {
+        return json_encode($this->toArray());
     }
     
     public static function logoutStatus()
