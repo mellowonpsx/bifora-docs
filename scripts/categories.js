@@ -21,22 +21,30 @@ function updateCategories()
             success: function(output) 
             {
                 categories = $.parseJSON(output);
-                for (var k in categories) 
+                if(categories.status)
                 {
-                    $('#categoriesDiv').append(addCategory(categories[k].name, categories[k].id,categories[k].empty));
-                    categories[k].selected = true;
-                    $('#' + categories[k].id).css("color", "white");
-                }
-                $('#categoriesDiv').append(addAdder());
-                //this is the right way to do it!!! 
-                $('#categoryName').keypress(function(event)
-                {
-                    if(event.keyCode == 13)
+                    for (var k in categories.data) 
                     {
-                        event.preventDefault();
-                        $("#categoryButton").click();
+                        
+                        $('#categoriesDiv').append(addCategory(categories.data[k].name, categories.data[k].id,categories.data[k].empty));
+                        categories.data[k].selected = true;
+                        $('#' + categories.data[k].id).css("color", "white");
                     }
-                });
+                    $('#categoriesDiv').append(addAdder());
+                    //this is the right way to do it!!! 
+                    $('#categoryName').keypress(function(event)
+                    {
+                        if(event.keyCode == 13)
+                        {
+                            event.preventDefault();
+                            $("#categoryButton").click();
+                        }
+                    });
+                }
+                else
+                {
+                    alert(categories.error);
+                }
                 //end of right way
                 showStuff();
         }
@@ -60,7 +68,7 @@ function killCat(event,obj) {
     {
         url: 'removeCategory.php',
         type: "POST",
-        data: {id:id},
+        data: {categoryId:id},
         success:    function(output) 
                     {  
                        updateCategories();
@@ -122,7 +130,6 @@ function submitCategory(){
         data: $("#categoryName"),
         success:    function(output) 
                     {       
-                       //alert(output); //aggiungere gestione errori
                        out=$.parseJSON(output);
                        
                        if(out.status==="false")
@@ -134,21 +141,24 @@ function submitCategory(){
 }
 function selectCategories(obj) 
 {
+    
     var allFalse = true;
-    for (var k in categories) 
+    for (var k in categories.data) 
     {
-        if (categories[k].id !== obj.id)
+        if (categories.data[k].id !== obj.id)
         {
-            if (categories[k].selected)
+            if (categories.data[k].selected)
                 allFalse = false;
         }
     }
-    if (categories[obj.id].selected && allFalse)
+            
+    if (categories.data[obj.id].selected && allFalse)
     {
+
         return;
     }
-    categories[obj.id].selected = !categories[obj.id].selected;
-    if (categories[obj.id].selected)
+    categories.data[obj.id].selected = !categories.data[obj.id].selected;
+    if (categories.data[obj.id].selected)
         $('#' + obj.id).css("color", "white");
     else
         $('#' + obj.id).css("color", "black");
@@ -159,11 +169,11 @@ function getSelectedCategories()
 {
     var r = new Array();
     var i = 0;
-    for (var k in categories) 
+    for (var k in categories.data) 
     {
-        if (categories[k].selected)
+        if (categories.data[k].selected)
         {
-            r[i] = categories[k];
+            r[i] = categories.data[k];
             i++;
         }
     }

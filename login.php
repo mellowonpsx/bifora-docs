@@ -28,7 +28,7 @@ if(!isset($_POST["username"]))
     die(json_error(Errors::$ERROR_90." _POST[\"username\"]"));
 }
 
-if(!isset($_POST[""]))
+if(!isset($_POST["password"]))
 {
     die(json_error(Errors::$ERROR_90." _POST[\"password\"]"));
 }
