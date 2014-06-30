@@ -17,14 +17,15 @@ function initLogin() {
 
 function login() {
     if ($('#user').val() === '' || $('#pass').val() === '') {
-        return; //alert (?)
+        return;
     }
     $.ajax({
         type: "POST",
         url: 'login.php',
         data: {username: $('#user').val(), password: $('#pass').val()},
         success: function(output) {
-            login_succes(output);
+            parsedOutput = $.parseJSON(output);
+            login_succes(parsedOutput);
         }
     });
 }
@@ -65,16 +66,24 @@ function stayLogged() {
     setCookie('pass', $('#pass').val(), 365);
 }
 
-function login_succes(output) {
-    usr = $.parseJSON(output);
-    usr.edit = true;
-    if (usr.status === "BD_USER_LOGGED") {
-        stayLogged();
-        loginTrue();
-
-            
-    } else {
-        alert('Invalid username or password'); //trasformare l'alert in un messaggio in rosso nel form di login
+function login_succes(parsedOutput) {
+    if (parsedOutput.status) 
+    {
+        if(parsedOutput.data.status==="BD_USER_LOGGED")
+        {
+            usr=parsedOutput.data;
+            usr.edit=true;
+            stayLogged();
+            loginTrue();    
+        }
+        else
+        {
+            alert(parsedOutput.data.status);
+        }
+    } 
+    else 
+    {
+        alert(parsedOutput.data.error); //trasformare l'alert in un messaggio in rosso nel form di login
     }
     
 }
@@ -83,17 +92,18 @@ function logout() {
     $.ajax({
         url: 'logout.php',
         success: function(output) {
-            logout_succes(output);
+            parsedOutput = $.parseJSON(output);
+            logout_succes(parsedOutput);
         }
     });
 }
 
-function logout_succes(output)
+function logout_succes(parsedOutput)
 {
-    usr = $.parseJSON(output);
-    if (usr.status !== "BD_USER_UNLOGGED")
+    if (!parsedOutput.status)
     {
         alert('something bad happend!!'); //trasformare l'alert in un messaggio in rosso nel form di login
+        return;
     }
     usr = {edit: false};
     setCookie('user', "", -1);

@@ -64,10 +64,12 @@ function setTagAutocomplete(){
 
             success: function(output)
             {
-                tags=$.parseJSON(output);
+                        
+                alert(output);
+                tags=$.parseJSON(output).data;
                  $('#tagInput').autocomplete(
                     {
-                        source:tags 
+                        source:tags
                     } 
                  
                 )
@@ -110,9 +112,9 @@ function kill(obj) {
 function setCategoryOptions()
 {
     $('#categoriesSelect').append(addOption("-SELECT  A CATEGORY-"));
-    for (var k in categories)
+    for (var k in categories.data)
     {
-        $('#categoriesSelect').append(addOptionIdName(categories[k].id, categories[k].name)); //category is not textual!!
+        $('#categoriesSelect').append(addOptionIdName(categories.data[k].categoryId, categories.data[k].name)); //category is not textual!!
     }
 }
 
@@ -125,7 +127,8 @@ function setTypeOptions()
                 
                 success: function(output)
                 {
-                    types = $.parseJSON(output);
+                    
+                    types = $.parseJSON(output).data;
                     for (var k in types)
                     {
                         $('#typeSelect').append(addOption(types[k])); //type is textual
@@ -190,24 +193,28 @@ function showStuff(a)
                     //$('#preview').append(output);
                     //return;
                     //alert(output); // da togliere, mostra il contenuto ritornato
+                    
                     documents = $.parseJSON(output);
-                    documentsList = documents.documentList;
-                    refreshPaginator(documents.numberOfDocument,documents.documentPerPage,a);
-                    //funziona!!!!
-                    //alert(documents.numberOfDocument);
-                    //alert(documents.documentPerPage);
-                    $('#preview').empty();
-                    if ($("#ed").attr("href")!=="css/noedit.css"){
-                        showUpload();
-                    }
-                    for (var k in documentsList)
+                    if(documents.status)
                     {
-                        var arr=new Array();
-                        for(var h in documentsList[k].tags){
-                            arr.push(documentsList[k].tags[h].name);
+                        documentsList = documents.data.documentList;
+                        refreshPaginator(documents.data.numberOfDocument,documents.data.documentPerPage,a);
+                        //funziona!!!!
+                        //alert(documents.numberOfDocument);
+                        //alert(documents.documentPerPage);
+                        $('#preview').empty();
+                        if ($("#ed").attr("href")!=="css/noedit.css"){
+                            showUpload();
                         }
-                        $('#preview').append(addPreview(documentsList[k].title, documentsList[k].description, documentsList[k].extension,arr,documentsList[k].isPrivate,documentsList[k].owned,documentsList[k].id));
-                        
+                        for (var k in documentsList)
+                        {
+                            var arr=new Array();
+                            for(var h in documentsList[k].tags){
+                                arr.push(documentsList[k].tags[h].name);
+                            }
+                            $('#preview').append(addPreview(documentsList[k].title, documentsList[k].description, documentsList[k].extension,arr,documentsList[k].isPrivate,documentsList[k].owned,documentsList[k].id));
+
+                        }
                     }
                 }
             });
@@ -331,27 +338,27 @@ function documentDetail(r){
                 success: function(output)
                 {
                  alert(output);
-                 return;
-                 documento=$.parseJSON(output);
+                 //return;
+                 documento=$.parseJSON(output).data;
                  addGreyDiv();
                 
                  //manca roba private
-                 var a = "<div id='dialog'>";
-                    a += "<div class='dialog'>";
-                    a += "<br>Title:<br><span>"+documento.title+"</span>";
-                    a += "<br>Description:<br><span>"+documento.description+"</span>";
-                    a += "<br>Type:<br><span>"+documento.type+"</span>"; //da trasformare in qualcosa di visuale!!
-                    a += "<br>Categories:<br><span>";
+                 var    a = "<div id='dialog'>";
+                        a += "<div class='dialog'>";
+                        a += "<br>Title:<br><span>"+documento.title+"</span>";
+                        a += "<br>Description:<br><span>"+documento.description+"</span>";
+                        a += "<br>Type:<br><span>"+documento.type+"</span>"; //da trasformare in qualcosa di visuale!!
+                        a += "<br>Categories:<br><span>";
                    
-                    for(entry in $.parseJSON(documento.categories)){
-     
-                        a+=$.parseJSON(documento.categories)[entry].name+";";
+                    for(entry in documento.categories){
+                        
+                        a+=documento.categories[entry].name+";";
                     };
                     //manca getCategories
                     a += "<br>Tag:<br>";
-                    for(entry in $.parseJSON(documento.tags)){
+                    for(entry in documento.tags){
                       
-                        a+=$.parseJSON(documento.tags)[entry].name+";";
+                        a+=documento.tags[entry].name+";";
                     };
                     //manca getTags
                     a += "<br><input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
