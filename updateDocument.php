@@ -144,5 +144,5 @@ if($document->updateDBValue())
 }
 
 //all ok
-echo json_ok($result_array);
+echo json_ok();
 exit();

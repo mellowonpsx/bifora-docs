@@ -114,7 +114,7 @@ function setCategoryOptions()
     $('#categoriesSelect').append(addOption("-SELECT  A CATEGORY-"));
     for (var k in categories.data)
     {
-        $('#categoriesSelect').append(addOptionIdName(categories.data[k].categoryId, categories.data[k].name)); //category is not textual!!
+        $('#categoriesSelect').append(addOptionIdName(categories.data[k].id, categories.data[k].name)); //category is not textual!!
     }
 }
 
@@ -240,7 +240,9 @@ function uploadDocument()
         alert("empty input file!"); //da segnalare in altro modo
         return;
     }
-    if($('#title').val()===''){
+    
+    if($('#title').val()==='')
+    {
         alert("empty title!");
         return;
     }
@@ -248,12 +250,14 @@ function uploadDocument()
     var data = new FormData();
     data.append('file', document.getElementById('nascosto').files[0]);
     
-    if ($("#idDocument").length)
+    if ($("#documentId").length)
     {
-        //already uploaded, need to reperform
+        alert("già caricato"); // da togliere
+        //already uploaded, need to reperform data insertion
         updateDocument();
         return;
     }
+    
     if ($("#categoriesUl li").length===0){
         alert("You must select at least one category!");
         return;
@@ -273,15 +277,16 @@ function uploadDocument()
                     {
                         /*$("#private").after("<input type='hidden' id='filename' name='filename' value='" + result.filename + "'>");
                         $("#filename").after("<input type='hidden' id='extension' name='extension' value='" + result.extension + "'>");*/
-                        if(typeof result.id !== 'undefined')
+                        if(typeof result.data.documentId !== 'undefined')
                         {
                             if (!$("#documentId").length)
                             {
-                                $("#private").after("<input type='hidden' id='documentId' name='documentId' value='" + result.id + "'>");
+                                $("#private").after("<input type='hidden' id='documentId' name='documentId' value='" + result.data.documentId + "'>");
                             }
                         }
                         if ($("#private").length)
                         {
+                            //filenamen non vuoto, non so quanto abbia senso questo controllo quei!
                             updateDocument();
                             return;
                         }
