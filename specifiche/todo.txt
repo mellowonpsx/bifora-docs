@@ -12,6 +12,7 @@ A- aggiungere la categorizzazione per anno
 
 A+- Programmare le viste
     A- (VISTA) In modalità edit non deve essere possibile vedere il dettaglio documento
+    A- (VISTA) In modalità admin, si vede l'owner del documento
 
 A- Dettaglio documenti (pop-up, con tasto modifica per passare alla modalità modifica -> solo se owner)
 
@@ -22,10 +23,12 @@ A- Aggiungere effetto vibrato
 
 A- Sistemare l'autocompletamento
 
+A- Modifiche allo stile (inserimento logo, etc)
+
 opzionale:
 M+ Mettere upload e download folder in database configurazioni
+M+ refactory finale
 M- aggiungere funzioni di amministrazione per il purge della cartella temporanea e per cancellare i file non categorizzati
-M- refactory finale
 A- quanto siamo in modalità upload, impedire qualsiasi altro evento fino al termine del caricamento o all'annullamento.
    (in realtà meglio upload visivo, da decidere!).
 
