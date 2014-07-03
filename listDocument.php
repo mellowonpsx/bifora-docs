@@ -37,7 +37,6 @@ if(isset($_POST["yearLimit"]))
 
 $documentPerPage = $config->getParam("documentPerPage");
 $startLimit = ($pageNumber-1)*$documentPerPage;
-$endLimit = $pageNumber*$documentPerPage;
 
 $user = getSessionUser();
 if($user != NULL)
@@ -47,20 +46,24 @@ if($user != NULL)
         //admin shows all
         //echo json_encode(Document::getDocumentList(0, 1000, Category::getCategoryList(), true, NULL, NULL));
         //echo json_encode(Document::getDocumentList(0, 1000, $category_array, true, NULL, NULL));
-        $result_array = Document::getDocumentList($startLimit, $endLimit, $category_array, true, NULL, $yearLimit, $searchQuery);
+        //$result_array = Document::getDocumentList($startLimit, $endLimit, $category_array, true, NULL, $yearLimit, $searchQuery);
+        //add user id or admin not hilight it's own files.
+        $result_array = Document::getDocumentList($startLimit, $documentPerPage, $category_array, false, $user->getUserId(), $yearLimit, $searchQuery);
     }
     else //logged show public and his his own file 
     {
         //echo json_encode(Document::getDocumentList(0, 1000, Category::getCategoryList(), false, $user->getUserId(), NULL));
         //echo json_encode(Document::getDocumentList(0, 1000, $category_array, false, $user->getUserId(), NULL));
-        $result_array = Document::getDocumentList($startLimit, $endLimit, $category_array, false, $user->getUserId(), $yearLimit, $searchQuery);
+        $result_array = Document::getDocumentList($startLimit, $documentPerPage, $category_array, false, $user->getUserId(), $yearLimit, $searchQuery);
     }
 }
 else //user = null => not logged (?)
 {
     //echo json_encode(Document::getDocumentList(0, 1000, Category::getCategoryList(), false, NULL, NULL));
     //echo json_encode(Document::getDocumentList(0, 1000, $category_array, false, NULL, NULL));
-    $result_array = Document::getDocumentList($startLimit, $endLimit, $category_array, false, NULL, $yearLimit, $searchQuery);
+    $result_array = Document::getDocumentList($startLimit, $documentPerPage, $category_array, false, NULL, $yearLimit, $searchQuery);
 }
+
+$result_array["documentPerPage"] = $documentPerPage;
 echo json_ok($result_array);
 exit();
