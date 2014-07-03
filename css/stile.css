@@ -1,3 +1,4 @@
+
 #header
 {
     background-color: #999999;    
@@ -6,13 +7,13 @@
 
 #content
 {
-    background: red;
     height:85%;
     margin-bottom:10px;
 }
 #preview{
    overflow: auto;
-   height:85%;
+   border-bottom: solid black;
+   height:422px;
    margin-bottom: 10px;
    z-index: 1;
 }
@@ -114,7 +115,9 @@
 }
 
 .preview{
-    border:solid blue;
+    border:solid black;
+    border-bottom: none;
+    height:140px;
 }
 
 #nascosto{
@@ -192,4 +195,73 @@ ul{
     text-align: left;
     background-color:white;
     border: solid black;
+}
+
+.unknown{
+    background-image: url('img/file_unknown.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100px; /*or your image's width*/
+    height: 100px; /*or your image's height*/
+    margin: 10px;
+    padding: 0px;
+}
+.other{
+    background-image: url('img/file_other.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100px; /*or your image's width*/
+    height: 100px; /*or your image's height*/
+    margin: 10px;
+    padding: 0px;
+}
+.photo{
+    background-image: url('img/file_img.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100px; /*or your image's width*/
+    height: 100px; /*or your image's height*/
+    margin: 10px;
+    padding: 0px;
+}
+.audio{
+    background-image: url('img/file_audio.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100px; /*or your image's width*/
+    height: 100px; /*or your image's height*/
+    margin: 10px;
+    padding: 0px;
+}
+.document{
+    background-image: url('img/file_document.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100px; /*or your image's width*/
+    height: 100px; /*or your image's height*/
+    margin: 10px;
+    padding: 0px;
+}
+.video{
+    background-image: url('img/file_video.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100px; /*or your image's width*/
+    height: 100px; /*or your image's height*/
+    margin: 10px;
+    padding: 0px;
+}
+.archive{
+    background-image: url('img/file_archive.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100px; /*or your image's width*/
+    height: 100px; /*or your image's height*/
+    margin: 10px;
+    padding: 0px;
+}
+.ubermargin{
+    margin:0px;
+    margin-left: 148px;
+    width:600px;
 }

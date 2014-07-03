@@ -311,7 +311,7 @@ class Document
         }
         else $categoryList = "(NULL)";
         //SELECT Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, Categorized.id as idCategorized, Categorized.idDocument, Categorized.idCategory FROM Document, Categorized WHERE Categorized.idDocument = Document.id and idCategory in ('0')
-        $query = " SELECT SQL_CALC_FOUND_ROWS Document.id as id, title, filename, extension, description, date, isPrivate, ownerId, "
+        $query = " SELECT SQL_CALC_FOUND_ROWS Document.id as id, title, filename, type, description, date, isPrivate, ownerId, "
                . " Categorized.idDocument, Categorized.idCategory, Tag.name, Tagged.idTag, Tagged.idDocument "
                . " FROM Document, Categorized, Tagged, Tag WHERE "
                . " Categorized.idDocument = Document.id "
@@ -385,7 +385,7 @@ class Document
                         {
                             $owned = true;
                         }
-                        $result_list_array[$i++] = array("id" => $row["id"], "title" => $row["title"], "filename" => $row["filename"], "extension" => $row["extension"], "description" => $row["description"], "date" => $row["date"], "isPrivate" => $row["isPrivate"], "ownerId" => $row["ownerId"], "owned" => $owned, "tags" => "");
+                        $result_list_array[$i++] = array("id" => $row["id"], "title" => $row["title"], "filename" => $row["filename"], "type" => $row["type"], "description" => $row["description"], "date" => $row["date"], "isPrivate" => $row["isPrivate"], "ownerId" => $row["ownerId"], "owned" => $owned, "tags" => "");
                     }
                 }
             }

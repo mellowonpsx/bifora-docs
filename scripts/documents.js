@@ -33,7 +33,7 @@ function openFileDialog()
     a += "<div class='dialog'><div onclick='nascoClick()'>File:<br>" + $('#nascosto').val().replace("C:\\fakepath\\", "") + "   (Click to change selected document.)</div>";
     a += "<form id='documentDataForm'>";
     a += "<br>Title:<br><input type='text' id='title' name='title'>";
-    a += "<br>Description:<br><textarea id='desc' name='description'></textarea>";
+    a += "<br>Description:<br><textarea id='desc' name='description' maxlength=200></textarea>";
     a += "<br>Type:<br><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
     a += "<br>Categories:<ul id='categoriesUl' class='killableUl'></ul>";
     a += "<br><select id='categoriesSelect' onchange='addCategoryLi(this)'></select>";
@@ -53,6 +53,7 @@ function openFileDialog()
     setTypeOptions();
     setTagAutocomplete();
 }
+
 function nascoClick(){
     $('#nascosto').click();
 }
@@ -65,7 +66,7 @@ function setTagAutocomplete(){
             success: function(output)
             {
                         
-                alert(output);
+                //alert(output);
                 tags=$.parseJSON(output).data;
                  $('#tagInput').autocomplete(
                     {
@@ -202,6 +203,7 @@ function showStuff(a)
                         //funziona!!!!
                         //alert(documents.numberOfDocument);
                         //alert(documents.documentPerPage);
+                        //alert(output);
                         $('#preview').empty();
                         if ($("#ed").attr("href")!=="css/noedit.css"){
                             showUpload();
@@ -212,7 +214,7 @@ function showStuff(a)
                             for(var h in documentsList[k].tags){
                                 arr.push(documentsList[k].tags[h].name);
                             }
-                            $('#preview').append(addPreview(documentsList[k].title, documentsList[k].description, documentsList[k].extension,arr,documentsList[k].isPrivate,documentsList[k].owned,documentsList[k].id));
+                            $('#preview').append(addPreview(documentsList[k].title, documentsList[k].description, documentsList[k].type,arr,documentsList[k].isPrivate,documentsList[k].owned,documentsList[k].id));
 
                         }
                     }
@@ -223,10 +225,10 @@ function showStuff(a)
 function addPreview(title, description, type, tags, private,owned,id)
 {
     
-    r = "<div class='preview'><h3 id='"+id+"' onclick='documentDetail(this)'>" + title + "</h3><br><i>" + description + "</i><br>Type:" + type + "<br>Tags: ";
+    r = "<div class='preview'><div class='"+type+"'><h3 id='"+id+"' onclick='documentDetail(this)' class='ubermargin'>" + title + "</h3><br><h5 class='ubermargin'>" + description + "</i><br><h5 class='ubermargin'>Tags: ";
     for (i = 0; i < tags.length; i++)
         r += tags[i] + "; ";
-    r += "<br>";
+    r += "</h5><br>";
     return r;
 }
 
@@ -314,7 +316,7 @@ function updateDocument()
                 data: data,
                 success: function(output)
                 {
-                    alert(output); //da togliere
+                   // alert(output); //da togliere
                     var result = $.parseJSON(output);
                     if (result.status == "true")
                     {
@@ -342,7 +344,7 @@ function documentDetail(r){
                 //contentType: false,
                 success: function(output)
                 {
-                 alert(output);
+                 //alert(output);
                  //return;
                  documento=$.parseJSON(output).data;
                  addGreyDiv();
