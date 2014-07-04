@@ -117,7 +117,7 @@
 .preview{
     border:solid black;
     border-bottom: none;
-    height:140px;
+    height:180px;
 }
 
 #nascosto{
@@ -262,6 +262,16 @@ ul{
 }
 .ubermargin{
     margin:0px;
-    margin-left: 148px;
     width:600px;
+}
+.killerDoc{
+    color:red;
+    cursor: pointer;
+    cursor: hand;
+    float: right;
+}
+.preview div{
+    float:left;
+    display:block;
+    margin:5px;
 }

@@ -38,7 +38,7 @@ function openFileDialog()
     a += "<br>Categories:<ul id='categoriesUl' class='killableUl'></ul>";
     a += "<br><select id='categoriesSelect' onchange='addCategoryLi(this)'></select>";
     a += "<br>Tag:<ul id='tagUl' class='killableUl'></ul>";
-    a += "<br><input type='text' id='tagInput'></input>";
+    a += "<br><input type='text' id='tagInput' ></input>";
     a += "<input type='button' onclick='addTagLi();' value='Add' name='tagButton' autocomplete='on'></input>";
     a += "<br>Private:<br><input type='checkbox' id='private' name='isPrivate'>";
     a += "</form>";
@@ -58,25 +58,23 @@ function nascoClick(){
     $('#nascosto').click();
 }
 function setTagAutocomplete(){
+    $('#tagInput').autocomplete({
+                        source: function( request, response ) {
+                                $.ajax({
+                                  url: "listTag.php",
+                                  dataType: "json",
+                                  type: "POST",   
+                                  data: {
+                                    q: request.term,
+                                    tagSearchKey: $('#tagInput').val()
+                                  },
+                                  success: function( data ) {
+                                    response( data["data"] );
+                                  }
+                                });
+                              },
+                        minLength: 2});
 
-    $.ajax(
-        {
-            url: 'listTag.php',
-
-            success: function(output)
-            {
-                        
-                //alert(output);
-                tags=$.parseJSON(output).data;
-                 $('#tagInput').autocomplete(
-                    {
-                        source:tags
-                    } 
-                 
-                )
-
-            }
-        });
         $('#tagInput').keypress(function(e)
                   {
                       if(e.which === 13) 
@@ -224,14 +222,31 @@ function showStuff(a)
 
 function addPreview(title, description, type, tags, private,owned,id)
 {
-    
-    r = "<div class='preview'><div class='"+type+"'><h3 id='"+id+"' onclick='documentDetail(this)' class='ubermargin'>" + title + "</h3><br><h5 class='ubermargin'>" + description + "</i><br><h5 class='ubermargin'>Tags: ";
+    r="<div class='preview'>";
+    r+="<div class='"+type+"'><span class='killerDoc' onclick='killDoc(this)' float=right>x</span></div>";
+    r+="<div>";
+    r+="<h3 id='"+id+"' onclick='documentDetail(this)' class='ubermargin'>"+ title+ "</h3>";
+    r+="<br><h5 class='ubermargin'>" + description +"</h5>";
+    r+="<br><h5 class='ubermargin'>Tags: ";
     for (i = 0; i < tags.length; i++)
         r += tags[i] + "; ";
-    r += "</h5><br>";
+    r += "</h5><br></div>";
     return r;
 }
-
+function killDoc(obj){
+    var id= obj.parentNode.parentNode.childNodes[1].childNodes[0].id;
+    $.ajax(
+    {
+        url: 'deleteDocument.php',
+        type: "POST",
+        data: {idDocument:id},
+        success:    function(output) 
+                    {  
+                       alert(output);
+                    }          
+    });
+    event.stopPropagation();
+}
 function uploadDocument()
 {
     if($('#nascosto').val() === '')

@@ -37,22 +37,41 @@ function initSearch()
                         showStuff();
                     }
                 });
-    $.ajax(
-        {
-            url: 'listTag.php',
 
-            success: function(output)
-            {
-                tags=$.parseJSON(output);
-                 $('#search').autocomplete(
-                    {
-                        source:tags 
-                    } 
-                 
-               );
+    $('#search').autocomplete({
+                        source: function( request, response ) {
+                                $.ajax({
+                                  url: "listTag.php",
+                                  dataType: "json",
+                                  type: "POST",   
+                                  data: {
+                                    q: request.term,
+                                    tagSearchKey: $('#search').val()
+                                  },
+                                  success: function( data ) {
+                                    response( data["data"] );
+                                  }
+                                 
+                                });
+                              },
+                        minLength: 2,
+                        select: function( event, ui ) {
+                            if($("#search").val().lastIndexOf(" ")>0)
+                                $("#search").val($("#search").val().substring(0,$("#search").val().lastIndexOf(" ")+1)+ui.item.value);
+                            else
+                               $("#search").val(ui.item.value);
+                            event.preventDefault();
+                        },
+                        focus: function( event, ui ) {
+                            if($("#search").val().lastIndexOf(" ")>0)
+                                $("#search").val($("#search").val().substring(0,$("#search").val().lastIndexOf(" ")+1)+ui.item.value);
+                            else
+                               $("#search").val(ui.item.value);
+                            event.preventDefault();
+                        
+                        }
+    });
 
-            }
-        });
 }
 function editMode()
 {

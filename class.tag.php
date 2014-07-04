@@ -10,6 +10,7 @@ require_once 'utils.php';
 // remember: the phylosophy behind this project expect to have already control and excaped variables
 class Tag
 {
+            
     public static function existTagById($tagId)
     {
         // db is declared in utils 
@@ -105,7 +106,7 @@ class Tag
         $result_array = array();
         while($row = mysqli_fetch_assoc($result))
         {
-            $result_array[$row["id"]] = $row["name"];
+            array_push($result_array,$row["name"]);
         }
         return $result_array;
     }

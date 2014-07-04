@@ -293,7 +293,7 @@ class Document
         }
     }
     
-    public static function getDocumentList($startLimit = 0, $numLimit = 1000, $categoryListArray, $showPrivate = false, $ownerId = NULL, $yearLimit = NULL, $searchKey = NULL)
+    public static function getDocumentList($startLimit = 0, $endLimit = 0, $categoryListArray, $showPrivate = false, $ownerId = NULL, $yearLimit = NULL, $searchKey = NULL)
     {
         global $db, $config;
         $result_array = array();
@@ -352,19 +352,19 @@ class Document
         {
             $query .= " AND date > '$yearLimit-01-01 00:00:00' ";
         }
+        $len=$endLimit-$startLimit;
         $query .= " GROUP BY Document.id ORDER BY date DESC ";
-        $query .= " LIMIT $startLimit,$numLimit; ";
+        $query .= " LIMIT $startLimit, $len; ";
         $query .= " SELECT FOUND_ROWS() as numRow; ";
         // query end;
         //return $query;// to check if query works.
-        //$result_array["query"] = $query;
         $i = 0;
         if (!$db->multi_query($query))
         {
             //return "Multi query failed: (".$db->db->errno.") ".$db->db->error;
             $result_array["numberOfDocument"] = 0;
-            $result_array["documentList"] = "";
-            //$result_array["queryError"] = "ERROR: (".$db->errno().") ".$db->error();
+            $result_array["documentPerPage"] = $config->getParam("documentPerPage");
+            $result_array["documentList"] = "ERROR: (".$db->errno().") ".$db->error();
             return $result_array;
         }
         //else
@@ -398,6 +398,7 @@ class Document
         }
         
         $result_array["numberOfDocument"] = $numberOfDocument;
+        $result_array["documentPerPage"] = $config->getParam("documentPerPage");
         $result_array["documentList"] = $result_list_array;
         return $result_array;
     }

@@ -10,7 +10,12 @@ require_once 'utils.php';
 $tagSearchKey = NULL;
 if(isset($_POST["tagSearchKey"]))
 {
-   $tagSearchKey = $db->escape(filter_var($_POST["tagSearchKey"], FILTER_SANITIZE_STRING));
+   $tempTagSearchKey = $db->escape(filter_var($_POST["tagSearchKey"], FILTER_SANITIZE_STRING));
+   if(strrchr($tempTagSearchKey, " "))
+   {
+        $tagSearchKey = strrchr($tempTagSearchKey, " ");
+   }else
+       $tagSearchKey=$tempTagSearchKey;
 }
 
 echo json_ok(Tag::getTagList($tagSearchKey));
