@@ -242,7 +242,22 @@ function killDoc(obj){
         data: {idDocument:id},
         success:    function(output) 
                     {  
-                       alert(output);
+                        
+                        data=$.parseJSON(output);
+                        if(confirm("Do you want to really delete the file?"))
+                            $.ajax(
+                            {
+                                url: 'deleteDocument.php',
+                                type: "POST",
+                                data: {idDocument:id,eraseTempKey:data['data']},
+                                success:    function(output1) 
+                                            {  
+                                               alert("Deleted");
+                                               showStuff();
+                                            }          
+                            });
+                        else
+                            ;
                     }          
     });
     event.stopPropagation();
@@ -305,6 +320,7 @@ function uploadDocument()
                         {
                             //filenamen non vuoto, non so quanto abbia senso questo controllo quei!
                             updateDocument();
+                            showStuff();
                             return;
                         }
                         else
@@ -316,6 +332,7 @@ function uploadDocument()
                     {
                         alert("error on uploading file");
                     }
+                    
                 }
             });
 }
