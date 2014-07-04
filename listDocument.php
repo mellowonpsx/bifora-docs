@@ -48,7 +48,7 @@ if($user != NULL)
         //echo json_encode(Document::getDocumentList(0, 1000, $category_array, true, NULL, NULL));
         //$result_array = Document::getDocumentList($startLimit, $endLimit, $category_array, true, NULL, $yearLimit, $searchQuery);
         //add user id or admin not hilight it's own files.
-        $result_array = Document::getDocumentList($startLimit, $documentPerPage, $category_array, false, $user->getUserId(), $yearLimit, $searchQuery);
+        $result_array = Document::getDocumentList($startLimit, $documentPerPage, $category_array, true, $user->getUserId(), $yearLimit, $searchQuery);
     }
     else //logged show public and his his own file 
     {
