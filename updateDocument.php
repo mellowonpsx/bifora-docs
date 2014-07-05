@@ -88,7 +88,7 @@ if(!Document::isDocumentType($type))
 $document = new Document($db->escape(filter_var($_POST["documentId"], FILTER_SANITIZE_STRING)));
     
 //user check: (is always an update) i must be owner or admin
-if($user->getType() != BD_USER_TYPE_ADMIN && $user->getUserId() != $document->getOwnerId())
+if(!$user->isAdmin() && $user->getUserId() != $document->getOwnerId())
 {
     die(json_error(Errors::$ERROR_21));
 }

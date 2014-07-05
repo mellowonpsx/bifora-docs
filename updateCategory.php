@@ -24,7 +24,7 @@ if(empty($user))
     die(json_error(Errors::$ERROR_00));
     
 }
-if($user->getType() != BD_USER_TYPE_ADMIN) //only admin can modify category!!
+if(!$user->isAdmin()) //only admin can modify category!!
 {
     die(json_error(Errors::$ERROR_01));
 }

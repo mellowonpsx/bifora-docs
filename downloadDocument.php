@@ -34,7 +34,7 @@ if($document->getIsPrivate())
         //die(json_error(Errors::$ERROR_00));
         die(Errors::$ERROR_00);
     }
-    if($user->getType() != BD_USER_TYPE_ADMIN && $user->getUserId() != $document->getOwnerId())
+    if(!$user->isAdmin() && $user->getUserId() != $document->getOwnerId())
     {
         //die(json_error(Errors::$ERROR_21));
         die(Errors::$ERROR_21);

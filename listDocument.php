@@ -42,18 +42,18 @@ $endLimit = $pageNumber*$documentPerPage;
 $user = getSessionUser();
 if($user != NULL)
 {
-    if($user->getType() == BD_USER_TYPE_ADMIN)
+    if($user->isAdmin())
     {
         //admin shows all
         //echo json_encode(Document::getDocumentList(0, 1000, Category::getCategoryList(), true, NULL, NULL));
         //echo json_encode(Document::getDocumentList(0, 1000, $category_array, true, NULL, NULL));
-        $result_array = Document::getDocumentList($startLimit, $endLimit, $category_array, false, $user->getUserId(), $yearLimit, $searchQuery);
+        $result_array = Document::getDocumentList($startLimit, $endLimit, $category_array, true, $user, $yearLimit, $searchQuery);
     }
     else //logged show public and his his own file 
     {
         //echo json_encode(Document::getDocumentList(0, 1000, Category::getCategoryList(), false, $user->getUserId(), NULL));
         //echo json_encode(Document::getDocumentList(0, 1000, $category_array, false, $user->getUserId(), NULL));
-        $result_array = Document::getDocumentList($startLimit, $endLimit, $category_array, false, $user->getUserId(), $yearLimit, $searchQuery);
+        $result_array = Document::getDocumentList($startLimit, $endLimit, $category_array, false, $user, $yearLimit, $searchQuery);
     }
 }
 else //user = null => not logged (?)

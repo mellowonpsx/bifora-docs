@@ -293,7 +293,7 @@ class Document
         }
     }
     
-    public static function getDocumentList($startLimit = 0, $endLimit = 0, $categoryListArray, $showPrivate = false, $ownerId = NULL, $yearLimit = NULL, $searchKey = NULL)
+    public static function getDocumentList($startLimit = 0, $endLimit = 0, $categoryListArray, $showPrivate = false, $ownerUser = NULL, $yearLimit = NULL, $searchKey = NULL)
     {
         global $db, $config;
         $result_array = array();
@@ -321,12 +321,13 @@ class Document
                . " AND idCategory in $categoryList ";
         if($showPrivate == false)
         {
-            if($ownerId === NULL)
+            if($ownerUser === NULL)
             {
                 $query .= " AND isPrivate = false";
             }
-            if($ownerId !== NULL)
+            if($ownerUser !== NULL)
             {
+                $ownerId = $ownerUser->getUserId();
                 $query .= " AND (isPrivate = false OR ownerId = '$ownerId') ";
             }
         }
@@ -382,9 +383,12 @@ class Document
                     {
                         // spostato rimepimento tags
                         $owned = false;
-                        if($ownerId == $row["ownerId"])
+                        if($ownerUser != NULL)
                         {
-                            $owned = true;
+                            if($ownerUser->getUserId() == $row["ownerId"] || $ownerUser->isAdmin())
+                            {
+                                $owned = true;
+                            }
                         }
                         $result_list_array[$i++] = array("id" => $row["id"], "title" => $row["title"], "filename" => $row["filename"], "type" => $row["type"], "description" => $row["description"], "date" => $row["date"], "isPrivate" => $row["isPrivate"], "ownerId" => $row["ownerId"], "owned" => $owned, "tags" => "");
                     }
@@ -403,7 +407,7 @@ class Document
         return $result_array;
     }
     
-    public function toArray($ownerId = NULL)
+    public function toArray($ownerUser = NULL)
     {
         $data_array = array();
         
@@ -416,9 +420,12 @@ class Document
         $data_array["type"] = $this->getType();
         $data_array["isPrivate"] = $this->getIsPrivate();
         $owned = false;
-        if($ownerId == $this->getOwnerId())
+        if($ownerUser != NULL)
         {
-            $owned = true;
+            if($ownerUser->getUserId() == $this->getOwnerId() || $ownerUser->isAdmin())
+            {
+                $owned = true;
+            }
         }
         $data_array["owned"] = $owned;
         $data_array["categories"] = Categorized::getCategoryListByDocumentId($this->getId());
@@ -428,8 +435,8 @@ class Document
         return $data_array;
     }
     
-    public function toJson($ownerId = NULL)
+    public function toJson($ownerUser = NULL)
     {
-        return json_encode($this->toArray($ownerId));
+        return json_encode($this->toArray($ownerUser));
     }
 }

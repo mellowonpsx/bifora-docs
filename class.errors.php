@@ -14,11 +14,11 @@ class Errors
     static public $ERROR_10 = "Error 10: impossible to update document";
     static public $ERROR_11 = "Error 11: document already exist";
     static public $ERROR_12 = "Error 12: document not exist";
-    static public $ERROR_13 = "Error 13: category already exist/cannot insert category";
-    static public $ERROR_14 = "Error 14: category not exist/cannot update category";
-    static public $ERROR_15 = "Error 14: category not exist/category non empty/cannot remove category";
+    static public $ERROR_13 = "Error 13: cannot insert category, category already exist?";
+    static public $ERROR_14 = "Error 14: cannot update category, category not exist?";
+    static public $ERROR_15 = "Error 14: cannot remove category, category not exist or non empty?";
     static public $ERROR_20 = "Error 20: file not exist";
-    static public $ERROR_21 = "Error 21: file not owned by user";
+    static public $ERROR_21 = "Error 21: file not owned by user or user is not admin";
     static public $ERROR_22 = "Error 22: file not exist, already erased?";
     static public $ERROR_23 = "Error 23: file error on server";
     static public $ERROR_30 = "Error 30: error erasing tags";

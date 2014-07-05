@@ -5,13 +5,10 @@ M = mellow
 + = completed
 
 A- Colorare documenti in base a ownership
-
 A+- Programmare le viste
     A- (VISTA) In modalità edit non deve essere possibile vedere il dettaglio documento
     A- (VISTA) In modalità admin, si vede l'owner del documento
-
-A- Dettaglio documenti (pop-up, con tasto modifica per passare alla modalità modifica -> solo se owner)
-
+    A- (VISTA) Se owner, in dettagli documenti tasto per edit (forse anche tasto per cancellare?)
 A- Modifiche allo stile (inserimento logo, etc)
 
 opzionale:
@@ -50,9 +47,22 @@ A+ aggiungere il tasto cerca (invio farà l'autocompletamento
 A+ nella ricerca bisogna fare l'autocompletamento per tag, da definizione specifiche.
 A+ Tipo errato (adesso usiamo estensione), aggiungere css immagine per indicare tipo documento
 A+ Sistemare l'autocompletamento
-A+ Cancellazione documento (invoco deleteDocument, mi restituisce, in caso ci sia
-     un campo temporaneo che va messo in eraseTempKey per la conferma).
+A+ Cancellazione documento (invoco deleteDocument, mi restituisce, in caso ci sia un campo temporaneo che va messo in eraseTempKey per la conferma).
+A+ Dettaglio documenti
 
 BUGS:
+- [GRAVE] quando apri update document, il campo privato non è giusto (è sempre deselezionato)
 - se esci dalla modalità edit durante la modifica della categoria, rimangono aperti i form di modifica
 - se la cancellazione della categoria fallisce, non c'è alcuna notifica!
+- se aggiungo una categoria, ed io ho già caricato la pagina, nel momento in cui aggiungo nuove categorie, non le vedo fino a che ricarico la pagina
+- quando vado in modalità edit, mi torna alla prima pagina della paginazione, deve rimanere su quella pagina!
+- modificare il cursore sulla paginazione e sugli elementi cliccabili
+- css sballato nel caso di utente sconnesso
+- preferisco le icone vecchie (perché sono presenti nel logo)
+    1- UNKNOWN => 4 (file vuoto)
+    2- OTHER => 6 (il dito che punta)
+    3- DOCUMENT => 5 (scritte con immaginetta)
+    4- PHOTO => 7 (sembra un flash di una macchina fotografica)
+    5- AUDIO => 2 (nota musicale)
+    6- VIDEO => 10 (logo youtube)
+    7- ARCHIVE => 1 (pacchetto = archivio)

@@ -57,7 +57,16 @@ class User
     
     public function isLogged()
     {
-        if ($this->status === BD_USER_LOGGED)
+        if($this->status === BD_USER_LOGGED)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public function isAdmin()
+    {
+        if($this->status === BD_USER_LOGGED && $this->getType() === BD_USER_TYPE_ADMIN)
         {
             return true;
         }
