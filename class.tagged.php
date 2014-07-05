@@ -108,7 +108,7 @@ class Tagged
         $finalResult = 0;
         while($row = mysqli_fetch_array($result))
         {
-            var_dump($row);
+           // var_dump($row);
             $finalResult += Tagged::eraseBind($row["idTag"], $row["idDocument"], $eraseTagIfLast);
         }
         return $finalResult; //if all deletion are ok, return 0;

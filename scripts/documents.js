@@ -83,7 +83,13 @@ function setTagAutocomplete(){
                       }
                   });
 }
-function addCategoryLi(p) {
+function addCategoryLi(p,cat) {
+    if(cat!==undefined){
+        var a = "<li class='killable'>"+"<input type='hidden' name='categoryList[]' value='" + cat.id + "'>"+"<span>" + cat.name + "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";    
+        $('#categoriesUl').append(a);
+        return;
+    }
+        
     if(p.options[p.selectedIndex].text==="-SELECT A CATEGORY-")
         return;
     for(var i=0; i<$('#categoriesUl li').length; i++)
@@ -91,18 +97,18 @@ function addCategoryLi(p) {
     var a = "<li class='killable'>"+"<input type='hidden' name='categoryList[]' value='" + p.options[p.selectedIndex].value + "'>"+"<span>" + p.options[p.selectedIndex].text + "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";    
     $('#categoriesUl').append(a);
 }
-function addTagLi(){
-    if(""===$('#tagInput').val())return;
-    for(var i=0; i<$('#tagUl li').length; i++)
-        if($('#tagUl li')[i].id===$('#tagInput').val())return;
-    var n="<span>\t(New)</span>";
-    for(var k in tags){
-        if(tags[k]===$('#tagInput').val())
-            n="";
+function addTagLi(tag){
+    if(tag===undefined){
+        if(""===$('#tagInput').val())return;
+        for(var i=0; i<$('#tagUl li').length; i++)
+            if($('#tagUl li')[i].id===$('#tagInput').val())return;
+        var a = "<li class='killable' id='"+$('#tagInput').val()+"'>"+"<input type='hidden' name='tagList[]' value='" + $('#tagInput').val() + "'>"+"<span>" + $('#tagInput').val()+ "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";
+        $('#tagInput').val(""); 
+    }else{
+        var a = "<li class='killable' id='"+tag+"'>"+"<input type='hidden' name='tagList[]' value='" + tag + "'>"+"<span>" + tag+ "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";
     }
-    var a = "<li class='killable' id='"+$('#tagInput').val()+"'>"+"<input type='hidden' name='tagList[]' value='" + $('#tagInput').val() + "'>"+"<span>" + $('#tagInput').val()+n+ "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";
     $('#tagUl').append(a);
-    $('#tagInput').val(""); 
+
 }
 function kill(obj) {
     var parent = obj.parentNode;
@@ -117,9 +123,9 @@ function setCategoryOptions()
     }
 }
 
-function setTypeOptions()
+function loadTypeOptions()
 {
-    var types;
+    types;
     $.ajax(
             {
                 url: 'listDocumentType.php',
@@ -128,15 +134,17 @@ function setTypeOptions()
                 {
                     
                     types = $.parseJSON(output).data;
-                    for (var k in types)
-                    {
-                        $('#typeSelect').append(addOption(types[k])); //type is textual
-                    }
+                    
                 }
             });
 
 }
-
+function setTypeOptions(){
+    for (var k in types)
+    {
+        $('#typeSelect').append(addOption(types[k]));
+    }
+}
 function addOption(name)
 {
     return "<option value='" + name + "'>" + name + "</option>";
@@ -223,7 +231,9 @@ function showStuff(a)
 function addPreview(title, description, type, tags, private,owned,id)
 {
     r="<div class='preview'>";
-    r+="<div class='"+type+"'><span class='killerDoc' onclick='killDoc(this)' float=right>x</span></div>";
+    r+="<div class='"+type+"'>";
+    if(owned)
+        r+="<span class='killerDoc' onclick='killDoc(this)' float=right>x</span><span class='killerDoc' onclick='editDoc(this)' float=right>e</span></div>";
     r+="<div>";
     r+="<h3 id='"+id+"' onclick='documentDetail(this)' class='ubermargin'>"+ title+ "</h3>";
     r+="<br><h5 class='ubermargin'>" + description +"</h5>";
@@ -260,6 +270,11 @@ function killDoc(obj){
                             ;
                     }          
     });
+    event.stopPropagation();
+}
+function editDoc(obj){
+    var doc= obj.parentNode.parentNode.childNodes[1].childNodes[0];
+    documentEdit(doc);
     event.stopPropagation();
 }
 function uploadDocument()
@@ -337,8 +352,8 @@ function uploadDocument()
             });
 }
 
-function updateDocument()
-{
+function updateDocument(id)
+{   $("#private").after("<input type='hidden' id='documentId' name='documentId' value='" + id + "'>");
     var data = $("#documentDataForm").serialize();
     //alert(data);
     $.ajax(
@@ -348,12 +363,13 @@ function updateDocument()
                 data: data,
                 success: function(output)
                 {
-                   // alert(output); //da togliere
                     var result = $.parseJSON(output);
+                  
                     if (result.status == "true")
                     {
                         alert("file updated");
                         dismissDialog();
+                        showStuff();
                     }
                     else
                     {
@@ -407,4 +423,67 @@ function documentDetail(r){
             });
 }
 
+function documentEdit(r){
+   $.ajax(
+            {
+                url: 'getDocumentDetail.php',
+                type: 'POST',
+                data: {idDocument: r.id},
+                success: function(output)
+                {
+                // alert(output);
+                // return;
+                documento=$.parseJSON(output).data;
+                addGreyDiv();
+
+                
+                var a  = "<div id='dialog'>";
+                    a += "<div class='dialog'>";
+                    a += "<form id='documentDataForm'>";
+                    a += "<br>Title:<br><input type='text' id='title' name='title'>";
+                    a += "<br>Description:<br><textarea id='description' name='description' maxlength=200></textarea>";
+                    a += "<br>Type:<br><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
+                    a += "<br>Categories:<ul id='categoriesUl' class='killableUl'></ul>";
+                    a += "<br><select id='categoriesSelect' onchange='addCategoryLi(this)'></select>";
+                    a += "<br>Tag:<ul id='tagUl' class='killableUl'></ul>";
+                    a += "<br><input type='text' id='tagInput' ></input>";
+                    a += "<input type='button' onclick='addTagLi();' value='Add' name='tagButton' autocomplete='on'></input>";
+                    a += "<br>Private:<br><input type='checkbox' id='private' name='isPrivate'>";
+                    a += "</form>";
+                    a += "<br> <input type='button' onclick='updateDocument("+documento.id+");' value='Edit' name='submitButton'></input>";
+                    a += "<input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
+                    a += "</div></div>";
+                    for(entry in documento.categories)
+                        a+=documento.categories[entry].name+";";
+                    a += "<br>Tag:<br>";
+                    for(entry in documento.tags)
+                        a+=documento.tags[entry].name+";";
+                    a += "<br><input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
+                    a += "</div></div>";
+                    $(".greyDiv").append(a);
+                    document.getElementById("title").value=documento.title;
+                    document.getElementById("description").value=documento.description;
+                    type=document.getElementById("typeSelect");
+                    setTypeOptions();
+                    setCategoryOptions();
+                    setTagAutocomplete();
+                    $("#typeSelect option").filter(function() {
+                        return $(this).text() === documento.type; 
+                    }).prop('selected', true);
+                    for(c in documento.categories){
+                        addCategoryLi("A",documento.categories[c]);
+                    }
+                    for(c in documento.tags){
+                        addTagLi(documento.tags[c].name);
+                    }
+                    if(documento.private)
+                        document.getElementById("private").value=true;
+                    else
+                        document.getElementById("private").value=false;
+                    
+                }
+                
+            });
+            
+}
 

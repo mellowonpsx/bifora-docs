@@ -1,6 +1,7 @@
 var shown = true;
 var categories = new Array();
 var usr = {edit: false};
+var types= new Array();
 
 $(document).ready(function() 
 {
@@ -13,6 +14,7 @@ function main()
     updateCategories();
     initSearch();
     initYear();
+    loadTypeOptions();
 }
 function initYear(){
     thisYear=new Date().getFullYear();

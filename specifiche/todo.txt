@@ -12,9 +12,6 @@ A+- Programmare le viste
 
 A- Dettaglio documenti (pop-up, con tasto modifica per passare alla modalità modifica -> solo se owner)
 
-A- Cancellazione documento (invoco deleteDocument, mi restituisce, in caso ci sia
-     un campo temporaneo che va messo in eraseTempKey per la conferma).
-
 A- Modifiche allo stile (inserimento logo, etc)
 
 opzionale:
@@ -53,7 +50,8 @@ A+ aggiungere il tasto cerca (invio farà l'autocompletamento
 A+ nella ricerca bisogna fare l'autocompletamento per tag, da definizione specifiche.
 A+ Tipo errato (adesso usiamo estensione), aggiungere css immagine per indicare tipo documento
 A+ Sistemare l'autocompletamento
-
+A+ Cancellazione documento (invoco deleteDocument, mi restituisce, in caso ci sia
+     un campo temporaneo che va messo in eraseTempKey per la conferma).
 
 BUGS:
 - se esci dalla modalità edit durante la modifica della categoria, rimangono aperti i form di modifica

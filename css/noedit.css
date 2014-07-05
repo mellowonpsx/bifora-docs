@@ -4,6 +4,9 @@
 .killerCat{
     visibility:hidden;
 }
+.killerDoc{
+    visibility:hidden;
+}
 #ulDiv{
     visibility:hidden;
 }
