@@ -1,16 +1,15 @@
-b = false; //Booleano che serve perch� jquery � scemo...
+b = false;
 var tags;
 function showUpload()
 {
     var a = "<div id='ulDiv'>";
-            a += "<input type='file' id='nascosto'>";
-            a += "<h1 id='h'>*DRAG A FILE HERE TO BEGIN UPLOAD*</h1>";
+        a += "<input type='file' id='nascosto'>";
+        a += "<h1 id='h'>*DRAG A FILE HERE TO BEGIN UPLOAD*</h1>";
         a += "</div>";
     $('#preview').append(a);
     $('#nascosto').change(function()
     {
-        if (b)
-            openFileDialog();
+        if (b)openFileDialog();
     });
     b = true;
     resizeInput();
@@ -32,15 +31,15 @@ function openFileDialog()
     var a = "<div id='dialog'>";
     a += "<div class='dialog'><div onclick='nascoClick()'>File:<br>" + $('#nascosto').val().replace("C:\\fakepath\\", "") + "   (Click to change selected document.)</div>";
     a += "<form id='documentDataForm'>";
-    a += "<br>Title:<br><input type='text' id='title' name='title'>";
-    a += "<br>Description:<br><textarea id='desc' name='description' maxlength=200></textarea>";
-    a += "<br>Type:<br><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
-    a += "<br>Categories:<ul id='categoriesUl' class='killableUl'></ul>";
-    a += "<br><select id='categoriesSelect' onchange='addCategoryLi(this)'></select>";
-    a += "<br>Tag:<ul id='tagUl' class='killableUl'></ul>";
-    a += "<br><input type='text' id='tagInput' ></input>";
-    a += "<input type='button' onclick='addTagLi();' value='Add' name='tagButton' autocomplete='on'></input>";
-    a += "<br>Private:<br><input type='checkbox' id='private' name='isPrivate'>";
+    a += "<br><label class='ubermargin' for='title'>Title:</label><br><input type='text' id='title' name='title'>";
+    a += "<br><label class='ubermargin' for='desc'>Description:</label><br><textarea cols='40' rows='5' id='desc' name='description' maxlength=200></textarea>";
+    a += "<br><label class='ubermargin' for='typeSelect'>Type:</label><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
+    a += "<label for='private' class='ubermargin'>\t\tPrivate:</label><input type='checkbox' id='private' name='isPrivate'>";
+    a += "<br><label for='categoriesSelect' class='ubermargin'>Categories:</label><select id='categoriesSelect' onchange='addCategoryLi(this)'></select>";
+    a += "<br><ul id='categoriesUl' class='killableUl'></ul>";
+    a += "<br><label for='tagInput' class='ubermargin'>Tag:</label><input type='text' id='tagInput' ></input>";
+    a += "<br><ul id='tagUl' class='killableUl'></ul>";
+   
     a += "</form>";
     a += "<br><input type='button' onclick='uploadDocument();' value='Upload' name='submitButton'></input>";
     a += "<input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
@@ -170,46 +169,22 @@ function showStuff(a)
             {
                 url: 'listDocument.php',
                 type: "POST",                                                        
-                //sostituire 1 con page number, attenzione, la numerazione parte da 1 e non da 0!!!
                 data: {
-                        category: JSON.stringify(getSelectedCategories()), // ho modificato getSelectedCategories perché category era pieno di "null" sugli elementi vuoti del vettore
-                        //se non esiste viene assunto automaticamente come 1 lato server (esistenza con isset(_POST["pageNumber"]);
+                        category: JSON.stringify(getSelectedCategories()),
                         pageNumber: a,
-                        //se non esiste non deve essere settato (lato server faccio check su isset(_POST["yearLimit"]);
                         yearLimit: $("#year").val(),
                         searchQuery: $("#search").val()
-                        //la ricerca estrae i record contenenti TUTTE le keyword in (titolo oppure descrizione oppure tag collegati)
-                        //può anche essere che una keyword appartenga al titolo, una alla descrizione ed una al tag collegato).
-                        //searchQuery: "filmato spada" //funziona
-                        //searchQuery: "film spa" //funziona
-                        //searchQuery: "lmat ad" //funziona
-                        //searchQuery: "filmato" //funziona
-                        //searchQuery: "spada osè" //non funziona, credo per l'accentata
-                        //prove con i tag
-                        //searchQuery: "primo" //funziona
-                        //searchQuery: "prova26" //funziona
-                        //searchQuery: "secondo" //funziona
-                        //misto tag, parole
-                        //searchQuery: "primo quantistica trattato fisica" //funziona
-                        //searchQuery: "pri quantistica trattato fisica" //funziona
+                       
                       },
                 success: function(output)
                 {
-                    //da togliere alternativo ad alert
-                    //$('#preview').empty();
-                    //$('#preview').append(output);
-                    //return;
-                    //alert(output); // da togliere, mostra il contenuto ritornato
-                    
+
                     documents = $.parseJSON(output);
                     if(documents.status)
                     {
                         documentsList = documents.data.documentList;
-                        refreshPaginator(documents.data.numberOfDocument,documents.data.documentPerPage,a);
-                        //funziona!!!!
-                        //alert(documents.numberOfDocument);
-                        //alert(documents.documentPerPage);
-                        //alert(output);
+
+   
                         $('#preview').empty();
                         if ($("#ed").attr("href")!=="css/noedit.css"){
                             showUpload();
@@ -223,6 +198,8 @@ function showStuff(a)
                             $('#preview').append(addPreview(documentsList[k].title, documentsList[k].description, documentsList[k].type,arr,documentsList[k].isPrivate,documentsList[k].owned,documentsList[k].id));
 
                         }
+                        $('#preview').append("<div id='paginator'></div>");
+                        refreshPaginator(documents.data.numberOfDocument,documents.data.documentPerPage,a);
                     }
                 }
             });
@@ -230,21 +207,32 @@ function showStuff(a)
 
 function addPreview(title, description, type, tags, private,owned,id)
 {
-    r="<div class='preview'>";
-    r+="<div class='"+type+"'>";
-    if(owned)
-        r+="<span class='killerDoc' onclick='killDoc(this)' float=right>x</span><span class='killerDoc' onclick='editDoc(this)' float=right>e</span></div>";
-    r+="<div>";
-    r+="<h3 id='"+id+"' onclick='documentDetail(this)' class='ubermargin'>"+ title+ "</h3>";
-    r+="<br><h5 class='ubermargin'>" + description +"</h5>";
+    r ="<div>";
+    r+="<div class='preview'>";
+    r+="<div class='"+type+" block-left'>";
+    r+="</div>";
+    r+="<div class='block-left'>";
+    r+="<h3 id='"+id+"' onclick='documentDetail(this)' class='ubermargin hand'>";
+    if(private==1)
+        r+="[PRIVATE]";
+    r+= title+ "</h3>";
+    r+="<br><h5 class='ubermargin'>" 
+    r+= description +"</h5>";
     r+="<br><h5 class='ubermargin'>Tags: ";
     for (i = 0; i < tags.length; i++)
         r += tags[i] + "; ";
-    r += "</h5><br></div>";
+    r += "</h5><br></div></div>";
+    r+="<div class='block-right'><img src='css/img/download.png' class='right hand' onclick='downloadDoc(this)'></img>";
+    if(owned)
+        r+="<img src='css/img/delete.png' class='killerDoc' onclick='killDoc(this)' float=right></img><img src='css/img/edit.png' class='killerDoc' onclick='editDoc(this)' float=right></img>";
+    r+="</div></div>";
     return r;
 }
-function killDoc(obj){
-    var id= obj.parentNode.parentNode.childNodes[1].childNodes[0].id;
+function killDoc(obj,a){
+    if(typeof a !== 'undefined')
+        id=a;
+    else
+        id= obj.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[0].id;
     $.ajax(
     {
         url: 'deleteDocument.php',
@@ -272,19 +260,31 @@ function killDoc(obj){
     });
     event.stopPropagation();
 }
-function editDoc(obj){
-    var doc= obj.parentNode.parentNode.childNodes[1].childNodes[0];
-    documentEdit(doc);
+function editDoc(obj,a){
+     if(typeof a !== 'undefined') {
+        id=a;
+        dismissDialog();
+    }
+    else
+        id= obj.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[0].id;
+    documentEdit(id);
+    event.stopPropagation();
+}
+function downloadDoc(obj,a){
+    if(typeof a !== 'undefined') {
+        id=a;
+        dismissDialog();
+    }
+    else
+        id= obj.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[0].id;
+    documentEdit(id);
     event.stopPropagation();
 }
 function uploadDocument()
 {
     if($('#nascosto').val() === '')
     {
-        // se cerco di cambiare il file e poi faccio cancel,
-        // mi toglie il documento, ma sopratutto svuota il form...
-        // voluto o errore?
-        alert("empty input file!"); //da segnalare in altro modo
+        alert("empty input file!"); 
         return;
     }
     
@@ -299,8 +299,6 @@ function uploadDocument()
     
     if ($("#documentId").length)
     {
-        alert("già caricato"); // da togliere
-        //already uploaded, need to reperform data insertion
         updateDocument();
         return;
     }
@@ -318,13 +316,10 @@ function uploadDocument()
                 type: 'POST',
                 success: function(output)
                 {
-                    //alert(output); //da togliere
                     var result = $.parseJSON(output);
                     if (result.status == "true")
                     {
-                        /*$("#private").after("<input type='hidden' id='filename' name='filename' value='" + result.filename + "'>");
-                        $("#filename").after("<input type='hidden' id='extension' name='extension' value='" + result.extension + "'>");*/
-                        if(typeof result.data.documentId !== 'undefined')
+                    if(typeof result.data.documentId !== 'undefined')
                         {
                             if (!$("#documentId").length)
                             {
@@ -399,25 +394,32 @@ function documentDetail(r){
                 
                  //manca roba private
                  var    a = "<div id='dialog'>";
+                        
                         a += "<div class='dialog'>";
-                        a += "<br>Title:<br><span>"+documento.title+"</span>";
-                        a += "<br>Description:<br><span>"+documento.description+"</span>";
-                        a += "<br>Type:<br><span>"+documento.type+"</span>"; //da trasformare in qualcosa di visuale!!
-                        a += "<br>Categories:<br><span>";
+                        a += "<div class='"+documento.type+" small block-left'></div>";
+                        a += "<br><h3 class='ubermargin'>"+documento.title+"</h3>";
+                        a += "<br><br><i>"+documento.description+"</i>";
+                        a += "<br><br><b>Categories:\t</b><span>";
+                        
                    
                     for(entry in documento.categories){
                         
                         a+=documento.categories[entry].name+";";
                     };
                     //manca getCategories
-                    a += "<br>Tag:<br>";
+                    a += "<br><br><b>Tag:\t</b><br>";
                     for(entry in documento.tags){
                       
                         a+=documento.tags[entry].name+";";
                     };
                     //manca getTags
                     a += "<br><input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
+                    a +="<div class='block-right'><img src='css/img/download.png' class='right hand' onclick='downloadDoc(this,"+documento.id+")'></img>";
+                    if(documento.owned)
+                       a+="<img src='css/img/delete.png' class='right hand' onclick='killDoc(this,"+documento.id+")' float=right></img><img src='css/img/edit.png' class='right hand' onclick='editDoc(this,"+documento.id+")' float=right></img>";
+                    a+="</div>";
                     a += "</div></div>";
+                    
                     $(".greyDiv").append(a);
                 }
             });
@@ -428,7 +430,7 @@ function documentEdit(r){
             {
                 url: 'getDocumentDetail.php',
                 type: 'POST',
-                data: {idDocument: r.id},
+                data: {idDocument: r},
                 success: function(output)
                 {
                 // alert(output);
@@ -440,15 +442,16 @@ function documentEdit(r){
                 var a  = "<div id='dialog'>";
                     a += "<div class='dialog'>";
                     a += "<form id='documentDataForm'>";
-                    a += "<br>Title:<br><input type='text' id='title' name='title'>";
-                    a += "<br>Description:<br><textarea id='description' name='description' maxlength=200></textarea>";
-                    a += "<br>Type:<br><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
-                    a += "<br>Categories:<ul id='categoriesUl' class='killableUl'></ul>";
-                    a += "<br><select id='categoriesSelect' onchange='addCategoryLi(this)'></select>";
-                    a += "<br>Tag:<ul id='tagUl' class='killableUl'></ul>";
-                    a += "<br><input type='text' id='tagInput' ></input>";
-                    a += "<input type='button' onclick='addTagLi();' value='Add' name='tagButton' autocomplete='on'></input>";
-                    a += "<br>Private:<br><input type='checkbox' id='private' name='isPrivate'>";
+                    a += "<form id='documentDataForm'>";
+                    a += "<br><label class='ubermargin' for='title'>Title:</label><br><input type='text' id='title' name='title'>";
+                    a += "<br><label class='ubermargin' for='desc'>Description:</label><br><textarea cols='40' rows='5' id='desc' name='description' maxlength=200></textarea>";
+                    a += "<br><label class='ubermargin' for='typeSelect'>Type:</label><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
+                    a += "<label for='private' class='ubermargin'>\t\tPrivate:</label><input type='checkbox' id='private' name='isPrivate'>";
+                    a += "<br><label for='categoriesSelect' class='ubermargin'>Categories:</label><select id='categoriesSelect' onchange='addCategoryLi(this)'></select>";
+                    a += "<br><ul id='categoriesUl' class='killableUl'></ul>";
+                    a += "<br><label for='tagInput' class='ubermargin'>Tag:</label><input type='text' id='tagInput' ></input>";
+                    a += "<br><ul id='tagUl' class='killableUl'></ul>";
+
                     a += "</form>";
                     a += "<br> <input type='button' onclick='updateDocument("+documento.id+");' value='Edit' name='submitButton'></input>";
                     a += "<input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
@@ -462,7 +465,7 @@ function documentEdit(r){
                     a += "</div></div>";
                     $(".greyDiv").append(a);
                     document.getElementById("title").value=documento.title;
-                    document.getElementById("description").value=documento.description;
+                    document.getElementById("desc").value=documento.description;
                     type=document.getElementById("typeSelect");
                     setTypeOptions();
                     setCategoryOptions();
@@ -476,11 +479,15 @@ function documentEdit(r){
                     for(c in documento.tags){
                         addTagLi(documento.tags[c].name);
                     }
-                    if(documento.private)
+                    if(documento.isPrivate==1){
+                        document.getElementById("private").checked=true;
                         document.getElementById("private").value=true;
-                    else
+                    }
+                    else{
+                        document.getElementById("private").checked=false;
                         document.getElementById("private").value=false;
-                    
+                    }
+
                 }
                 
             });

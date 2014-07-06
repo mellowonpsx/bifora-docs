@@ -2,10 +2,12 @@ function showHideCategories()
 {
     if (shown) 
     {
+        $('#categoriesHolder').stop(true, true).slideUp(0);
         $('#categoriesDiv').stop(true, true).slideUp(0);
         shown = false;
     } else 
     {
+        $('#categoriesHolder').stop(true, true).slideDown(0);
         $('#categoriesDiv').stop(true, true).slideDown(0);
         shown = true;
     }
@@ -54,10 +56,10 @@ function addCategory(name, id,empty)
 {
     var r = '<li onclick="selectCategories(this);" class="killableCat" id="' + id + '"><div>';
         r += "<span class='nameCat'>"+name+"</span>";
-        r += "<span onclick='editCat(event,this)' class='killerCat'>\t\te </span>";
+        r += "<img src='css/img/edit.png' height='16px' width='16px' onclick='editCat(event,this)' class='killerCat'></img>";
         if(empty)
-        r += "<span onclick='killCat(event,this)' class='killerCat'>\t\tx </span>";
-        r += "<div class='editCat'><input type='text' onclick='event.stopPropagation();' name='categoryName'><input type='button' onclick='submitEditCategory(event,this)' value='Edit'></div>";
+        r += "<img src='css/img/delete.png' height='16px' width='16px'  onclick='killCat(event,this)' class='killerCat'></img>";
+        r += "<div class='editCat'><input type='text' onclick='event.stopPropagation();' name='categoryName' class='cateditor'><input type='button' onclick='submitEditCategory(event,this)' value='Edit' class='cateditor'></div>";
         r += "</div></li>";
     return r;
 }
@@ -79,13 +81,11 @@ function killCat(event,obj) {
 function editCat(event,obj){
     if(obj.parentNode.getElementsByClassName("nameCat")[0].style.visibility!=="hidden")
     {
-        obj.parentNode.getElementsByClassName("nameCat")[0].style.visibility="hidden";
         obj.parentNode.getElementsByClassName("editCat")[0].style.visibility="visible";
         obj.parentNode.getElementsByClassName("editCat")[0].firstElementChild.value=obj.parentNode.getElementsByClassName("nameCat")[0].innerHTML;
     }
     else
     {
-        obj.parentNode.getElementsByClassName("nameCat")[0].style.visibility="visible";
         obj.parentNode.getElementsByClassName("editCat")[0].style.visibility="hidden";
     }
     event.stopPropagation();

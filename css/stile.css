@@ -1,8 +1,7 @@
-
 #header
-{
-    background-color: #999999;    
+{  
     height: 90px;
+    overflow:auto
 }
 
 #content
@@ -11,9 +10,8 @@
     margin-bottom:10px;
 }
 #preview{
+   border: solid black;
    overflow: auto;
-   border-bottom: solid black;
-   height:422px;
    margin-bottom: 10px;
    z-index: 1;
 }
@@ -80,19 +78,30 @@
     
 
 
+#categoriesHolder{
+    height: 100%;
+    float: left;
+    width: 240px;
+}
+#categoriesHolderBis{
+    height: 100%;
+    float: left;
+    width:20px;
 
+}
 #categoriesWrapper
 {
+    position:fixed;
     background-color: #cccccc;
-    
     height: 85%;
-    
+    top:50px;
     float: left;
+    z-index:20;
 }
 
 #categories
 {
-    border:solid red;
+    border:solid black;
     text-align: center;
     background-color: lightgray;
     
@@ -115,8 +124,7 @@
 }
 
 .preview{
-    border:solid black;
-    border-bottom: none;
+    border-bottom: solid black;
     height:180px;
 }
 
@@ -171,6 +179,7 @@ ul{
     position: absolute;
     float: left;
     visibility: hidden;
+    z-index:20;
 }
 .editCat input{
     position: relative;
@@ -191,6 +200,8 @@ ul{
     display: block;
     margin-right:auto;
     margin-left:auto;
+    padding:20px;
+    padding-top:5px;
     width:500px;
     text-align: left;
     background-color:white;
@@ -265,13 +276,55 @@ ul{
     width:600px;
 }
 .killerDoc{
-    color:red;
     cursor: pointer;
     cursor: hand;
     float: right;
 }
-.preview div{
+.block-left{
     float:left;
     display:block;
     margin:5px;
+}
+.block-right{
+    float:right;
+    display:block;
+    margin:5px;
+    position:relative;
+    bottom:48px;
+}
+.hand{
+    cursor:hand;
+}
+.right{
+    float:right;
+}
+textarea {
+   resize: none;
+}
+.small{
+    height:64px;
+    width: 64px;
+}
+#paginator span{
+    font-size: 20pt;
+}
+#paginator{
+    text-align: center;
+    margin:auto;
+}
+.blue{
+    color:blue;
+}
+#ulDiv{
+    text-align: center;
+    border-bottom: solid black;
+}
+#year{
+    float:right;
+    position:relative;
+    bottom:-64px;
+}
+.logo{
+    float:left;
+    height:90px;
 }

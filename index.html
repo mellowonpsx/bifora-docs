@@ -9,8 +9,6 @@
         <script src="scripts/jquery-1.10.2.js"></script>
         <script src="scripts/jquery-ui.js" type="text/javascript" charset="utf-8"></script>
 
- 
-    
         <script src="scripts/scripts.js"></script>
         <script src="scripts/documents.js"></script>
         <script src="scripts/login.js"></script>
@@ -20,20 +18,9 @@
     
     <body> 
         <div class="container">  
-            <div id="header">
-               
-                <div id="loginWrapper">
-                    <div id="login">
-                        
-                    </div>
-                    <div id="loginDiv">
-                        
-                    </div>
-                </div>
-                <select id='year' onchange='changeYear()'></select>
-                <input type='text' id='search'>
-                <input type='button' id='editButton' value='Edit' onclick='editMode()'>
-            </div>
+            
+            <div id="categoriesHolder"></div>
+            <div id="categoriesHolderBis"></div>
             <div id="categoriesWrapper">
                 <div id="categories" onclick="showHideCategories();">
                     <p>C<br>A<br>T<br>E<br>G<br>O<br>R<br>I<br>E<br>S<br></p>   
@@ -44,15 +31,22 @@
                 
             </div>
             <div id="content">
-                
+                <div id="header">
+                    <img src='css/img/logo.jpg' class='logo'>
+                    <div id="loginWrapper">
+                        <div id="login">
+
+                        </div>
+                        <div id="loginDiv">
+
+                        </div>
+                    </div>
+                    <select id='year' onchange='changeYear()'></select>
+                    <input type='text' id='search'>
+                    <input type='button' id='editButton' value='Edit' onclick='editMode()'>
+                </div>
                 <div id='preview'>
                     
-                </div>
-                <div id="paginator"> 
-                    <ul>
-                       
-                       
-                    </ul>
                 </div>
             </div>
         </div>

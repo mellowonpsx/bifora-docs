@@ -88,7 +88,7 @@ function editMode()
     {
         $("#ed").attr("href","css/noedit.css");
     }
-    showStuff();
+    showStuff(pag);
 }
 
 //UTILS

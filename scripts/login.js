@@ -57,7 +57,8 @@ function loginFalse() {
                 login();
             }
         });
-    $("#editButton").css("visibility","hidden");        
+    $("#editButton").css("visibility","hidden");   
+    $("#ed").attr("href","css/noedit.css");
     showStuff();
 }
 
