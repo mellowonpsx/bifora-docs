@@ -12,6 +12,8 @@ define("BD_USER_NOT_LOGGED", "BD_USER_NOT_LOGGED");
 define("BD_USER_LOGGED", "BD_USER_LOGGED");
 define("BD_USER_UNLOGGED", "BD_USER_UNLOGGED");
 define("BD_USER_DATA_NOT_SET", "DATA_NOT_SET");
+define("BD_USER_NOT_EXIST", "USER_NOT_EXIST");
+
 
 //user type
 define("BD_USER_TYPE_ADMIN", "ADMIN");
@@ -128,4 +130,18 @@ class User
     {
         return BD_USER_UNLOGGED;
     }
+    
+    public static function getUsernameById($userId)
+    {
+        global $db;
+        $query = "SELECT id, username FROM User WHERE id = '$userId'";
+        $result = $db->query($query);
+        // max one row cause username is unique
+        $row = mysqli_fetch_assoc($result);
+        if(!$row)
+        {
+            return BD_USER_NOT_EXIST;
+        }
+        return $row["username"];
+    }    
 }

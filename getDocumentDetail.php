@@ -38,5 +38,5 @@ if($document->getIsPrivate())
 }
 
 //die(json_ok($document->toJson()));
-echo json_ok($document->toArray());
+echo json_ok($document->toArray($user));
 exit();

@@ -49,14 +49,19 @@ $downloadFilenameDirectory = $directoryDownload.$document->getFilename()."/";
 $downloadFilename = $downloadFilenameDirectory.$document->getTitle().".".$document->getExtension();
 $uploadFilename = $directoryUpload.$document->getFilename();
 //check file already exist
+//header serve per scaricare al posto di visualizzare
+header('Content-Type: application/octet-stream');
+header("Content-Transfer-Encoding: Binary"); 
+header("Content-disposition: attachment; filename=\"".basename($downloadFilename)."\""); 
+
 if(!file_exists($downloadFilename))
 {
     // if not exist create folder
-    mkdir($directoryDownload.$document->getFilename());
+    mkdir($downloadFilenameDirectory);
     //copy file to folder
     copy($uploadFilename, $downloadFilename);
     //prepare a trim for file deletion
-}    
+}
 //last check and send to user
 if (!file_exists($downloadFilename))
 {
@@ -64,9 +69,6 @@ if (!file_exists($downloadFilename))
 }
 else
 {
-    header('Content-Type: application/octet-stream');
-    header("Content-Transfer-Encoding: Binary"); 
-    header("Content-disposition: attachment; filename=\"".basename($downloadFilename)."\""); 
     readfile($downloadFilename); 
 }
 //If continued downloads are a small percentage of your downloads, you can delete the zip file immediately;

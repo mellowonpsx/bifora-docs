@@ -390,7 +390,7 @@ class Document
                                 $owned = true;
                             }
                         }
-                        $result_list_array[$i++] = array("id" => $row["id"], "title" => $row["title"], "filename" => $row["filename"], "type" => $row["type"], "description" => $row["description"], "date" => $row["date"], "isPrivate" => $row["isPrivate"], "ownerId" => $row["ownerId"], "owned" => $owned, "tags" => "");
+                        $result_list_array[$i++] = array("id" => $row["id"], "title" => $row["title"], "filename" => $row["filename"], "type" => $row["type"], "description" => $row["description"], "date" => $row["date"], "isPrivate" => $row["isPrivate"], "ownerId" => $row["ownerId"], "ownerName" => "", "owned" => $owned, "tags" => "");
                     }
                 }
             }
@@ -399,6 +399,7 @@ class Document
         foreach ($result_list_array as &$thisElement)
         {
             $thisElement["tags"] = Tagged::getTagListByDocumentIn($thisElement["id"]);
+            $thisElement["ownerName"] = User::getUsernameById($thisElement["ownerId"]);
         }
         
         $result_array["numberOfDocument"] = $numberOfDocument;
@@ -419,6 +420,8 @@ class Document
         $data_array["description"] = $this->getDescription();
         $data_array["type"] = $this->getType();
         $data_array["isPrivate"] = $this->getIsPrivate();
+        $data_array["owner"] = $this->ownerId();
+        $data_array["ownerName"] = User::getUsernameById($this->ownerId());
         $owned = false;
         if($ownerUser != NULL)
         {
@@ -430,7 +433,6 @@ class Document
         $data_array["owned"] = $owned;
         $data_array["categories"] = Categorized::getCategoryListByDocumentId($this->getId());
         $data_array["tags"] = Tagged::getTagListByDocumentIn1($this->getId());
-        
         //$json_string  = json_encode($json_array);
         return $data_array;
     }
