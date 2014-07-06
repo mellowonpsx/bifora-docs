@@ -12,22 +12,12 @@ function showUpload()
         if (b)openFileDialog();
     });
     b = true;
-    resizeInput();
-    $(window).bind('resize', function()
-    {
-        resizeInput();
-    });
+
 }
-function resizeInput()
-{
-    $('#nascosto').css('height', $('#ulDiv').css('height'));
-    $('#nascosto').css('width', $('#ulDiv').css('width'));
-}
+
 function openFileDialog()
 {
     addGreyDiv();
-    if ($('#h').css('opacity') === '0')
-        $('#dialog').remove();
     var a = "<div id='dialog'>";
     a += "<div class='dialog'><div onclick='nascoClick()'>File:<br>" + $('#nascosto').val().replace("C:\\fakepath\\", "") + "   (Click to change selected document.)</div>";
     a += "<form id='documentDataForm'>";
@@ -45,9 +35,6 @@ function openFileDialog()
     a += "<input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
     a += "</div></div>";
     $('.greyDiv').append(a);
-    $('#h').css('opacity', '0');
-    $('#h').css('position', 'absolute');
-    $('#nascosto').css('height', '40px');
     setCategoryOptions();
     setTypeOptions();
     setTagAutocomplete();
@@ -157,9 +144,6 @@ function addOptionIdName(id, name)
 function dismissDialog()
 {
     $('#dialog').remove();
-    $('#h').css('opacity', '1');
-    $('#h').css('position', 'relative');
-    $('#nascosto').css('height', $('#ulDiv').css('height'));
     removeGreyDiv();
 }
 function showStuff(a)
@@ -196,7 +180,7 @@ function showStuff(a)
                             for(var h in documentsList[k].tags){
                                 arr.push(documentsList[k].tags[h].name);
                             }
-                            $('#preview').append(addPreview(documentsList[k].title, documentsList[k].description, documentsList[k].type,arr,documentsList[k].isPrivate,documentsList[k].owned,documentsList[k].id));
+                            $('#preview').append(addPreview(documentsList[k].title+" - <i>"+documentsList[k].ownerName+"</i>", documentsList[k].description, documentsList[k].type,arr,documentsList[k].isPrivate,documentsList[k].owned,documentsList[k].id));
 
                         }
                         $('#preview').append("<div id='paginator'></div>");
@@ -223,7 +207,7 @@ function addPreview(title, description, type, tags, private,owned,id)
     for (i = 0; i < tags.length; i++)
         r += tags[i] + "; ";
     r += "</h5><br></div></div>";
-    r+="<div class='block-right'><a href='http://localhost/bifora-docs/downloadDocument.php?idDocument="+id+"'><img src='css/img/download.png' class='right hand'></img>";
+    r+="<div class='block-right'><a href='http://localhost/bifora-docs/downloadDocument.php?idDocument="+id+"'><img src='css/img/download.png' class='right hand'></img></a>";
     if(owned)
         r+="<img src='css/img/delete.png' class='killerDoc' onclick='killDoc(this)' float=right></img><img src='css/img/edit.png' class='killerDoc' onclick='editDoc(this)' float=right></img>";
     r+="</div></div>";

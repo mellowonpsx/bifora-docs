@@ -420,8 +420,8 @@ class Document
         $data_array["description"] = $this->getDescription();
         $data_array["type"] = $this->getType();
         $data_array["isPrivate"] = $this->getIsPrivate();
-        $data_array["owner"] = $this->ownerId();
-        $data_array["ownerName"] = User::getUsernameById($this->ownerId());
+        $data_array["owner"] = $this->getOwnerId();
+        $data_array["ownerName"] = User::getUsernameById($this->getOwnerId());
         $owned = false;
         if($ownerUser != NULL)
         {
