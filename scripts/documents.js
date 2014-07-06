@@ -180,6 +180,7 @@ function showStuff(a)
                 {
 
                     documents = $.parseJSON(output);
+                    //alert(output);
                     if(documents.status)
                     {
                         documentsList = documents.data.documentList;
@@ -222,7 +223,7 @@ function addPreview(title, description, type, tags, private,owned,id)
     for (i = 0; i < tags.length; i++)
         r += tags[i] + "; ";
     r += "</h5><br></div></div>";
-    r+="<div class='block-right'><img src='css/img/download.png' class='right hand' onclick='downloadDoc(this)'></img>";
+    r+="<div class='block-right'><a href='http://localhost/bifora-docs/downloadDocument.php?idDocument="+id+"'><img src='css/img/download.png' class='right hand'></img>";
     if(owned)
         r+="<img src='css/img/delete.png' class='killerDoc' onclick='killDoc(this)' float=right></img><img src='css/img/edit.png' class='killerDoc' onclick='editDoc(this)' float=right></img>";
     r+="</div></div>";
@@ -270,16 +271,7 @@ function editDoc(obj,a){
     documentEdit(id);
     event.stopPropagation();
 }
-function downloadDoc(obj,a){
-    if(typeof a !== 'undefined') {
-        id=a;
-        dismissDialog();
-    }
-    else
-        id= obj.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[0].id;
-    documentEdit(id);
-    event.stopPropagation();
-}
+
 function uploadDocument()
 {
     if($('#nascosto').val() === '')
@@ -387,7 +379,7 @@ function documentDetail(r){
                 //contentType: false,
                 success: function(output)
                 {
-                 //alert(output);
+
                  //return;
                  documento=$.parseJSON(output).data;
                  addGreyDiv();
@@ -414,7 +406,7 @@ function documentDetail(r){
                     };
                     //manca getTags
                     a += "<br><input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
-                    a +="<div class='block-right'><img src='css/img/download.png' class='right hand' onclick='downloadDoc(this,"+documento.id+")'></img>";
+                    a +="<div class='block-right'><a href='http://localhost/bifora-docs/downloadDocument.php?idDocument="+documento.id+"'><img src='css/img/download.png' class='right hand'></img></a>";
                     if(documento.owned)
                        a+="<img src='css/img/delete.png' class='right hand' onclick='killDoc(this,"+documento.id+")' float=right></img><img src='css/img/edit.png' class='right hand' onclick='editDoc(this,"+documento.id+")' float=right></img>";
                     a+="</div>";
@@ -437,7 +429,6 @@ function documentEdit(r){
                 // return;
                 documento=$.parseJSON(output).data;
                 addGreyDiv();
-
                 
                 var a  = "<div id='dialog'>";
                     a += "<div class='dialog'>";

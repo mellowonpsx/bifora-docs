@@ -19,12 +19,12 @@ if(!Document::existDocument($db->escape(filter_var($_POST["idDocument"], FILTER_
 
 $document = new Document($db->escape(filter_var($_POST["idDocument"], FILTER_SANITIZE_STRING)));
 
+$user = getSessionUser();
 //if is public no control (exept login?) => no!
 if($document->getIsPrivate())
 {
     //otherwise verify if not-owner adn not admin
     // verify user
-    $user = getSessionUser();
     if(empty($user))
     {
         die(json_error(Errors::$ERROR_00));

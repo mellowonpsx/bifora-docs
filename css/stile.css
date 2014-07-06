@@ -1,5 +1,7 @@
 #header
 {  
+    background-image: url('img/logo.jpg');
+    background-repeat: no-repeat;
     height: 90px;
     overflow:auto
 }
@@ -190,7 +192,8 @@ ul{
     height: 100%;
     width:100%;
     z-index:20;
-    position:absolute;
+    position:fixed;
+
     top:0px;
     left:0px;
     text-align: center;

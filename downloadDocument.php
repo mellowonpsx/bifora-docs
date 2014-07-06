@@ -7,7 +7,7 @@
  */
 require_once 'utils.php';
 //check variabiles
-if(!isset($_POST["idDocument"]))
+if(!isset($_GET["idDocument"]))
 {
     //die(json_error(Errors::$ERROR_90." _POST[\"idDocument\"]"));
     //this error will appear in downloaded file, instead file content.
@@ -15,13 +15,13 @@ if(!isset($_POST["idDocument"]))
     die(Errors::$ERROR_90." _POST[\"idDocument\"]");
 }
 
-if(!Document::existDocument($db->escape(filter_var($_POST["idDocument"], FILTER_SANITIZE_STRING))))
+if(!Document::existDocument($db->escape(filter_var($_GET["idDocument"], FILTER_SANITIZE_STRING))))
 {
     //die(json_error(Errors::$ERROR_12));
     die(Errors::$ERROR_12);
 }
 
-$document = new Document($db->escape(filter_var($_POST["idDocument"], FILTER_SANITIZE_STRING)));
+$document = new Document($db->escape(filter_var($_GET["idDocument"]   , FILTER_SANITIZE_STRING)));
 
 //if is public no control (exept login?)
 if($document->getIsPrivate())
