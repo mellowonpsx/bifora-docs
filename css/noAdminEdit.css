@@ -1,5 +1,8 @@
+.categoryAdder{
+    visibility:hidden;
+}
 .killerCat{
-    visibility:visible;
+    visibility:hidden;
 }
 #ulDiv{
     visibility:visible;

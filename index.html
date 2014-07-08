@@ -16,39 +16,34 @@
         <script src="scripts/pagination.js"></script>
     </head>
     
-    <body> 
-        <div class="container">  
-            
-            <div id="categoriesHolder"></div>
-            <div id="categoriesHolderBis"></div>
-            <div id="categoriesWrapper">
-                <div id="categories" onclick="showHideCategories();">
-                    <p>C<br>A<br>T<br>E<br>G<br>O<br>R<br>I<br>E<br>S<br></p>   
-                </div>
-                <div id="categoriesDiv">
-                    
-                </div>
-                
-            </div>
-            <div id="content">
-                <div id="header">
-                    <div id="loginWrapper">
-                        <div id="login">
+    <body>  
+        <div id="categoriesHolder"></div>
+        <div id="categoriesWrapper">
+            <div id="categoriesDiv">
 
-                        </div>
-                        <div id="loginDiv">
-
-                        </div>
-                    </div>
-                    <select id='year' onchange='changeYear()'></select>
-                    <input type='text' id='search'>
-                    <input type='button' id='editButton' value='Edit' onclick='editMode()'>
-                </div>
-                <div id='preview'>
-                    
-                </div>
             </div>
         </div>
+            <div id="header">
+                <div id="toolbar">
+                  <div id="loginWrapper">
+                      <div id="login">
+
+                      </div>
+                      <div id="loginDiv">
+
+                      </div>
+                  </div>
+                  <select id='year' onchange='changeYear()'></select>
+                  <input type='text' id='search'>
+                  <input type='button' id='editButton' value='Edit' onclick='editMode()'>
+                </div>  
+            </div>
+            <div id="header-holder">
+
+            </div>
+            <div id='preview'>
+
+            </div>
     </body>
     
 </html>

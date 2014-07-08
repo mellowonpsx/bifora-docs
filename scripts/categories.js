@@ -1,19 +1,3 @@
-function showHideCategories() 
-{
-    if (shown) 
-    {
-        $('#categoriesHolder').stop(true, true).slideUp(0);
-        $('#categoriesDiv').stop(true, true).slideUp(0);
-        shown = false;
-    } else 
-    {
-        $('#categoriesHolder').stop(true, true).slideDown(0);
-        $('#categoriesDiv').stop(true, true).slideDown(0);
-        shown = true;
-    }
-    resizeInput();
-}
-
 function updateCategories() 
 {
     $('#categoriesDiv').empty();
@@ -30,7 +14,6 @@ function updateCategories()
                         
                         $('#categoriesDiv').append(addCategory(categories.data[k].name, categories.data[k].id,categories.data[k].empty));
                         categories.data[k].selected = true;
-                        $('#' + categories.data[k].id).css("color", "white");
                     }
                     $('#categoriesDiv').append(addAdder());
                     //this is the right way to do it!!! 
@@ -158,10 +141,14 @@ function selectCategories(obj)
         return;
     }
     categories.data[obj.id].selected = !categories.data[obj.id].selected;
-    if (categories.data[obj.id].selected)
-        $('#' + obj.id).css("color", "white");
-    else
-        $('#' + obj.id).css("color", "black");
+    if (categories.data[obj.id].selected){
+        $('#' + obj.id).css("background", "#436992");
+        $('#' + obj.id).css("color", "lightgrey");
+    }
+    else{
+        $('#' + obj.id).css("background", "lightgrey");
+        $('#' + obj.id).css("color", "#436992");
+    }
     showStuff();
 }
 

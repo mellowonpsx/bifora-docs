@@ -1,11 +1,30 @@
+body{
+    background-color: white;
+}
 #header
 {  
     background-image: url('img/logo.jpg');
     background-repeat: no-repeat;
-    height: 90px;
-    overflow:auto
+    background-color:white;
+    height: 180px;
+    position:fixed;
+    width:100%;
+    z-index:2;
 }
-
+#header-holder{
+    height:190px;
+    width:100px;
+}
+#toolbar{
+    background-color: #3c7dc1;
+    border-radius:8px;
+    border: solid #77a7d9;
+    height:20px;
+    position:absolute;
+    top:140px;
+    width:97.5%;
+    padding:10px;
+}
 #content
 {
     height:85%;
@@ -13,56 +32,63 @@
 }
 #preview{
    border: solid black;
+   border-radius: 10px;
    overflow: auto;
    margin-bottom: 10px;
    z-index: 1;
 }
-
+#loginWrapper{
+    z-index: 20;
+}
 #login
 {
     text-align: center;
-    border: solid black;
+    border: solid;
+    border-color:#77a7d9;
+    color:lightgray;
+    background:#436992;
     
     width: 50px;
     height: 20px;
-    z-index: 10;
+
     
     float: right;
     position: relative;
     right: 0px;
-    bottom: -64px; 
+
 }
 
     #login:hover
     {
-        background: black;
-        border: solid white;
-        color: white;
+        background: #77a7d9;
+        border: solid;
+        border-color: #436992;
     }
     
 #loginDiv
 {
     background:#E0E0E0;
     
-    z-index: 9;
+
     padding: 10px;
     
     text-align: right;
     position: absolute;
-    right: 8px;
-    top: 98px;
+    right:10px;
+    top:  34px;
+    z-index: 20;
 }
 #search{
     float: right;
     position: relative;
     right: 0px;
-    bottom: -64px; 
+
 }
 #editButton{
     float: right;
     position: relative;
     right: 0px;
-    bottom: -64px; 
+
     
     visibility:hidden;
 }
@@ -85,59 +111,33 @@
     float: left;
     width: 240px;
 }
-#categoriesHolderBis{
-    height: 100%;
-    float: left;
-    width:20px;
-
-}
 #categoriesWrapper
 {
     position:fixed;
-    background-color: #cccccc;
-    height: 85%;
-    top:50px;
+    top:200px;
     float: left;
     z-index:20;
 }
 
-#categories
-{
-    border:solid black;
-    text-align: center;
-    background-color: lightgray;
-    
-    width: 15px;
-    
-    float:right;
-    position:absolute;
-    position:relative;
-    right:0px;
-}
-
-    #categories:hover
-    {
-        background-color: gray;
-    }
-
 #categoriesDiv
 {
-    width: 260px;
+    width: 240px;
 }
 
 .preview{
     border-bottom: solid black;
+    border-radius: 8px;
     height:180px;
 }
 
 #nascosto{
     position:absolute;
-    top:100px;
+    top:190px;
     left:0px;
     width:100%;
     height:80px;
     opacity:0;
-    z-index:4;
+    z-index:1;
 }
 
 ul{
@@ -149,24 +149,28 @@ ul{
     position: relative;
     top: 10px;
     list-style: none;
-    background: threedlightshadow;
-    border: solid grey;
-    color: grey;
-    padding: 5px;
+    background: #436992;
+    border: solid;
+    border-color:#77a7d9;
+    color: lightgray;
+    padding-left: 10px;
+    margin:5px;
     border-radius:5px;
-   display: inline;
+    max-width: 100px;
 }
 .killableCat{
     list-style: none;
-    background: threedlightshadow;
-    border: solid grey;
-    color: grey;
-    padding: 5px;
+    background: #436992;
+    border: solid;
+    border-color:#77a7d9;
+    color: lightgray;
+    padding-left: 10px;
+    margin:5px;
     border-radius:5px;
     max-width: 223px;
 }
 .killableCat:hover{
-    background-color: gray; 
+    border-color: gray; 
 }
 .killer{
     color: black;
@@ -329,9 +333,13 @@ textarea {
 #year{
     float:right;
     position:relative;
-    bottom:-64px;
 }
 .logo{
     float:left;
     height:90px;
+}
+
+.ui-menu-item{
+    background-color: white;
+    border: solid black 1px;    
 }

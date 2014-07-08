@@ -25,7 +25,6 @@ function initYear(){
     }
 }
 function changeYear(){
-    alert($("#year").val());
     showStuff();
 }
 function initSearch()
@@ -77,11 +76,12 @@ function initSearch()
 }
 function editMode()
 {
+
     if($("#ed").attr("href")==="css/noedit.css")
     {
         if(usr.type==="ADMIN")
             $("#ed").attr("href","css/adminEdit.css");
-        else
+        if(usr.type==="USER")
             $("#ed").attr("href","css/noAdminEdit.css");
     }
     else
