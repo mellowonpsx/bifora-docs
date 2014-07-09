@@ -18,11 +18,11 @@ function showUpload()
 function openFileDialog()
 {
     addGreyDiv();
-    var a = "<div id='dialog'>";
+    var a = "<div id='dialog' >";
     a += "<div class='dialog'><div onclick='nascoClick()'>File:<br>" + $('#nascosto').val().replace("C:\\fakepath\\", "") + "   (Click to change selected document.)</div>";
     a += "<form id='documentDataForm'>";
     a += "<br><label class='ubermargin' for='title'>Title:</label><br><input type='text' id='title' name='title'>";
-    a += "<br><label class='ubermargin' for='desc'>Description:</label><br><textarea cols='40' rows='5' id='desc' name='description' maxlength=200></textarea>";
+    a += "<br><label class='ubermargin' for='desc'>Description:</label><br><textarea cols='40' rows='5' id='desc' name='description' maxlength=1000></textarea>";
     a += "<br><label class='ubermargin' for='typeSelect'>Type:</label><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
     a += "<label for='private' class='ubermargin'>\t\tPrivate:</label><input type='checkbox' id='private' name='isPrivate'>";
     a += "<br><label for='categoriesSelect' class='ubermargin'>Categories:</label><select id='categoriesSelect' onchange='addCategoryLi(this)'></select>";
@@ -59,7 +59,13 @@ function setTagAutocomplete(){
                                   }
                                 });
                               },
-                        minLength: 2});
+                        minLength: 2,
+                        select: function( event, ui ) {
+
+                             addTagLi();
+                             event.preventDefault();
+                             
+                        }});
 
         $('#tagInput').keypress(function(e)
                   {
@@ -180,38 +186,62 @@ function showStuff(a)
                             for(var h in documentsList[k].tags){
                                 arr.push(documentsList[k].tags[h].name);
                             }
-                            $('#preview').append(addPreview(documentsList[k].title+" - <i>"+documentsList[k].ownerName+"</i>", documentsList[k].description, documentsList[k].type,arr,documentsList[k].isPrivate,documentsList[k].owned,documentsList[k].id));
+                            if(usr.type==="ADMIN")
+                                title=documentsList[k].title+" - <i>"+documentsList[k].ownerName+"</i>";
+                            else
+                                title=documentsList[k].title;
+                            addPreview(title, documentsList[k].description, documentsList[k].type,arr,documentsList[k].isPrivate,documentsList[k].owned,documentsList[k].id);
 
                         }
-                        $('#preview').append("<div id='paginator'></div>");
+                        if(documents.data.numberOfDocument==0)
+                            $('#preview').append("<h3>No results found!</h5>");
+                        else
+                            $('#preview').append("<div id='paginator'></div>");
                         refreshPaginator(documents.data.numberOfDocument,documents.data.documentPerPage,a);
                     }
+                    
+
                 }
+                
             });
+            
+    $('html, body').animate({
+            scrollTop: 0
+        }, 500);
 }
 
 function addPreview(title, description, type, tags, private,owned,id)
 {
+    classi=" ";
+    
+    if(owned&&usr.type!="ADMIN")
+       classi+="owned ";
+    if(private==1)
+         classi+="private";
+    
     r ="<div>";
-    r+="<div class='preview'>";
+    r+="<div class='preview"+classi+"' onclick='documentDetail("+id+")'>";
     r+="<div class='"+type+" block-left'>";
     r+="</div>";
     r+="<div class='block-left'>";
-    r+="<h3 id='"+id+"' onclick='documentDetail(this)' class='ubermargin hand'>";
-    if(private==1)
-        r+="[PRIVATE]";
+    r+="<h3 id='"+id+"'  class='ubermargin hand'>";
+    
     r+= title+ "</h3>";
     r+="<br><h5 class='ubermargin'>" 
-    r+= description +"</h5>";
+    r+= description.substring(0,Math.min(description.length,140));
+    if(description.length>140)
+        r+=" [...]";
+    r+="</h5>";
     r+="<br><h5 class='ubermargin'>Tags: ";
     for (i = 0; i < tags.length; i++)
         r += tags[i] + "; ";
     r += "</h5><br></div></div>";
-    r+="<div class='block-right'><a href='http://localhost/bifora-docs/downloadDocument.php?idDocument="+id+"'><img src='css/img/download.png' class='right hand'></img></a>";
+    r+="<div class='block-right'><a href='http://localhost/bifora-docs/downloadDocument.php?idDocument="+id+"'><img src='css/img/download.png' class='right hand dl'></img></a>";
     if(owned)
         r+="<img src='css/img/delete.png' class='killerDoc' onclick='killDoc(this)' float=right></img><img src='css/img/edit.png' class='killerDoc' onclick='editDoc(this)' float=right></img>";
+     
     r+="</div></div>";
-    return r;
+    $('#preview').append(r);
 }
 function killDoc(obj,a){
     if(typeof a !== 'undefined')
@@ -358,22 +388,30 @@ function documentDetail(r){
             {
                 url: 'getDocumentDetail.php',
                 type: 'POST',
-                data: {idDocument: r.id},
+                data: {idDocument: r},
                 //processData: false,
                 //contentType: false,
                 success: function(output)
                 {
 
                  //return;
-                 documento=$.parseJSON(output).data;
-                 addGreyDiv();
+                 documento=$.parseJSON(output);
+                if(documento.status==="false"){
+                    alert(documento.error);
+                    showStuff();
+                    return;
+                }
+                documento=documento.data;
+                addGreyDiv();
                 
                  //manca roba private
-                 var    a = "<div id='dialog'>";
-                        
-                        a += "<div class='dialog'>";
+                       
+                        a = "<div class='dialog'>";
                         a += "<div class='"+documento.type+" small block-left'></div>";
-                        a += "<br><h3 class='ubermargin'>"+documento.title+"</h3>";
+                        a += "<br><h3 class='ubermargin'>"+documento.title;
+                        if(usr.type==="ADMIN")
+                            a+=" - <i>"+documento.ownerName+"</i>";
+                        a +="</h3>";
                         a += "<br><br><i>"+documento.description+"</i>";
                         a += "<br><br><b>Categories:\t</b><span>";
                         
@@ -394,9 +432,13 @@ function documentDetail(r){
                     if(documento.owned)
                        a+="<img src='css/img/delete.png' class='right hand' onclick='killDoc(this,"+documento.id+")' float=right></img><img src='css/img/edit.png' class='right hand' onclick='editDoc(this,"+documento.id+")' float=right></img>";
                     a+="</div>";
-                    a += "</div></div>";
+                    a += "</div>";
                     
                     $(".greyDiv").append(a);
+                    $(".dialog").on("click",function(event){
+                            event.stopPropagation();
+                        });
+                   
                 }
             });
 }
@@ -411,21 +453,28 @@ function documentEdit(r){
                 {
                 // alert(output);
                 // return;
-                documento=$.parseJSON(output).data;
+                documento=$.parseJSON(output);
+                if(documento.status==="false"){
+                    alert(documento.error);
+                    showStuff();
+                    return;
+                }
+                documento=documento.data;
                 addGreyDiv();
                 
-                var a  = "<div id='dialog'>";
-                    a += "<div class='dialog'>";
+                    a = "<div class='dialog'>";
                     a += "<form id='documentDataForm'>";
                     a += "<form id='documentDataForm'>";
                     a += "<br><label class='ubermargin' for='title'>Title:</label><br><input type='text' id='title' name='title'>";
-                    a += "<br><label class='ubermargin' for='desc'>Description:</label><br><textarea cols='40' rows='5' id='desc' name='description' maxlength=200></textarea>";
-                    a += "<br><label class='ubermargin' for='typeSelect'>Type:</label><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
+                    if(usr.type==="ADMIN")
+                        a += "<br><label class='ubermargin'>Owned by: "+documento.ownerName+"</label>";
+                    a += "<br><label class='ubermargin' for='desc'>Description:</label><br><textarea cols='40' rows='5' id='desc' name='description' maxlength=1000></textarea>";
+                    a += "<div class='inline'><br><label class='ubermargin' for='typeSelect'>Type:</label><select id='typeSelect' name='type'></select>"; //da trasformare in qualcosa di visuale!!
                     a += "<label for='private' class='ubermargin'>\t\tPrivate:</label><input type='checkbox' id='private' name='isPrivate'>";
-                    a += "<br><label for='categoriesSelect' class='ubermargin'>Categories:</label><select id='categoriesSelect' onchange='addCategoryLi(this)'></select>";
-                    a += "<br><ul id='categoriesUl' class='killableUl'></ul>";
-                    a += "<br><label for='tagInput' class='ubermargin'>Tag:</label><input type='text' id='tagInput' ></input>";
-                    a += "<br><ul id='tagUl' class='killableUl'></ul>";
+                    a += "<br><label for='categoriesSelect' class='inline ubermargin'>Categories:</label><select id='categoriesSelect' class='inline' onchange='addCategoryLi(this)'></select>";
+                    a += "<ul id='categoriesUl' class='killableUl'></ul>";
+                    a += "<br><label for='tagInput' class='inline ubermargin'>Tag:</label><input type='text' class='inline' id='tagInput' ></input>";
+                    a += "<ul id='tagUl' class='killableUl'></ul></div>";
 
                     a += "</form>";
                     a += "<br> <input type='button' onclick='updateDocument("+documento.id+");' value='Edit' name='submitButton'></input>";
@@ -437,8 +486,11 @@ function documentEdit(r){
                     for(entry in documento.tags)
                         a+=documento.tags[entry].name+";";
                     a += "<br><input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
-                    a += "</div></div>";
+                    a += "</div>";
                     $(".greyDiv").append(a);
+                    $(".dialog").on("click",function(event){
+                            event.stopPropagation();
+                        });
                     document.getElementById("title").value=documento.title;
                     document.getElementById("desc").value=documento.description;
                     type=document.getElementById("typeSelect");

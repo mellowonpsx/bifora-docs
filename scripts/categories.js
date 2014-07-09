@@ -39,9 +39,9 @@ function addCategory(name, id,empty)
 {
     var r = '<li onclick="selectCategories(this);" class="killableCat" id="' + id + '"><div>';
         r += "<span class='nameCat'>"+name+"</span>";
-        r += "<img src='css/img/edit.png' height='16px' width='16px' onclick='editCat(event,this)' class='killerCat'></img>";
+        r += "<img src='css/img/edit.png' onclick='editCat(event,this)' class='killerCat'></img>";
         if(empty)
-        r += "<img src='css/img/delete.png' height='16px' width='16px'  onclick='killCat(event,this)' class='killerCat'></img>";
+        r += "<img src='css/img/delete.png'  onclick='killCat(event,this)' class='killerCat'></img>";
         r += "<div class='editCat'><input type='text' onclick='event.stopPropagation();' name='categoryName' class='cateditor'><input type='button' onclick='submitEditCategory(event,this)' value='Edit' class='cateditor'></div>";
         r += "</div></li>";
     return r;
@@ -142,12 +142,10 @@ function selectCategories(obj)
     }
     categories.data[obj.id].selected = !categories.data[obj.id].selected;
     if (categories.data[obj.id].selected){
-        $('#' + obj.id).css("background", "#436992");
-        $('#' + obj.id).css("color", "lightgrey");
+        $('#' + obj.id).removeClass('unselected');
     }
     else{
-        $('#' + obj.id).css("background", "lightgrey");
-        $('#' + obj.id).css("color", "#436992");
+        $('#' + obj.id).addClass('unselected');
     }
     showStuff();
 }

@@ -1,14 +1,5 @@
 function initLogin() {
-    $('#loginWrapper').hover(
-            function() {
-                $('#loginDiv').stop(true, true).delay(50).slideDown(100);
-            },
-            function() {
-                $('#loginDiv').stop(true, true).slideUp(200);
-            }
-    );
     loginFalse();
-    $('#loginDiv').stop(true, true).slideUp(0);
     $('#user').val(getCookie('user'));
     $('#pass').val(getCookie('pass'));
     login();
@@ -31,24 +22,20 @@ function login() {
 }
 
 function loginTrue() {
-    $('#login').empty();
-    $('#login').append(usr.user);
     $('#loginDiv').empty();
-    $('#loginDiv').append(usr.name + " " + usr.surname + "<br>" + usr.mail + "<br>");
-    $('#loginDiv').append("<button id='logout' onclick='logout()'>Logout</button>");
+    $('#loginDiv').append("<div class='login'>Bentornato "+usr.user +  "!</div>");
+    $('#loginDiv').append("<label class='killableCat loggati' onclick='logout()'>Logout</label>");
     $("#editButton").css("visibility","visible");
     showStuff();
 
 
 }
 function loginFalse() {
-    $('#login').empty();
-    $('#login').append('Login');
     $('#loginDiv').empty();
     $('#loginDiv').append("<form name='form1>");
-    $('#loginDiv').append("Username:   <input type='text' size=20 id='user' name='user'><br>");
-    $('#loginDiv').append("Password:   <input type='password' size=20 id='pass' name='pass' ><br>");
-    $('#loginDiv').append('<button id="loggati" onclick="login();">Login</button>');
+    $('#loginDiv').append("<div class='login'><label for='user'>Username:</label><input type='text' size=20 id='user' name='user'></div>");
+    $('#loginDiv').append("<div class='login'><lable for='pass'>Password:</label><input type='password' size=20 id='pass' name='pass'></div>");
+    $('#loginDiv').append('<div class="login"><label class="killableCat loggati" onclick="login();">Login</label></div>');
     $('#loginDiv').append("</form>");
     $('#loginDiv').keypress(function(e)
         {

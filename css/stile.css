@@ -6,22 +6,31 @@ body{
     background-image: url('img/logo.jpg');
     background-repeat: no-repeat;
     background-color:white;
-    height: 180px;
+    top:-10px;
+    margin-top:10px;
+    margin-bottom:10px;
+    height: 190px;
     position:fixed;
     width:100%;
     z-index:2;
 }
 #header-holder{
-    height:190px;
-    width:100px;
+    height:182px;
+    width:100%;
+    background: white;
+    overflow: visible;
+    z-index:2;
 }
 #toolbar{
     background-color: #3c7dc1;
-    border-radius:8px;
-    border: solid #77a7d9;
+    //border-radius:8px;
+    //border: solid #77a7d9;
+    display: inline-block;
+    vertical-align: central;
+    line-height: 32px;
     height:20px;
     position:absolute;
-    top:140px;
+    top:143px;
     width:97.5%;
     padding:10px;
 }
@@ -31,58 +40,40 @@ body{
     margin-bottom:10px;
 }
 #preview{
-   border: solid black;
-   border-radius: 10px;
    overflow: auto;
    margin-bottom: 10px;
-   z-index: 1;
+   z-index: 0;
 }
-#loginWrapper{
-    z-index: 20;
+#loginDiv{
+    display:inline-block;
+    line-height: 15pt;
+    
+    
 }
-#login
-{
-    text-align: center;
-    border: solid;
-    border-color:#77a7d9;
-    color:lightgray;
-    background:#436992;
-    
-    width: 50px;
-    height: 20px;
-
-    
-    float: right;
-    position: relative;
-    right: 0px;
-
-}
-
-    #login:hover
-    {
-        background: #77a7d9;
-        border: solid;
-        border-color: #436992;
-    }
-    
-#loginDiv
-{
-    background:#E0E0E0;
-    
-
-    padding: 10px;
-    
-    text-align: right;
-    position: absolute;
-    right:10px;
-    top:  34px;
-    z-index: 20;
+#loginDiv .login{
+    display:inline-block;
+    margin:0px;
 }
 #search{
     float: right;
     position: relative;
     right: 0px;
+    margin-left:10px;
 
+}
+
+.clearable{
+  background:url(http://i.imgur.com/z7ZSYjt.png) no-repeat right -10px center;
+  background-color: white;
+  transition: background 0s; /*Remove this line if issues in Chrome (02.2014)*/
+}
+/* (jQ addClass:) if input has value: */
+.clearable.x{
+  background-position: right 5px center;
+}
+/* (jQ addClass:) if mouse is over the 'x' input area*/
+.clearable.onX{
+  cursor:pointer;
 }
 #editButton{
     float: right;
@@ -114,7 +105,7 @@ body{
 #categoriesWrapper
 {
     position:fixed;
-    top:200px;
+    top:185px;
     float: left;
     z-index:20;
 }
@@ -125,9 +116,10 @@ body{
 }
 
 .preview{
-    border-bottom: solid black;
+    border: solid black;
     border-radius: 8px;
     height:180px;
+    margin-bottom:5px;
 }
 
 #nascosto{
@@ -142,12 +134,10 @@ body{
 
 ul{
     margin:0px;
-    height:40px;
 }
 
 .killable{
-    position: relative;
-    top: 10px;
+    display: inline-block;
     list-style: none;
     background: #436992;
     border: solid;
@@ -163,11 +153,21 @@ ul{
     background: #436992;
     border: solid;
     border-color:#77a7d9;
-    color: lightgray;
+
+    color: white;
     padding-left: 10px;
     margin:5px;
     border-radius:5px;
     max-width: 223px;
+    font-size:14pt;
+    height:32px;
+}
+.nameCat{
+    
+    display: inline-block;
+    overflow:hidden;
+    max-width: 150px;
+    line-height: 32px;
 }
 .killableCat:hover{
     border-color: gray; 
@@ -184,7 +184,10 @@ ul{
     float: right;
     
 }
-
+img.killerCat{
+    width:32px;
+    height:32px;
+}
 .editCat{
     position: absolute;
     float: left;
@@ -196,7 +199,7 @@ ul{
     top: -22px;
 }
 .greyDiv{
-    background-color: rgba(236,236,224,.5);
+    background-color: rgba(229,229,229,.75 );
     height: 100%;
     width:100%;
     z-index:20;
@@ -207,6 +210,9 @@ ul{
     text-align: center;
 }
 .dialog{
+    overflow-y:auto;
+    overflow-x:hidden;
+    max-height:350px;
     position:relative;
     display: block;
     margin-right:auto;
@@ -216,7 +222,7 @@ ul{
     width:500px;
     text-align: left;
     background-color:white;
-    border: solid black;
+    box-shadow: 0 4px 16px rgba(0,0,0,.2);
 }
 
 .unknown{
@@ -290,6 +296,8 @@ ul{
     cursor: pointer;
     cursor: hand;
     float: right;
+    position:relative;
+    bottom:5px;
 }
 .block-left{
     float:left;
@@ -328,7 +336,11 @@ textarea {
 }
 #ulDiv{
     text-align: center;
-    border-bottom: solid black;
+    border: solid black;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    background: #77a7d9;
+    
 }
 #year{
     float:right;
@@ -342,4 +354,56 @@ textarea {
 .ui-menu-item{
     background-color: white;
     border: solid black 1px;    
+}
+.unselected{
+    color:#3c7dc1;
+    background:lightgray;
+    border:solid white;
+}
+
+.owned{
+    background: url('img/owned.png') right;
+    background-repeat: no-repeat;
+    border:solid #77a7d9;
+}
+.private{
+    background: url('img/private.png') right;
+    background-repeat: no-repeat;
+    border:solid #436992;
+}
+.dl{
+    position:relative;
+    bottom:5px;
+}
+.login{
+color:white;
+
+}
+.loggati{
+    text-decoration:underline;
+    padding-right:10px;
+    margin-right:10px;
+    margin-left: 10px;
+
+    position:relative;
+
+}
+.edit{
+    line-height: 15pt;
+    margin:0px;
+    margin-right:10px;
+    padding-top:0px;
+    padding-bottom:0px;
+    height: 20px;
+}
+label img{
+    float:right;
+    position:relative;
+    bottom: 5px;
+}
+.dialog{
+    word-wrap: break-word;
+}
+.inline{
+    display:inline-block;
 }

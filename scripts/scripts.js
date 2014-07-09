@@ -29,14 +29,10 @@ function changeYear(){
 }
 function initSearch()
 {
-    $("#search").keypress(function(event)
+    $("#search").keyup(function(event)
                 {
-                   
-                    if(event.keyCode === 13)
-                    {
-                        event.preventDefault();
-                        showStuff();
-                    }
+                showStuff();
+                event.preventDefault();
                 });
 
     $('#search').autocomplete({
@@ -61,6 +57,7 @@ function initSearch()
                                 $("#search").val($("#search").val().substring(0,$("#search").val().lastIndexOf(" ")+1)+ui.item.value);
                             else
                                $("#search").val(ui.item.value);
+                            showStuff();
                             event.preventDefault();
                         },
                         focus: function( event, ui ) {
@@ -116,9 +113,27 @@ function getCookie(cname)
 }
 
 function addGreyDiv(){
-    $("body").append("<div class='greyDiv'></div>");
+    $("#preview").empty();
+    $("body").append("<div class='greyDiv' onclick='dismissDialog();'></div>");
+    $(".greyDiv").one("click",function(event){
+            if(event.target.className==='greyDiv'){
+                $('#dialog').remove();
+                removeGreyDiv();
+                }
+    });
 }
 function removeGreyDiv(){
+    showStuff(pag);
     $(".greyDiv").remove();
 }
+function tog(v){return v?'addClass':'removeClass';} 
+
+$(document).on('input', '.clearable', function(){
+    $(this)[tog(this.value)]('x');
+}).on('mousemove', '.x', function( e ){
+    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');   
+}).on('click', '.onX', function(){
+    $(this).removeClass('x onX').val('');
+    showStuff();
+});
 
