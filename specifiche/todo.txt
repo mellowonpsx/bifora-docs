@@ -54,5 +54,25 @@ A+ Cancellazione documento (invoco deleteDocument, mi restituisce, in caso ci si
      un campo temporaneo che va messo in eraseTempKey per la conferma).
 
 BUGS:
-- se esci dalla modalità edit durante la modifica della categoria, rimangono aperti i form di modifica
-- se la cancellazione della categoria fallisce, non c'è alcuna notifica!
++ se esci dalla modalità edit durante la modifica della categoria, rimangono aperti i form di modifica
++ se la cancellazione della categoria fallisce, non c'è alcuna notifica (NON SERVE)
+
+ULTIME MODIFICHE:
+[*] refactoring login
+[*] refactoring edit button
+[*] refactoring upload box
+[N] refactoring select
+[*] icone lente di ingrandimento vicino a ricerca
+[*] quando la ricerca contiene qualcosa si potrebbe mettere una x che svuota la ricerca e rimostra tutto (la x dentro la casella di ricerca in semitrasparenza)
+[*] mettere che tutto il documento è un bottone che apre il dettaglio (a meno che si schiacci download, edit o altro).
+[*] se schiacci fuori dal pannello di dettaglio/editing si chiude il pannello
+[*] da specifiche, la descrizione in preview deve mostrare solo i primi 140 caratteri, aggiungere [...]
+[*] edit admin e dettaglio documento admin dovrebbe mostrare owner
+[*] controllare prima di preview ed edit se file esiste davvero => controlli su stasus della risposta json
+[*] quando cambio pagina o altro deve scrollare verso l'alto
+[*] quando no documento: "nessun documento soddisfa i requisiti di ricerca"
+[N] animazione per apparizione e sparizione di dettaglio/editing
+[*] controllare edit come sistema categorie e tag
+[*] se scrolli sulla modal-window non scrolla lo sfondo
+[ ] in edit categorie e tag si cancellano non se clicchi X ma se clicchi qualunque cosa
+[ ] controllo su internet explorer il pannello dei documenti è sovrapposto a quello delle catefgorie

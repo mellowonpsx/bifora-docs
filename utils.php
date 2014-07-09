@@ -84,6 +84,16 @@ function json_ok($json_data = NULL)
     return json_encode($result_array);
 }
 
+function document_error($data = NULL)
+{
+    global $config;
+    
+    header('Content-Type: application/octet-stream');
+    header("Content-Transfer-Encoding: Binary"); 
+    header("Content-disposition: attachment; filename=\"".basename($config->getParam("defaultErrorFilename"))."\"");
+    die($data);
+}
+
 // prepare configuration
 $config = new Config();
 // open database connection -> utils is require_once!!
