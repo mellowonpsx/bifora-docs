@@ -255,22 +255,32 @@ function killDoc(obj,a){
         data: {idDocument:id},
         success:    function(output) 
                     {  
-                        
                         data=$.parseJSON(output);
-                        if(confirm("Do you want to really delete the file?"))
-                            $.ajax(
-                            {
-                                url: 'deleteDocument.php',
-                                type: "POST",
-                                data: {idDocument:id,eraseTempKey:data['data']},
-                                success:    function(output1) 
-                                            {  
-                                               alert("Deleted");
-                                               showStuff();
-                                            }          
-                            });
+                        if(data.status==="false")
+                        {
+                            alert(data.error);
+                        }
                         else
-                            ;
+                        {
+                            if(confirm("Do you want to really delete the file?"))
+                            {
+                                $.ajax(
+                                {
+                                    url: 'deleteDocument.php',
+                                    type: "POST",
+                                    data: {idDocument:id,eraseTempKey:data['data']},
+                                    success:    function(output1) 
+                                                {
+                                                    out=$.parseJSON(output1);
+                                                    if(out.status==="false")
+                                                    {
+                                                        alert(out.error);
+                                                    }
+                                                    showStuff();
+                                                }          
+                                });
+                            }
+                        }
                     }          
     });
     event.stopPropagation();
@@ -323,9 +333,13 @@ function uploadDocument()
                 success: function(output)
                 {
                     var result = $.parseJSON(output);
-                    if (result.status == "true")
+                    if (result.status === "false")
                     {
-                    if(typeof result.data.documentId !== 'undefined')
+                        alert(result.error);
+                    }
+                    else
+                    {
+                        if(typeof result.data.documentId !== 'undefined') //if inutile?
                         {
                             if (!$("#documentId").length)
                             {
@@ -344,11 +358,6 @@ function uploadDocument()
                              alert("empty input file");
                         }
                     }
-                    else
-                    {
-                        alert("error on uploading file");
-                    }
-                    
                 }
             });
 }
@@ -365,10 +374,9 @@ function updateDocument(id)
                 success: function(output)
                 {
                     var result = $.parseJSON(output);
-                  
                     if (result.status == "true")
                     {
-                        alert("file updated");
+                        //alert("file updated"); //se è tutto a posto è inutile dirlo all'utente
                         dismissDialog();
                         showStuff();
                     }
@@ -396,7 +404,8 @@ function documentDetail(r){
 
                  //return;
                  documento=$.parseJSON(output);
-                if(documento.status==="false"){
+                if(documento.status==="false")
+                {
                     alert(documento.error);
                     showStuff();
                     return;
@@ -454,7 +463,8 @@ function documentEdit(r){
                 // alert(output);
                 // return;
                 documento=$.parseJSON(output);
-                if(documento.status==="false"){
+                if(documento.status==="false")
+                {
                     alert(documento.error);
                     showStuff();
                     return;

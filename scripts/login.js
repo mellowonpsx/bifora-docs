@@ -16,7 +16,14 @@ function login() {
         data: {username: $('#user').val(), password: $('#pass').val()},
         success: function(output) {
             parsedOutput = $.parseJSON(output);
-            login_succes(parsedOutput);
+            if(parsedOutput.status==="false")
+            {
+                alert(parsedOutput.error);
+            }
+            else
+            {
+                login_succes(parsedOutput);
+            }
         }
     });
 }
@@ -55,24 +62,24 @@ function stayLogged() {
 }
 
 function login_succes(parsedOutput) {
-    if (parsedOutput.status) 
-    {
-        if(parsedOutput.data.status==="BD_USER_LOGGED")
-        {
+    //if (parsedOutput.status) 
+    //{
+    //    if(parsedOutput.data.status==="BD_USER_LOGGED")
+    //    {
             usr=parsedOutput.data;
             usr.edit=true;
             stayLogged();
             loginTrue();    
-        }
-        else
-        {
-            alert(parsedOutput.data.status);
-        }
-    } 
-    else 
-    {
-        alert(parsedOutput.data.error); //trasformare l'alert in un messaggio in rosso nel form di login
-    }
+    //    }
+    //    else
+    //    {
+    //        alert(parsedOutput.data.status);
+    //    }
+    //} 
+    //else 
+    //{
+    //    alert(parsedOutput.data.error); //trasformare l'alert in un messaggio in rosso nel form di login
+    //}
     
 }
 
@@ -90,7 +97,7 @@ function logout_succes(parsedOutput)
 {
     if (!parsedOutput.status)
     {
-        alert('something bad happend!!'); //trasformare l'alert in un messaggio in rosso nel form di login
+        alert('something bad happend!! (error on logout?)'); //trasformare l'alert in un messaggio in rosso nel form di login
         return;
     }
     usr = {edit: false};

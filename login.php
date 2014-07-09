@@ -37,7 +37,13 @@ global $db;
 $username = $db->escape(filter_var($_POST["username"], FILTER_SANITIZE_STRING));
 $password = $db->escape(filter_var($_POST["password"], FILTER_SANITIZE_STRING));
 $user= new User($username,$password);
-setSessionUser($user); //set a session
-
-echo json_ok($user->toArray());
-exit();
+if($user->isLogged())
+{
+    setSessionUser($user); //set a session
+    echo json_ok($user->toArray());
+    exit();
+}
+else
+{
+    die(json_error(Errors::$ERROR_02));
+}

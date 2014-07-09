@@ -14,8 +14,11 @@ if(isset($_POST["tagSearchKey"]))
    if(strrchr($tempTagSearchKey, " "))
    {
         $tagSearchKey = strrchr($tempTagSearchKey, " ");
-   }else
+   }
+   else
+   {
        $tagSearchKey=$tempTagSearchKey;
+   }
 }
 
 echo json_ok(Tag::getTagList($tagSearchKey));

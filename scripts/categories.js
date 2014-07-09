@@ -55,8 +55,12 @@ function killCat(event,obj) {
         type: "POST",
         data: {categoryId:id},
         success:    function(output) 
-                    {  
-                       updateCategories();
+                    {
+                        out=$.parseJSON(output);
+                       
+                        if(out.status==="false")
+                            alert(out.error);
+                        updateCategories();
                     }
     });
     event.stopPropagation();
@@ -87,9 +91,11 @@ function submitEditCategory(event,obj)
             
         },
         success:    function(output) 
-                    {       
-                       alert(output);
-                       updateCategories();
+                    {
+                        out=$.parseJSON(output);
+                        if(out.status==="false")
+                            alert(out.error);
+                        updateCategories();
                     }
     });
     
@@ -117,8 +123,9 @@ function submitCategory(){
                        
                        if(out.status==="false")
                            alert(out.error);
-                       else
-                           updateCategories();
+                       //else
+                       //    
+                       updateCategories(); //se è stata aggiunta una nuova categoria da un altra parte, devo fare update per rendermene conto
                     }
     });
 }
