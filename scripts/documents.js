@@ -38,6 +38,9 @@ function openFileDialog()
     setCategoryOptions();
     setTypeOptions();
     setTagAutocomplete();
+    $(".dialog").on("click",function(event){
+                            event.stopPropagation();
+                        });
 }
 
 function nascoClick(){
@@ -77,7 +80,7 @@ function setTagAutocomplete(){
 }
 function addCategoryLi(p,cat) {
     if(cat!==undefined){
-        var a = "<li class='killable'>"+"<input type='hidden' name='categoryList[]' value='" + cat.id + "'>"+"<span>" + cat.name + "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";    
+        var a = "<li class='killable' id='"+cat.name+"'>"+"<input type='hidden' name='categoryList[]' value='" + cat.id + "'>"+"<span>" + cat.name + "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";    
         $('#categoriesUl').append(a);
         return;
     }
@@ -85,8 +88,11 @@ function addCategoryLi(p,cat) {
     if(p.options[p.selectedIndex].text==="-SELECT A CATEGORY-")
         return;
     for(var i=0; i<$('#categoriesUl li').length; i++)
-        if($('#categoriesUl li')[i].id===p.options[p.selectedIndex].text)return;  
-    var a = "<li class='killable'>"+"<input type='hidden' name='categoryList[]' value='" + p.options[p.selectedIndex].value + "'>"+"<span>" + p.options[p.selectedIndex].text + "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";    
+    {
+        //alert(p.options[p.selectedIndex].text);
+        if($('#categoriesUl li')[i].id===p.options[p.selectedIndex].text) return;
+    }
+    var a = "<li class='killable' id='"+p.options[p.selectedIndex].text+"'>"+"<input type='hidden' name='categoryList[]' value='" + p.options[p.selectedIndex].value + "'>"+"<span>" + p.options[p.selectedIndex].text + "</span><span onclick='kill(this)' class='killer'>\t\tx </span></li>";    
     $('#categoriesUl').append(a);
 }
 function addTagLi(tag){
@@ -154,9 +160,7 @@ function dismissDialog()
 }
 function showStuff(a)
 {
-    
     a = typeof a !== 'undefined' ? a : 1;
-    refreshCategories();
     $.ajax(
             {
                 url: 'listDocument.php',
@@ -380,7 +384,7 @@ function updateDocument(id)
                     {
                         //alert("file updated"); //se è tutto a posto è inutile dirlo all'utente
                         dismissDialog();
-                        //showStuff();
+                        showStuff();
                     }
                     else
                     {
@@ -429,16 +433,18 @@ function documentDetail(r){
                    
                     for(entry in documento.categories){
                         
-                        a+=documento.categories[entry].name+";";
+                        a+="["+documento.categories[entry].name+"] ";
                     };
+                    a+="</span>";
                     //manca getCategories
-                    a += "<br><br><b>Tag:\t</b><br>";
+                    a += "<br><br><b>Tag:\t</b><span>";
                     for(entry in documento.tags){
                       
-                        a+=documento.tags[entry].name+";";
+                        a+="#"+documento.tags[entry].name+" ";
                     };
+                    a+="</span>";
                     //manca getTags
-                    a += "<br><input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
+                    //a += "<br><input type='button' onclick='dismissDialog();' value='Cancel' name='cancelButton'></input>";
                     a +="<div class='block-right'><a href='http://localhost/bifora-docs/downloadDocument.php?idDocument="+documento.id+"'><img src='css/img/download.png' class='right hand'></img></a>";
                     if(documento.owned)
                        a+="<img src='css/img/delete.png' class='right hand' onclick='killDoc(this,"+documento.id+")' float=right></img><img src='css/img/edit.png' class='right hand' onclick='editDoc(this,"+documento.id+")' float=right></img>";

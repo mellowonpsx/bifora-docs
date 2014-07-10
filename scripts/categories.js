@@ -1,11 +1,5 @@
 function updateCategories() 
 {
-
-    showStuff();
-}
-
-function refreshCategories() 
-{
     $('#categoriesDiv').empty();
     $.ajax(
         {
@@ -37,10 +31,10 @@ function refreshCategories()
                     alert(categories.error);
                 }
                 //end of right way
+                showStuff();
         }
     });
 }
-
 function addCategory(name, id,empty) 
 {
     var r = '<li onclick="selectCategories(this);" class="killableCat" id="' + id + '"><div>';
