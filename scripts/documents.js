@@ -154,7 +154,9 @@ function dismissDialog()
 }
 function showStuff(a)
 {
+    
     a = typeof a !== 'undefined' ? a : 1;
+    refreshCategories();
     $.ajax(
             {
                 url: 'listDocument.php',
@@ -378,7 +380,7 @@ function updateDocument(id)
                     {
                         //alert("file updated"); //se è tutto a posto è inutile dirlo all'utente
                         dismissDialog();
-                        showStuff();
+                        //showStuff();
                     }
                     else
                     {

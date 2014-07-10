@@ -37,5 +37,5 @@ if(Category::updateCategory($categoryId, $categoryName))
     die(json_error(Errors::$ERROR_14));
 }
 
-json_ok();
+echo json_ok();
 exit();

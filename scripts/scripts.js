@@ -113,7 +113,7 @@ function getCookie(cname)
 }
 
 function addGreyDiv(){
-    $("#preview").empty();
+    //$("#preview").empty();
     $("body").append("<div class='greyDiv' onclick='dismissDialog();'></div>");
     $(".greyDiv").one("click",function(event){
             if(event.target.className==='greyDiv'){

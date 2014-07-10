@@ -31,5 +31,5 @@ if(Category::eraseCategory($categoryId))
     die(json_error(Errors::$ERROR_15));
 }
 
-json_ok();
+echo json_ok();
 exit();
