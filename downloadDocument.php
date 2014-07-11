@@ -77,5 +77,3 @@ else
 //as long as your server is still sending the file to the client, it'll remain on disk.
 unlink($downloadFilename);
 rmdir($downloadFilenameDirectory);
-
-//in caso il download parta, non devo fare alcun echo, sennò rischio di appenderlo al file appena inviato
