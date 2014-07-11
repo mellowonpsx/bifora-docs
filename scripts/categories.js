@@ -57,7 +57,6 @@ function killCat(event,obj) {
         success:    function(output) 
                     {
                         out=$.parseJSON(output);
-                       
                         if(out.status==="false")
                             alert(out.error);
                         updateCategories();
@@ -120,7 +119,6 @@ function submitCategory(){
         success:    function(output) 
                     {       
                        out=$.parseJSON(output);
-                       
                        if(out.status==="false")
                            alert(out.error);
                        //else

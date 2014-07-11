@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Struttura della tabella `categorized`
 --
 
-CREATE TABLE IF NOT EXISTS `categorized` (
+CREATE TABLE IF NOT EXISTS `Categorized` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idCategory` int(11) NOT NULL,
   `idDocument` int(11) NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `categorized` (
 -- Struttura della tabella `category`
 --
 
-CREATE TABLE IF NOT EXISTS `category` (
+CREATE TABLE IF NOT EXISTS `Category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `category` (
 -- Struttura della tabella `configuration`
 --
 
-CREATE TABLE IF NOT EXISTS `configuration` (
+CREATE TABLE IF NOT EXISTS `Configuration` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parameterName` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `value` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
@@ -77,7 +77,7 @@ INSERT INTO `configuration` (`id`, `parameterName`, `value`) VALUES
 -- Struttura della tabella `document`
 --
 
-CREATE TABLE IF NOT EXISTS `document` (
+CREATE TABLE IF NOT EXISTS `Document` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) DEFAULT NULL,
   `filename` varchar(300) DEFAULT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `document` (
 -- Struttura della tabella `tag`
 --
 
-CREATE TABLE IF NOT EXISTS `tag` (
+CREATE TABLE IF NOT EXISTS `Tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `tag` (
 -- Struttura della tabella `tagged`
 --
 
-CREATE TABLE IF NOT EXISTS `tagged` (
+CREATE TABLE IF NOT EXISTS `Tagged` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idTag` int(11) NOT NULL,
   `idDocument` int(11) NOT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `tagged` (
 -- Struttura della tabella `tempkey`
 --
 
-CREATE TABLE IF NOT EXISTS `tempkey` (
+CREATE TABLE IF NOT EXISTS `TempKey` (
   `idUser` varchar(32) NOT NULL,
   `tempKey` varchar(32) NOT NULL,
   `expiration` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `tempkey` (
 -- Struttura della tabella `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE IF NOT EXISTS `User` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,

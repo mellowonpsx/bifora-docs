@@ -96,6 +96,8 @@ function document_error($data = NULL)
     die($data);
 }
 
+//deactivate error reporting, or json will be sovrescribed and json became not parsable
+error_reporting(0);
 // prepare configuration
 $config = new Config();
 // open database connection -> utils is require_once!!

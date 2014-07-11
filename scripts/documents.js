@@ -127,12 +127,9 @@ function loadTypeOptions()
     $.ajax(
             {
                 url: 'listDocumentType.php',
-                
                 success: function(output)
                 {
-                    
-                    types = $.parseJSON(output).data;
-                    
+                    types = $.parseJSON(output).data;   
                 }
             });
 
@@ -174,7 +171,6 @@ function showStuff(a)
                       },
                 success: function(output)
                 {
-
                     documents = $.parseJSON(output);
                     //alert(output);
                     if(documents.status)
