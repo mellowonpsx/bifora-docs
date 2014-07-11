@@ -5,7 +5,7 @@
  * @author mellowonpsx
  * @author aci
  */
-//il download disattiva l'error reporting
+//download deactivate error reporting
 error_reporting(0);
 require_once 'utils.php';
 //check variabiles

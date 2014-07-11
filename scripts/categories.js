@@ -124,8 +124,7 @@ function submitCategory(){
                        if(out.status==="false")
                            alert(out.error);
                        //else
-                       //    
-                       updateCategories(); //se è stata aggiunta una nuova categoria da un altra parte, devo fare update per rendermene conto
+                       updateCategories(); 
                     }
     });
 }

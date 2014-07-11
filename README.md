@@ -13,3 +13,5 @@ INSTRUCTION:
 5- remove development-file directory
 6- erase this README.md and all git files (optional)
 7- use it (default username[password] => admin[admin])
+8- To create new user the password field value is MD5(password.salt) (generate salt with random generator!!)
+9- create the first category: it's important cause it will be the defaul category!!! (use, for example, uncategorized!).

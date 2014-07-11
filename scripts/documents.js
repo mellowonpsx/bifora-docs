@@ -354,7 +354,6 @@ function uploadDocument()
                         }
                         if ($("#private").length)
                         {
-                            //filenamen non vuoto, non so quanto abbia senso questo controllo quei!
                             updateDocument();
                             showStuff();
                             return;
@@ -382,7 +381,6 @@ function updateDocument(id)
                     var result = $.parseJSON(output);
                     if (result.status == "true")
                     {
-                        //alert("file updated"); //se è tutto a posto è inutile dirlo all'utente
                         dismissDialog();
                         showStuff();
                     }
@@ -419,7 +417,6 @@ function documentDetail(r){
                 documento=documento.data;
                 addGreyDiv(true);
                 
-                 //manca roba private
                        
                         a = "<div class='dialog'>";
                         a += "<div class='"+documento.type+" small block-left'></div>";
@@ -538,4 +535,3 @@ function documentEdit(r){
             });
             
 }
-

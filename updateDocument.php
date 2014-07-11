@@ -129,8 +129,8 @@ foreach ($categoryList as $category)
 }
 if(!$atLeastOne)
 {
-    //puo capitare che l'admin cancelli una categoria che io ho scelto come unica per il mio file.
-    //per non lasciare il file non categorizzato, prima di notificare l'errore, lo attacco alla categoria di default.
+    //if admin deletes the unique category I choose, before notify i attach a default category.
+    //this avoid pending document without a category
     //default category: the one with lowest id => to not have a file without category
     Categorized::insertCategorized(Category::getFirstCategoryId(), $document->getId());
     //notifico l'errore
