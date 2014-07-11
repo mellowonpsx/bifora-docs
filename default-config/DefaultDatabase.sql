@@ -152,10 +152,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `name`, `surname`, `password`, `salt`, `mail`, `type`) VALUES
-(1, 'admin', 'Bifora-DOCs', 'Administrator', '2b3f7a6e0522133a22e359420ac62aed', 'uXiurMs9PGeU0dZgwAY8kKL5HlU3bsKmiZxI7xjuLLX3guelLd', 'admin@bifora-docs.com', 'ADMIN'),
-(2, 'professore', 'Devis', 'Bianchini', '26a9c51330521faffb0046ae37ba30f7', 'nKcZnPEI0jkBOpm4gejoL3c4zSkuXEKBcD99uPscrmyYdlKwyr', 'd.bianchini@unibs.it', 'USER'),
-(3, 'aci', 'Francesco', 'Compagnoni', '9d11664d05a937c085aadfd7a65df5fd', 'p88ZboOycjGYTLVNY8h2e6LIwnzJBUHjxsLhikPZNK7Yv2I5xc', 'f.compagnoni@studenti.unibs.it', 'USER'),
-(4, 'mellowonpsx', 'Sergio', 'Leoni', '393f5481f5cbb35437f9fcd9ac2e73c4', 'Ex3sKixwqaJRkwvnG6hY4KyRekWJeWCiAL79GYKnrsIGpDvV4C', 's.leoni@studenti.unibs.it', 'USER');
+(1, 'admin', 'Bifora-DOCs', 'Administrator', '2b3f7a6e0522133a22e359420ac62aed', 'uXiurMs9PGeU0dZgwAY8kKL5HlU3bsKmiZxI7xjuLLX3guelLd', 'admin@bifora-docs.com', 'ADMIN');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
