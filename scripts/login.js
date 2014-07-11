@@ -30,7 +30,7 @@ function login() {
 
 function loginTrue() {
     $('#loginDiv').empty();
-    $('#loginDiv').append("<div class='login'>Bentornato "+usr.user +  "!</div>");
+    $('#loginDiv').append("<div class='login'>Bentornato "+usr.name+" "+usr.surname+"!</div>");
     $('#loginDiv').append("<label class='killableCat loggati' onclick='logout()'>Logout</label>");
     $("#editButton").css("visibility","visible");
     showStuff();

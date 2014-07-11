@@ -238,9 +238,9 @@ function addPreview(title, description, type, tags, private,owned,id)
     if(description.length>140)
         r+=" [...]";
     r+="</h5>";
-    r+="<br><h5 class='ubermargin'>Tags: ";
+    r+="<br><h5 class='ubermargin'>Tag: ";
     for (i = 0; i < tags.length; i++)
-        r += tags[i] + "; ";
+        r += "#"+tags[i]+" ";
     r += "</h5><br></div></div>";
     r+="<div class='block-right'><a href='http://localhost/bifora-docs/downloadDocument.php?idDocument="+id+"'><img src='css/img/download.png' class='right hand dl'></img></a>";
     if(owned)

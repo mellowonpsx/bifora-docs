@@ -11,6 +11,8 @@ function __autoload($classname)
     require_once($filename);
 }
 
+require_once 'constant.req.php';
+
 function getSessionUser()
 {
     $sessionId = session_id(); 

@@ -7,18 +7,6 @@
  */
 require_once 'utils.php';
 
-//status
-define("BD_USER_NOT_LOGGED", "BD_USER_NOT_LOGGED");
-define("BD_USER_LOGGED", "BD_USER_LOGGED");
-define("BD_USER_UNLOGGED", "BD_USER_UNLOGGED");
-define("BD_USER_DATA_NOT_SET", "DATA_NOT_SET");
-define("BD_USER_NOT_EXIST", "USER_NOT_EXIST");
-
-
-//user type
-define("BD_USER_TYPE_ADMIN", "ADMIN");
-define("BD_USER_TYPE_USER", "USER");
-
 // remember: the phylosophy behind this project expect to have already control and excaped variables
 class User
 {

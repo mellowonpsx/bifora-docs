@@ -7,24 +7,6 @@
  */
 require_once 'utils.php';
 
-//status
-define("BD_DOCUMENT_EMPTY", "BD_DOCUMENT_EMPTY");
-define("BD_DOCUMENT_CHANGED", "BD_DOCUMENT_CHANGED");
-define("BD_DOCUMENT_UNCHENGED", "BD_DOCUMENT_UNCHENGED");
-
-//document type
-define("BD_DOCUMENT_TYPE_UNKNOW", "UNKNOWN");
-define("BD_DOCUMENT_TYPE_OTHER", "OTHER");
-define("BD_DOCUMENT_TYPE_DOCUMENT", "DOCUMENT");
-define("BD_DOCUMENT_TYPE_PHOTO", "PHOTO");
-define("BD_DOCUMENT_TYPE_AUDIO", "AUDIO");
-define("BD_DOCUMENT_TYPE_VIDEO", "VIDEO");
-define("BD_DOCUMENT_TYPE_ARCHIVE", "ARCHIVE");
-
-//default constrains
-define("BD_DOCUMENT_DEFAULT_NAME", "NEW UNNAMED DOCUMENT");
-define("BD_DOCUMENT_DEFAULT_TYPE", BD_DOCUMENT_TYPE_UNKNOW);
-
 // the phylosophy behind this project expect to have already control and excaped variables
 class Document
 {

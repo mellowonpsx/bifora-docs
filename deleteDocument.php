@@ -37,13 +37,13 @@ if(isset($_POST["eraseTempKey"]))
     $eraseTempKey = $db->escape(filter_var($_POST["eraseTempKey"], FILTER_SANITIZE_STRING));
 }
 
-define("BD_TEMPKEY_EXPIRATION_TIME_SECONDS", 60); 
-
 if($generateTempKey)
 {
     do
     {
-        $eraseTempKey = TempKey::generateTempKey($user->getUserId(), BD_TEMPKEY_EXPIRATION_TIME_SECONDS);
+        global $config;
+        $expirationTime = $config->getParam("tempkeyExpirationTime");
+        $eraseTempKey = TempKey::generateTempKey($user->getUserId(), $expirationTime);
     }while(!$eraseTempKey);
     echo json_ok($eraseTempKey);
     exit();

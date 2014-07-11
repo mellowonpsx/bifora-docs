@@ -1,3 +1,0 @@
-#!/bin/bash
-echo "ricordati la password è p4ssw0rd"
-ssh -p 22019 as@priamo.ing.unibs.it 
