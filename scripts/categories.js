@@ -7,7 +7,11 @@ function updateCategories()
             success: function(output) 
             {
                 categories = $.parseJSON(output);
-                if(categories.status)
+                if(categories.status === "false")
+                {
+                    alert(categories.error);
+                }
+                else
                 {
                     for (var k in categories.data) 
                     {
@@ -25,10 +29,6 @@ function updateCategories()
                             $("#categoryButton").click();
                         }
                     });
-                }
-                else
-                {
-                    alert(categories.error);
                 }
                 //end of right way
                 showStuff();

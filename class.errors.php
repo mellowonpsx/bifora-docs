@@ -27,5 +27,6 @@ class Errors
     static public $ERROR_41 = "Error 41: at least one category needed";
     static public $ERROR_50 = "Error 50: temp key wrong, expired or already used";
     static public $ERROR_80 = "Error 80: database error ";
+    static public $ERROR_81 = "Error 81: query error ";
     static public $ERROR_90 = "Error 90: missing variabile";
 }

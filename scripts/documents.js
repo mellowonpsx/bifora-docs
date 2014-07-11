@@ -173,11 +173,15 @@ function showStuff(a)
                 {
                     documents = $.parseJSON(output);
                     //alert(output);
-                    if(documents.status)
+                    if(documents.status === "false")
                     {
-                        documentsList = documents.data.documentList;
-
-   
+                        //alert(documents.error);
+                        $('#preview').empty();
+                        $('#preview').append("<h3>No results found due to error!!<br />\n"+documents.error+"<br />\n</h5>");
+                    }
+                    else
+                    {
+                        documentsList = documents.data.documentList;   
                         $('#preview').empty();
                         if ($("#ed").attr("href")!=="css/noedit.css"){
                             showUpload();

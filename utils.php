@@ -72,7 +72,9 @@ function json_error($message)
     $result_array = array();
     $result_array["status"] = "false";
     $result_array["error"] = $message;
-    return json_encode($result_array);
+    ob_end_clean();
+    echo json_encode($result_array);
+    exit();
 }
 
 function json_ok($json_data = NULL)
@@ -83,21 +85,24 @@ function json_ok($json_data = NULL)
     {
         $result_array["data"] = $json_data;
     }
-    return json_encode($result_array);
+    ob_end_clean();
+    echo json_encode($result_array);
+    exit();
 }
 
 function document_error($data = NULL)
 {
+    ob_end_clean();
     global $config;
-    
     header('Content-Type: application/octet-stream');
     header("Content-Transfer-Encoding: Binary"); 
     header("Content-disposition: attachment; filename=\"".basename($config->getParam("defaultErrorFilename"))."\"");
-    die($data);
+    echo $data;
+    exit();
 }
 
-//deactivate error reporting, or json will be sovrescribed and json became not parsable
-error_reporting(0);
+//start ob to prevent error output
+ob_start();
 // prepare configuration
 $config = new Config();
 // open database connection -> utils is require_once!!

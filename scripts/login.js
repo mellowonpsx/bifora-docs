@@ -95,7 +95,7 @@ function logout() {
 
 function logout_succes(parsedOutput)
 {
-    if (!parsedOutput.status)
+    if (parsedOutput.status === "false")
     {
         alert('something bad happend!! (error on logout?)'); //trasformare l'alert in un messaggio in rosso nel form di login
         return;

@@ -345,10 +345,11 @@ class Document
         if (!$db->multi_query($query))
         {
             //return "Multi query failed: (".$db->db->errno.") ".$db->db->error;
-            $result_array["numberOfDocument"] = 0;
-            $result_array["documentPerPage"] = $config->getParam("documentPerPage");
-            $result_array["documentList"] = "ERROR: (".$db->errno().") ".$db->error();
-            return $result_array;
+            die(json_error(Errors::$ERROR_81+" Multi query failed: (".$db->db->errno.") ".$db->db->error + " \n caused by query: #"+$query+"#"));
+            //$result_array["numberOfDocument"] = 0;
+            //$result_array["documentPerPage"] = $config->getParam("documentPerPage");
+            //$result_array["documentList"] = "ERROR: (".$db->errno().") ".$db->error();
+            //return $result_array;
         }
         //else
         do
