@@ -17,7 +17,7 @@ function showUpload()
 
 function openFileDialog()
 {
-    addGreyDiv();
+    addGreyDiv(false);
     var a = "<div id='dialog' >";
     a += "<div class='dialog'><div onclick='nascoClick()'>File:<br>" + $('#nascosto').val().replace("C:\\fakepath\\", "") + "   (Click to change selected document.)</div>";
     a += "<form id='documentDataForm'>";
@@ -233,11 +233,11 @@ function addPreview(title, description, type, tags, private,owned,id)
     r+="<h3 id='"+id+"'  class='ubermargin hand'>";
     
     r+= title+ "</h3>";
-    r+="<br><h5 class='ubermargin'>" 
+    r+="<br><p class='ubermargin'><i>" 
     r+= description.substring(0,Math.min(description.length,140));
     if(description.length>140)
         r+=" [...]";
-    r+="</h5>";
+    r+="</i></p>";
     r+="<br><h5 class='ubermargin'>Tag: ";
     for (i = 0; i < tags.length; i++)
         r += "#"+tags[i]+" ";
@@ -417,7 +417,7 @@ function documentDetail(r){
                     return;
                 }
                 documento=documento.data;
-                addGreyDiv();
+                addGreyDiv(true);
                 
                  //manca roba private
                        
@@ -478,7 +478,7 @@ function documentEdit(r){
                     return;
                 }
                 documento=documento.data;
-                addGreyDiv();
+                addGreyDiv(false);
                 
                     a = "<div class='dialog'>";
                     a += "<form id='documentDataForm'>";

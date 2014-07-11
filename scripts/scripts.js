@@ -112,15 +112,25 @@ function getCookie(cname)
     return "";
 }
 
-function addGreyDiv(){
+function addGreyDiv(c){
     //$("#preview").empty();
-    $("body").append("<div class='greyDiv' onclick='dismissDialog();'></div>");
-    $(".greyDiv").one("click",function(event){
-            if(event.target.className==='greyDiv'){
-                $('#dialog').remove();
-                removeGreyDiv();
-                }
-    });
+    if(c)
+    {
+        $("body").append("<div class='greyDiv' onclick='dismissDialog();'></div>");
+    }
+    else
+    {
+        $("body").append("<div class='greyDiv' ></div>");
+    }
+    if(c)
+    {
+        $(".greyDiv").one("click",function(event){
+                if(event.target.className==='greyDiv'){
+                    $('#dialog').remove();
+                    removeGreyDiv();
+                    }
+        });
+    }
 }
 function removeGreyDiv(){
     showStuff(pag);
